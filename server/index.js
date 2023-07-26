@@ -7,7 +7,7 @@ const bodyParser = require('body-parser')
 const adminRoute = require('./routes/admin.js')
 const userRoute = require('./routes/user.js')
 const connectDB = require('./db/conn.js')
-const { authenticate, secretKey }  = require('./middleware/auth');
+const { authenticate, secretKey } = require('./middleware/auth');
 
 const app = express();
 // app.use(cors({
@@ -23,39 +23,37 @@ app.use('/users', userRoute);
 
 connectDB();
 
-app.get('/', (req,res) => {
+app.get('/', (req, res) => {
   res.send('Hi');
 })
 
 app.post('/admin/signup', async (req, res) => {
+  res.send('req')
   try {
+    const { username, password } = req.body;
+    if (!username || !password) {
+      return res.status(401).send('Invalid Credentails')
+    }
+    const user = await User.findOne({ username });
 
-      const { username, password } = req.body;
-      res.send('username: '+user)
-
-      if (!username || !password) {
-          return res.status(401).send('Invalid Credentails')
+    if (user) {
+      return res.status(403).send('User already present');
+    } else {
+      const obj = {
+        "username": username,
+        "password": password
       }
-      const user = await User.findOne({ username });
 
-      if (user) {
-          return res.status(403).send('User already present');
-      } else {
-          const obj = {
-              "username": username,
-              "password": password
-          }
+      const newUser = new User(obj);
+      await newUser.save();
+      console.log('User created');
 
-          const newUser = new User(obj);
-          await newUser.save();
-          console.log('User created');
+      const token = jwt.sign({ username, role: "user" }, secretKey, { expiresIn: '1h' })
 
-          const token = jwt.sign({ username, role: "user" }, secretKey, { expiresIn: '1h' })
-
-          return res.status(201).json(token);
-      }
+      return res.status(201).json(token);
+    }
   } catch (err) {
-      return res.status(500).send({ 'Internal Error': err });
+    return res.status(500).send({ 'Internal Error': err });
   }
 });
 
