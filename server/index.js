@@ -21,9 +21,21 @@ app.use(express.json());
 app.use('/admin', adminRoute);
 app.use('/users', userRoute);
 
-connectDB();
+async function connectDB() {
+  try {
+    const uri = dbURL;
+    await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    res.send('Database Connected');
+    console.log('Database connected');
+  } catch (err) {
+    console.log('Error connecting to DB: ' + err);
+    res.send('Database Error');
+  }
+}
+
 
 app.get('/', (req, res) => {
+  connectDB();
   res.send('Hi');
 })
 
