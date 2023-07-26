@@ -20,6 +20,10 @@ app.use('/users', userRoute);
 
 connectDB();
 
+app.get('/', (req,res) => {
+  res.send('Hi');
+})
+
 app.get('/profile', authenticate, (req, res) => {
   res.json({
     "username": req.user.username,
