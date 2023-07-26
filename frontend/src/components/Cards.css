@@ -1,0 +1,9 @@
+.cards{
+    width: 30%;
+    height: 30%;
+    margin: 30px;
+}
+
+.cards p{
+    font-size: 18px;
+}
