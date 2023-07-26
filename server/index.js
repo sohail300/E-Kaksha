@@ -18,6 +18,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
+connectDB();
 app.use('/admin', adminRoute);
 app.use('/users', userRoute);
 
@@ -33,14 +34,13 @@ app.use('/users', userRoute);
 //   }
 // }
 
-connectDB();
 
 app.get('/', (req, res) => {
   res.send('Hello');
 })
 
 app.post('/admin/signup', async (req, res) => {
-  res.send('req')
+  // res.send('req')
   try {
     const { username, password } = req.body;
     if (!username || !password) {
