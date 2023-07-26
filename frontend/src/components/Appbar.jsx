@@ -8,7 +8,7 @@ const Appbar = () => {
     const [currUser, setCurruser] = useState(null);
 
     useEffect(() => {
-        fetch('http://localhost:3000/profile', {
+        fetch('https://e-kaksha.vercel.app/profile', {
             method: 'GET',
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem('token')

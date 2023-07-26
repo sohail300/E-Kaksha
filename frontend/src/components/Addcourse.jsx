@@ -32,7 +32,7 @@ const Addcourse = () => {
         console.log(description)
         console.log(price)
         console.log(imagelink)
-        fetch('http://localhost:3000/admin/courses',{
+        fetch('https://e-kaksha.vercel.app/admin/courses',{
             method:"POST",
             body:JSON.stringify({
                 "title":title,

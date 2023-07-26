@@ -18,7 +18,7 @@ const Purchasedcourse = () => {
     //     }]
 
     useEffect(() => {
-        fetch('http://localhost:3000/users/purchasedCourses', {
+        fetch('https://e-kaksha.vercel.app/users/purchasedCourses', {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem('token')

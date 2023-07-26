@@ -42,7 +42,7 @@ const Signup = () => {
     }
 
     function handleSignup() {
-        fetch('http://localhost:3000/users/signup', {
+        fetch('https://e-kaksha.vercel.app/users/signup', {
             method: 'POST',
             body: JSON.stringify({
                 "username": signupEmail,
@@ -62,7 +62,7 @@ const Signup = () => {
     }
 
     function handleLogin() {
-        fetch('http://localhost:3000/users/login', {
+        fetch('https://e-kaksha.vercel.app/users/login', {
             method: 'POST',
             body: JSON.stringify({
                 "username": loginEmail,
