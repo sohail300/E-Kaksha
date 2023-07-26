@@ -10,9 +10,10 @@ const connectDB = require('./db/conn.js')
 const { authenticate, secretKey }  = require('./middleware/auth');
 
 const app = express();
-app.use(cors({
-  origin: 'https://e-kaksha.vercel.app/'
-}));
+// app.use(cors({
+//   origin: 'https://e-kaksha.vercel.app/'
+// }));
+app.use(cors());
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
