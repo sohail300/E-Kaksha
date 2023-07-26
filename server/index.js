@@ -27,6 +27,37 @@ app.get('/', (req,res) => {
   res.send('Hi');
 })
 
+app.post('/signup', async (req, res) => {
+  try {
+
+      const { username, password } = req.body;
+
+      if (!username || !password) {
+          return res.status(401).send('Invalid Credentails')
+      }
+      const user = await User.findOne({ username });
+
+      if (user) {
+          return res.status(403).send('User already present');
+      } else {
+          const obj = {
+              "username": username,
+              "password": password
+          }
+
+          const newUser = new User(obj);
+          await newUser.save();
+          console.log('User created');
+
+          const token = jwt.sign({ username, role: "user" }, secretKey, { expiresIn: '1h' })
+
+          return res.status(201).json(token);
+      }
+  } catch (err) {
+      return res.status(500).send({ 'Internal Error': err });
+  }
+});
+
 app.get('/profile', authenticate, (req, res) => {
   res.json({
     "username": req.user.username,
