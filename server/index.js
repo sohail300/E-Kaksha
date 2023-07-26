@@ -27,10 +27,11 @@ app.get('/', (req,res) => {
   res.send('Hi');
 })
 
-app.post('/signup', async (req, res) => {
+app.post('/admin/signup', async (req, res) => {
   try {
 
       const { username, password } = req.body;
+      // res.send('username: '+user)
 
       if (!username || !password) {
           return res.status(401).send('Invalid Credentails')
