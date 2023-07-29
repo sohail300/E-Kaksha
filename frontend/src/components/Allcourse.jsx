@@ -6,7 +6,7 @@ const Allcourse = () => {
   const [courseArray, setCoursearray] = useState([]);
 
   useEffect(() => {
-    fetch('https://e-kaksha.vercel.app/admin/courses', {
+    fetch('http://localhost:3000/admin/courses', {
       method: "GET",
       headers: {
         "Authorization": "Bearer " + localStorage.getItem('token')

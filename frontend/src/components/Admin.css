@@ -1,4 +1,4 @@
-#signup-container {
+.reg-container {
   margin: 0px;
   height: 95vh;
   width: 100vw;
@@ -8,7 +8,7 @@
   /* border: 2px solid red; */
 }
 
-#card {
+.card {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,7 +21,7 @@
   border: 1px solid rgba(255, 255, 255, 0.125);
 }
 
-#signup-option {
+.reg-option {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -34,23 +34,30 @@
   /* border: 2px solid red; */
   width: 70%;
   margin: 15px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  height: 32px;
+  color: black;
 }
 
-.signup-btn {
+.signup-btn,
+.login-btn {
+  background: #1976d2;
+  border-radius: 5px;
   width: 25%;
-  font-family: Archivo, Helvetica, sans-serif,Arial;  
+  font-family: Archivo, Helvetica, sans-serif, Arial;
+  height: 36px;
+  border: none;
 }
 
-#signup-option button {
+.reg-option a {
+  color: #1976d2;
   font-size: 20px;
-  /* background-color: white; */
   width: 40%;
-  font-family: Archivo, Helvetica, sans-serif,Arial;
+  font-family: Archivo, Helvetica, sans-serif, Arial;
 }
 
-.neumorphism {
-    border-radius: 50px;
-    background: #1976d2;
-    box-shadow: 25px 25px 50px #1564b3, -25px -25px 50px #1d88f2;
-  }
-  
+.reg-option a:hover {
+  cursor: pointer;
+}

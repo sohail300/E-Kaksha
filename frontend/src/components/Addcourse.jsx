@@ -1,8 +1,5 @@
 import { useState } from 'react'
 import './Addcourse.css'
-import Card from '@mui/material/Card'
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
 
 const Addcourse = () => {
     const [title, setTitle] = useState('');
@@ -32,7 +29,7 @@ const Addcourse = () => {
         console.log(description)
         console.log(price)
         console.log(imagelink)
-        fetch('https://e-kaksha.vercel.app/admin/courses',{
+        fetch('http://localhost:3000/admin/courses',{
             method:"POST",
             body:JSON.stringify({
                 "title":title,
@@ -57,19 +54,19 @@ const Addcourse = () => {
     return (<>
         <div id="addcourse-div">
         <h1>Add Course</h1>
-            <Card id='card'>
             <br />
-                <TextField id="title" label="Title" variant="outlined" className='card-component' value={title} onChange={handleTitle} />
+            <div id='card'>
+                <input id="title" placeholder="Title" className='card-component' value={title} onChange={handleTitle} />
                 <br />
-                <TextField id="description" label="Description" variant="outlined" className='card-component' value={description} onChange={handleDescription} />
+                <input id="description" placeholder="Description" className='card-component' value={description} onChange={handleDescription} />
                 <br />
-                <TextField id="price" label="Price" variant="outlined" className='card-component' value={price} onChange={handlePrice} />
+                <input id="price" placeholder="Price" className='card-component' value={price} onChange={handlePrice} />
                 <br />
-                <TextField id="imagelink" label="Image Link" variant="outlined" className='card-component' value={imagelink} onChange={handleImagelink} />
+                <input id="imagelink" placeholder="Image Link" className='card-component' value={imagelink} onChange={handleImagelink} />
                 <br />
-                <Button className='button card-component' variant="contained" onClick={Addcoursefunc}>Add Course</Button>
+                <button className='button card-component' onClick={Addcoursefunc}>Add Course</button>
             <br />
-            </Card>
+            </div>
         </div>
     </>
     )

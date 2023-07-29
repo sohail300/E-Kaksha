@@ -18,7 +18,7 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    width: 25%;
+    width: 35%;
     /* border: 2px solid red; */
     font-size: 24px;
     height: 50px;
@@ -33,6 +33,14 @@
     font-size: 18px;
 }
 
+.navlink-btn{
+    color: #1976d2;
+}
+
+.navlink-btn:hover{
+    cursor: pointer;
+}
+
 .logo{
     font-family: Clash Display, Helvetica, Arial, sans-serif;
     font-weight: 500;
@@ -40,4 +48,8 @@
     font-size: 28px;
     margin: 15px;
     margin-left: 40px;
+}
+
+.admin{
+    color: #e91965;
 }

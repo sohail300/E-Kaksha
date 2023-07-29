@@ -2,8 +2,18 @@
     width: 30%;
     height: 30%;
     margin: 30px;
+    background-color: white;
 }
 
 .cards p{
     font-size: 18px;
+}
+
+.purchase-btn{
+  background: #1976d2;
+  border-radius: 5px;
+  width: 25%;
+  font-family: Archivo, Helvetica, sans-serif, Arial;
+  height: 36px;
+  border: none;
 }

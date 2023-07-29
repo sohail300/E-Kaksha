@@ -1,5 +1,4 @@
 import './Appbar.css'
-import Button from '@mui/material/Button'
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
@@ -8,7 +7,7 @@ const Appbar = () => {
     const [currUser, setCurruser] = useState(null);
 
     useEffect(() => {
-        fetch('https://e-kaksha.vercel.app/profile', {
+        fetch('http://localhost:3000/profile', {
             method: 'GET',
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem('token')
@@ -61,9 +60,9 @@ const Appbar = () => {
                     E-Kaksha
                 </p>
                 <div className="nav-links">
-                    <Button onClick={openAllcourses} className='button navlink-btn' variant="text" >All Courses</Button>
-                    <Button onClick={openAddcourses} className='button navlink-btn' variant="text" >Add Course</Button>
-                    <Button onClick={logout} className='button navlink-btn' variant="text" >Logout</Button>
+                    <a onClick={openAllcourses} className='navlink-btn' >All Courses</a>
+                    <a onClick={openAddcourses} className='navlink-btn' >Add Course</a>
+                    <a onClick={logout} className='navlink-btn' >Logout</a>
                 </div>
             </nav>
         )
@@ -75,9 +74,9 @@ const Appbar = () => {
                     E-Kaksha
                 </p>
                 <div className="nav-links">
-                    <Button onClick={openAllcourses} className='button navlink-btn' variant="text" >All Courses</Button>
-                    <Button onClick={openPurchasedcourses} className='button navlink-btn' variant="text" >Purchased Courses</Button>
-                    <Button onClick={logout} className='button navlink-btn' variant="text" >Logout</Button>
+                    <a onClick={openAllcourses} className='navlink-btn' >All Courses</a>
+                    <a onClick={openPurchasedcourses} className='navlink-btn' >Purchased Courses</a>
+                    <a onClick={logout} className='navlink-btn' >Logout</a>
                 </div>
             </nav>
         )
@@ -89,8 +88,8 @@ const Appbar = () => {
                     E-Kaksha
                 </p>
                 <div className="nav-links">
-                    <Button onClick={openAdmin} className='button navlink-btn' variant="text">Admin</Button>
-                    <Button onClick={openStudent} className='button navlink-btn' variant="text" >Student</Button>
+                    <a onClick={openAdmin} className='navlink-btn admin'>Admin</a>
+                    <a onClick={openStudent} className='navlink-btn' >Student</a>
                 </div>
             </nav>
         )

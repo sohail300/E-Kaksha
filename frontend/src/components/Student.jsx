@@ -1,10 +1,6 @@
 import './Admin.css'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-// import { makeStyles } from '@mui/styles';
-import Card from '@mui/material/Card'
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -42,7 +38,7 @@ const Signup = () => {
     }
 
     function handleSignup() {
-        fetch('https://e-kaksha.vercel.app/users/signup', {
+        fetch('http://localhost:3000/users/signup', {
             method: 'POST',
             body: JSON.stringify({
                 "username": signupEmail,
@@ -62,7 +58,7 @@ const Signup = () => {
     }
 
     function handleLogin() {
-        fetch('https://e-kaksha.vercel.app/users/login', {
+        fetch('http://localhost:3000/users/login', {
             method: 'POST',
             body: JSON.stringify({
                 "username": loginEmail,
@@ -82,34 +78,35 @@ const Signup = () => {
     }
 
     return (
-        <div id="signup-container">
-            <Card id='card'>
-                <div id='signup-option'>
-                    <Button onClick={enableSignup} className='button' variant="text" >Signup</Button>
-                    <Button onClick={enableLogin} className='button' variant="text" >Login</Button>
+        <div className="reg-container">
+            <div className='card'>
+                <div className='reg-option'>
+                    <a onClick={enableSignup} className='' >SIGNUP</a>
+                    <a onClick={enableLogin} className='' >LOGIN</a>
                 </div>
+
                 {signup &&
                     <>
-                        <TextField id="signupEmail" label="Email" variant="outlined" className='card-component' value={signupEmail} onChange={handleSignupEmail} autoComplete="off" />
+                        <input type="text" className='signupEmail card-component' placeholder="Email" value={signupEmail} onChange={handleSignupEmail} autoComplete="off" />
                         <br />
-                        <TextField id="signupPassword" label="Password" variant="outlined" className='card-component' value={signupPassword} onChange={handleSignupPassword} autoComplete="off" />
+                        <input type="password" className='signupPassword card-component' placeholder="Password" value={signupPassword} onChange={handleSignupPassword} autoComplete="off" />
                         <br />
-                        <Button className='button card-component neumorphism signup-btn' variant="contained" onClick={handleSignup}>Signup</Button>
+                        <button className='signup-btn' onClick={handleSignup}>SIGNUP</button>
                         <br />
                     </>
                 }
 
                 {login &&
                     <>
-                        <TextField id="LoginEmail" label="Email" variant="outlined" className='card-component' value={loginEmail} onChange={handleLoginEmail} autoComplete="off" />
+                        <input type="text" className='LoginEmail card-component' value={loginEmail} onChange={handleLoginEmail} placeholder="Email" autoComplete="off" />
                         <br />
-                        <TextField id="LoginPassword" label="Password" variant="outlined" className='card-component' value={loginPassword} onChange={handleLoginPassword} autoComplete="off" />
+                        <input type="password" className='LoginPassword card-component' value={loginPassword} placeholder="Password" onChange={handleLoginPassword} autoComplete="off" />
                         <br />
-                        <Button className='button card-component neumorphism signup-btn' variant="contained" onClick={handleLogin}>Login</Button>
+                        <button className='login-btn' onClick={handleLogin}>LOGIN</button>
                         <br />
                     </>
                 }
-            </Card>
+            </div>
 
 
         </div>
