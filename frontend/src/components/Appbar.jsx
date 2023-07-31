@@ -1,29 +1,23 @@
 import './Appbar.css'
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import axios from 'axios'
 
 const Appbar = () => {
     const navigate = useNavigate();
     const [currUser, setCurruser] = useState(null);
 
     useEffect(() => {
-        fetch('http://localhost:3000/profile', {
-            method: 'GET',
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem('token')
+        async function call() {
+            const data = await axios.get('http://localhost:3000/profile');
+            console.log('data role: ' + data.role);
+            if (data.role == 'admin') {
+                setCurruser('admin')
+            } else if (data.role == 'user') {
+                setCurruser('user')
             }
-        })
-            .then(res => {
-                return res.json()
-            })
-            .then(data => {
-                console.log('data role: ' + data.role);
-                if (data.role == 'admin') {
-                    setCurruser('admin')
-                } else if (data.role == 'user') {
-                    setCurruser('user')
-                }
-            })
+        }
+        call();
     })
 
     function openAdmin() {
@@ -95,5 +89,4 @@ const Appbar = () => {
         )
     }
 }
-// sx={{ color: 'black' }}
 export default Appbar;

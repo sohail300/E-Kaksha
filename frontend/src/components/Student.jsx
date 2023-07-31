@@ -1,6 +1,7 @@
 import './Admin.css'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -37,44 +38,22 @@ const Signup = () => {
         setLoginPassword(e.target.value)
     }
 
-    function handleSignup() {
-        fetch('http://localhost:3000/users/signup', {
-            method: 'POST',
-            body: JSON.stringify({
-                "username": signupEmail,
-                "password": signupPassword
-            }),
-            headers: {
-                "Content-type": "application/json"
-            }
+    async function handleSignup() {
+        const data = await axios.post('http://localhost:3000/users/signup', {
+            "username": signupEmail,
+            "password": signupPassword
         })
-            .then(res => {
-                return res.json()
-            })
-            .then(data => {
-                localStorage.setItem('token', data);
-                navigate('/allcourse')
-            })
+        localStorage.setItem('token', data);
+        navigate('/allcourse')
     }
 
-    function handleLogin() {
-        fetch('http://localhost:3000/users/login', {
-            method: 'POST',
-            body: JSON.stringify({
-                "username": loginEmail,
-                "password": loginPassword
-            }),
-            headers: {
-                "Content-type": "application/json"
-            }
+    async function handleLogin() {
+        const data = await axios.post('http://localhost:3000/users/login', {
+            "username": loginEmail,
+            "password": loginPassword
         })
-            .then(res => {
-                return res.json()
-            })
-            .then(data => {
-                localStorage.setItem('token', data);
-                navigate('/allcourse')
-            })
+        localStorage.setItem('token', data);
+        navigate('/allcourse')
     }
 
     return (

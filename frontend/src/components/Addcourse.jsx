@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState } from 'react'
 import './Addcourse.css'
 
@@ -23,37 +24,31 @@ const Addcourse = () => {
         setImagelink(e.target.value);
     }
 
-    function Addcoursefunc() {
+    async function Addcoursefunc() {
         console.log('inside add course');
         console.log(title)
         console.log(description)
         console.log(price)
         console.log(imagelink)
-        fetch('http://localhost:3000/admin/courses',{
-            method:"POST",
-            body:JSON.stringify({
-                "title":title,
-                "description":description,
-                "price":price,
-                "linkImage":imagelink,
-                "published":true
-            }),
-            headers:{
+
+        const data = await axios.post('http://localhost:3000/admin/courses', {
+            "title": title,
+            "description": description,
+            "price": price,
+            "linkImage": imagelink,
+            "published": true
+        }, {
+            headers: {
                 "Authorization": "Bearer " + localStorage.getItem('token'),
                 'Content-Type': 'application/json'
             }
         })
-        .then((res) => {
-            return res.json();
-        })
-        .then((data) =>{
-            console.log(data)
-        })
-     }
+        console.log(data)
+    }
 
     return (<>
         <div id="addcourse-div">
-        <h1>Add Course</h1>
+            <h1>Add Course</h1>
             <br />
             <div id='card'>
                 <input id="title" placeholder="Title" className='card-component' value={title} onChange={handleTitle} />
@@ -65,7 +60,7 @@ const Addcourse = () => {
                 <input id="imagelink" placeholder="Image Link" className='card-component' value={imagelink} onChange={handleImagelink} />
                 <br />
                 <button className='button card-component' onClick={Addcoursefunc}>Add Course</button>
-            <br />
+                <br />
             </div>
         </div>
     </>
