@@ -2,7 +2,7 @@ const { User, Admin, Course } = require('../db/model')
 const express = require('express');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken')
-const { authenticate, secretKey }  = require('../middleware/auth');
+const { authenticate, secretKey } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -84,7 +84,7 @@ router.get('/courses', authenticate, async (req, res) => {
         const obj = {
             "course": courses
         }
-        console.log(obj);
+        // console.log(obj);
         return res.status(200).json(obj);
     } catch (err) {
         return res.status(500).send({ 'Internal Error': err });

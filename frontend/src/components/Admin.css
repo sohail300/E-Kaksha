@@ -3,6 +3,7 @@
   height: 95vh;
   width: 100vw;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   /* border: 2px solid red; */
@@ -21,13 +22,50 @@
   border: 1px solid rgba(255, 255, 255, 0.125);
 }
 
+.reg-option a {
+  font-size: 20px;
+  width: 40%;
+  font-family: Archivo, Helvetica, sans-serif, Arial;
+  padding: 4px 12px;
+  border-radius: 5px;
+}
+
+.admin-section .reg-option a{
+  border: 2px solid #e91965;
+  color: #e91965;
+}
+
+.reg-option a:hover {
+  cursor: pointer;
+}
+
+.signupEmail::placeholder {
+  /* padding: 4px; */
+  padding-left: 12px;
+}
+
+.signupPassword::placeholder {
+  /* padding: 4px; */
+  padding-left: 12px;
+}
+
+.LoginEmail::placeholder {
+  /* padding: 4px; */
+  padding-left: 12px;
+}
+
+.LoginPassword::placeholder {
+  /* padding: 4px; */
+  padding-left: 12px;
+}
+
 .reg-option {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   /* border: 2px solid red; */
-  width: 50%;
-  margin: 15px;
+  width: 70%;
+  margin: 30px;
 }
 
 .card-component {
@@ -43,7 +81,6 @@
 
 .signup-btn,
 .login-btn {
-  background: #1976d2;
   border-radius: 5px;
   width: 25%;
   font-family: Archivo, Helvetica, sans-serif, Arial;
@@ -51,13 +88,11 @@
   border: none;
 }
 
-.reg-option a {
-  color: #1976d2;
-  font-size: 20px;
-  width: 40%;
-  font-family: Archivo, Helvetica, sans-serif, Arial;
+.admin-section .signup-btn,.admin-section .login-btn{
+  background: #e91965;    
 }
 
-.reg-option a:hover {
+.signup-btn:hover,
+.login-btn:hover {
   cursor: pointer;
 }

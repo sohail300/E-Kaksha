@@ -1,8 +1,10 @@
 import './Home.css'
 import Book from './Book'
+// import About from './About'
 
 const Home = () => {
   return (
+    <>
     <main id="main-div">
     <div className='heading'>
     <h1>Welcome to </h1>
@@ -12,6 +14,8 @@ const Home = () => {
     <Book></Book>
     </div>
     </main>
+    {/* <About></About> */}
+    </>
     
   )
 }

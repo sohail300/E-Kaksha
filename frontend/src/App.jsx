@@ -7,13 +7,15 @@ import Addcourse from './components/Addcourse'
 import Allcourse from './components/Allcourse'
 import Purchasedcourse from './components/Purchasedcourse'
 import { BrowserRouter as Router, Routes,Route } from 'react-router-dom'
+import {RecoilRoot} from 'recoil'
 
 function App() {
 
   return (
     <>
+    <RecoilRoot>
     <Router>
-    <Appbar></Appbar>
+    <Appbar/>
     <Routes>
     <Route path='/' element={<Home />} />
     <Route path='/admin' element={<Admin />} />
@@ -23,6 +25,7 @@ function App() {
     <Route path='/purchasedcourse' element={<Purchasedcourse />} />
     </Routes>
     </Router>
+    </RecoilRoot>
     </>
   )
 }

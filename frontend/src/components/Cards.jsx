@@ -5,6 +5,8 @@ const Cards = (props) => {
   const title = props.title;
   const description = props.description;
   const price = props.price;
+  const linkImage = props.linkImage;
+
 
   function buyCourse() {
 
@@ -13,17 +15,12 @@ const Cards = (props) => {
   return (
     <>
       <div className="cards">
-
-        <h2>Title: {title}</h2>
-        <p>Description: {description}</p>
+        <img src={linkImage} alt="image link"/>
+        <h2>{title}</h2>
         <p>Price: ₹{price}</p>
-        {/* <p>{imagelink}</p> */}
-
+        <p>{description}</p>
         <button className='purchase-btn' onClick={buyCourse}>Purchase</button>
-        <br />
-        <br />
       </div>
-
     </>
   )
 }

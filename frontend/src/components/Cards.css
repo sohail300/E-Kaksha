@@ -1,15 +1,23 @@
-.cards{
-    width: 30%;
-    height: 30%;
-    margin: 30px;
-    background-color: white;
+.cards {
+  width: 400px;
+  height: 480px;
+  margin: 30px;
+  /* border: 2px solid red; */
+  border-radius: 8px;
+  background-color: white;
 }
 
-.cards p{
-    font-size: 18px;
+.cards img {
+  border-radius: 8px 8px 0px 0px;
+  width: 400px;
+  height: 240px;
 }
 
-.purchase-btn{
+.cards p {
+  font-size: 18px;
+}
+
+.purchase-btn {
   background: #1976d2;
   border-radius: 5px;
   width: 25%;

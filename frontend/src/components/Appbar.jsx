@@ -2,19 +2,25 @@ import './Appbar.css'
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios'
+import {currUserState} from '../store/atoms/admin'
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 const Appbar = () => {
+    const setCurrUser=useSetRecoilState(currUserState);
     const navigate = useNavigate();
-    const [currUser, setCurruser] = useState(null);
-
+    
     useEffect(() => {
         async function call() {
-            const data = await axios.get('http://localhost:3000/profile');
-            console.log('data role: ' + data.role);
-            if (data.role == 'admin') {
-                setCurruser('admin')
-            } else if (data.role == 'user') {
-                setCurruser('user')
+            const data = await axios.get('http://localhost:3000/profile',{
+                headers: {
+                  Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+               });
+            console.log('data role: ' + data.data.role);
+            if (data.data.role == 'admin') {
+                setCurrUser('admin')
+            } else if (data.data.role == 'user') {
+                setCurrUser('user')
             }
         }
         call();
@@ -42,51 +48,49 @@ const Appbar = () => {
 
     function logout() {
         localStorage.setItem('token', null);
-        setCurruser(null);
+        setCurrUser(null);
         navigate('/')
     }
 
-    if (currUser == 'admin') {
-        console.log('inside admin');
+    const currUser=useRecoilValue(currUserState);
+    if(currUser=='admin'){
         return (
             <nav className="navbar">
                 <p className="logo">
                     E-Kaksha
                 </p>
                 <div className="nav-links">
-                    <a onClick={openAllcourses} className='navlink-btn' >All Courses</a>
-                    <a onClick={openAddcourses} className='navlink-btn' >Add Course</a>
-                    <a onClick={logout} className='navlink-btn' >Logout</a>
+                    <a onClick={openAllcourses} className='navlink-btn admin' >All Courses</a>
+                    <a onClick={openAddcourses} className='navlink-btn admin' >Add Course</a>
+                    <a onClick={logout} className='navlink-btn admin' >Logout</a>
                 </div>
             </nav>
         )
-    } else if (currUser == 'user') {
-        console.log('inside student');
+    } else if(currUser=='user'){
         return (
             <nav className="navbar">
-                <p className="logo">
-                    E-Kaksha
-                </p>
-                <div className="nav-links">
-                    <a onClick={openAllcourses} className='navlink-btn' >All Courses</a>
-                    <a onClick={openPurchasedcourses} className='navlink-btn' >Purchased Courses</a>
-                    <a onClick={logout} className='navlink-btn' >Logout</a>
-                </div>
-            </nav>
-        )
-    } else if (currUser == null) {
-        console.log('inside others');
-        return (
-            <nav className="navbar">
-                <p className="logo">
+                    <p className="logo">
+                        E-Kaksha
+                    </p>
+                    <div className="nav-links">
+                        <a onClick={openAllcourses} className='navlink-btn student' >All Courses</a>
+                        <a onClick={openPurchasedcourses} className='navlink-btn student' >Purchased Courses</a>
+                        <a onClick={logout} className='navlink-btn student' >Logout</a>
+                    </div>
+                </nav>
+            )
+        } else {
+            return (
+                <nav className="navbar">
+                        <p className="logo">
                     E-Kaksha
                 </p>
                 <div className="nav-links">
                     <a onClick={openAdmin} className='navlink-btn admin'>Admin</a>
-                    <a onClick={openStudent} className='navlink-btn' >Student</a>
+                    <a onClick={openStudent} className='navlink-btn student' >Student</a>
                 </div>
             </nav>
         )
     }
-}
+    }
 export default Appbar;

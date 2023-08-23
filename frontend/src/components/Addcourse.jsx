@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './Addcourse.css'
 
 const Addcourse = () => {
+    const navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
@@ -44,6 +46,7 @@ const Addcourse = () => {
             }
         })
         console.log(data)
+        navigate('/allcourse');
     }
 
     return (<>

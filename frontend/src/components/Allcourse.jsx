@@ -15,7 +15,8 @@ const Allcourse = () => {
             "Authorization": "Bearer " + localStorage.getItem('token')
           }
         })
-      setCoursearray(data.course);
+      console.log(data.data)
+      setCoursearray(data.data.course);
     }
     call();
   }, []);
@@ -28,7 +29,7 @@ const Allcourse = () => {
           courseArray.map((item, index) => {
             return (
               <>
-                <Cards key={index} title={item.title} description={item.description} price={item.price} />
+                <Cards key={index} title={item.title} description={item.description} price={item.price} linkImage={item.linkImage} />
               </>
             )
           })

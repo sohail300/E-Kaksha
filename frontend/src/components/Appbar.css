@@ -25,6 +25,26 @@
     text-align: center;
 }
 
+.nav-links .admin{
+    background-color: #e91965;
+    color: white;
+}
+
+.admin{
+    background-color: #e91965;
+    color: white;
+}
+
+.nav-links .student{
+    background-color: #1976d2;
+    color: white;
+}
+
+.student{
+    background-color: #1976d2;
+    color: white;
+}
+
 .nav-links button{
     width: 36px;
     font-family: Klein, Helvetica, sans-serif,Arial;
@@ -35,6 +55,8 @@
 
 .navlink-btn{
     color: #1976d2;
+    padding: 4px 16px;
+    border-radius: 5px;
 }
 
 .navlink-btn:hover{

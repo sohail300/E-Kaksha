@@ -2,10 +2,45 @@ const { User, Admin, Course } = require('../db/model')
 const express = require('express');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken')
-const { authenticate, secretKey }  = require('../middleware/auth');
+const { authenticate, secretKey } = require('../middleware/auth');
 const router = express.Router();
 
 // User routes
+
+router.post('/signup', async (req, res) => {
+    try {
+        // res.send('Hi')
+        const { username, password } = req.body;
+
+        if (!username || !password) {
+            return res.status(401).send('Invalid Credentails')
+        }
+        const user = await User.findOne({ username })
+
+        if (user) {
+            return res.status(403).send('User already Exists');
+        } else {
+            const obj = {
+                "username": username,
+                "password": password
+            }
+            const newUser = new User(obj);
+            await newUser.save()
+            console.log('Admin saved');
+
+            // const secretKey = 'mysecretkey';
+            // const payload = { userId: '12345', role: 'admin' };
+            // const options = { expiresIn: '1h' };
+            // const token = jwt.sign(payload, secretKey, options);
+
+            const token = jwt.sign({ username, role: 'user' }, secretKey, { expiresIn: '1h' })
+
+            return res.status(201).json(token);
+        }
+    } catch (err) {
+        return res.status(500).send({ 'Internal Error': err });
+    }
+});
 
 router.post('/login', async (req, res) => {
     try {
@@ -20,6 +55,7 @@ router.post('/login', async (req, res) => {
 
         if (user) {
             const token = jwt.sign({ username, role: "user" }, secretKey, { expiresIn: '1h' })
+            console.log(token)
             return res.status(201).json(token);
         } else {
             return res.status(403).send('Invalid credentials');

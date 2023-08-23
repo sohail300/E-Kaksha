@@ -12,8 +12,8 @@ const Purchasedcourse = () => {
             {headers:{
                 "Authorization": "Bearer " + localStorage.getItem('token')
             }})
-            console.log(data.purchasedCourses);
-            setPurchasedcoursearray(data.purchasedCourses);
+            console.log(data.data);
+            setPurchasedcoursearray(data.data.purchasedCourses);
         }
         call();
     }, []);
@@ -25,7 +25,7 @@ const Purchasedcourse = () => {
             {
                 purchasedcourseArray.map((item, index) => {
                     return (
-                        <Cards key={index} title={item.title} description={item.description} price={item.price} />
+                        <Cards key={index} title={item.title} description={item.description} price={item.price} linkImage={item.linkImage} />
                     )
                 })
             }

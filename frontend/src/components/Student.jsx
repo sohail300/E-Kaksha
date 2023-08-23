@@ -1,4 +1,5 @@
 import './Admin.css'
+import './Student.css'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
@@ -11,15 +12,27 @@ const Signup = () => {
     const [signupPassword, setSignupPassword] = useState('')
     const [loginEmail, setLoginEmail] = useState('')
     const [loginPassword, setLoginPassword] = useState('')
+    const [userSignupfontcolor, setUsersignupfontcolor] = useState('#fff')
+    const [userSignupbgcolor, setUsersignupbgcolor] = useState('#1976d2')
+    const [userLoginfontcolor, setUserloginfontcolor] = useState('#1976d2')
+    const [userLoginbgcolor, setUserloginbgcolor] = useState('#fff')
 
     function enableLogin() {
         setSignup(false);
         setLogin(true);
+        setUserloginfontcolor('#fff');
+        setUserloginbgcolor('#1976d2')
+        setUsersignupfontcolor('#1976d2')
+        setUsersignupbgcolor('#fff');
     }
 
     function enableSignup() {
         setSignup(true);
         setLogin(false);
+        setUserloginfontcolor('#1976d2');
+        setUserloginbgcolor('#fff')
+        setUsersignupfontcolor('#fff')
+        setUsersignupbgcolor('#1976d2');
     }
 
     function handleSignupEmail(e) {
@@ -43,7 +56,7 @@ const Signup = () => {
             "username": signupEmail,
             "password": signupPassword
         })
-        localStorage.setItem('token', data);
+        localStorage.setItem('token', data.data);
         navigate('/allcourse')
     }
 
@@ -52,22 +65,24 @@ const Signup = () => {
             "username": loginEmail,
             "password": loginPassword
         })
-        localStorage.setItem('token', data);
+        console.log(data)
+    //   console.log(data.data)
+        localStorage.setItem('token', data.data);
         navigate('/allcourse')
     }
 
     return (
-        <div className="reg-container">
+        <div className="reg-container user-section">
+        <h1>Student Login</h1>
             <div className='card'>
                 <div className='reg-option'>
-                    <a onClick={enableSignup} className='' >SIGNUP</a>
-                    <a onClick={enableLogin} className='' >LOGIN</a>
+                    <a onClick={enableSignup} style={{color: userSignupfontcolor, backgroundColor: userSignupbgcolor }} className='card-signup' >SIGNUP</a>
+                    <a onClick={enableLogin} style={{color: userLoginfontcolor, backgroundColor: userLoginbgcolor }} className='card-login' >LOGIN</a>
                 </div>
 
                 {signup &&
                     <>
                         <input type="text" className='signupEmail card-component' placeholder="Email" value={signupEmail} onChange={handleSignupEmail} autoComplete="off" />
-                        <br />
                         <input type="password" className='signupPassword card-component' placeholder="Password" value={signupPassword} onChange={handleSignupPassword} autoComplete="off" />
                         <br />
                         <button className='signup-btn' onClick={handleSignup}>SIGNUP</button>
@@ -78,7 +93,6 @@ const Signup = () => {
                 {login &&
                     <>
                         <input type="text" className='LoginEmail card-component' value={loginEmail} onChange={handleLoginEmail} placeholder="Email" autoComplete="off" />
-                        <br />
                         <input type="password" className='LoginPassword card-component' value={loginPassword} placeholder="Password" onChange={handleLoginPassword} autoComplete="off" />
                         <br />
                         <button className='login-btn' onClick={handleLogin}>LOGIN</button>

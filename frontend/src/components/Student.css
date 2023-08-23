@@ -1,0 +1,8 @@
+.user-section .reg-option a{
+    border: 2px solid #1976d2;
+    color: #1976d2;
+  }
+  
+  .user-section .signup-btn,.user-section .login-btn{
+    background: #1976d2;    
+  }

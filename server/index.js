@@ -22,61 +22,21 @@ connectDB();
 app.use('/admin', adminRoute);
 app.use('/users', userRoute);
 
-// async function connectDB() {
-//   try {
-//     const uri = dbURL;
-//     await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-//     // res.send('Database Connected');
-//     console.log('Database connected');
-//   } catch (err) {
-//     console.log('Error connecting to DB: ' + err);
-//     // res.send('Database Error');
-//   }
-// }
-
-
 app.get('/', (req, res) => {
   res.send('Hello');
 })
 
-app.post('/admin/signup', async (req, res) => {
-  // res.send('req')
-  try {
-    const { username, password } = req.body;
-    if (!username || !password) {
-      return res.status(401).send('Invalid Credentails')
-    }
-    const user = await User.findOne({ username });
-
-    if (user) {
-      return res.status(403).send('User already present');
-    } else {
-      const obj = {
-        "username": username,
-        "password": password
-      }
-
-      const newUser = new User(obj);
-      await newUser.save();
-      console.log('User created');
-
-      const token = jwt.sign({ username, role: "user" }, secretKey, { expiresIn: '1h' })
-
-      return res.status(201).json(token);
-    }
-  } catch (err) {
-    return res.status(500).send({ 'Internal Error': err });
-  }
-});
-
 app.get('/profile', authenticate, (req, res) => {
+  console.log('inside profile')
+  console.log(req.user.username);
+  console.log(req.user.role);
   res.json({
     "username": req.user.username,
     "role": req.user.role
   })
 })
 
-
-// app.listen(3000, () => {
-//   console.log('Server is listening on port 3000');
-// });
+app.listen(3000, () => {
+    console.log('Server is listening on port 3000');
+  });
+  

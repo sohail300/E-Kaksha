@@ -1,31 +1,32 @@
-import atom from 'recoil'
+import { atom } from 'recoil'
 
-export const signupState= atom({
-    key: signupState,
+export const currUserState = atom({
+    key: 'currUserState',
+    default: ''
+})
+
+export const signupState = atom({
+    key: 'signupState',
     default: true
 })
 
-export const loginState= atom({
-    key: loginState,
+export const loginState = atom({
+    key: 'loginState',
     default: false
 })
 
-export const signupEmailState= atom({
-    key: signupEmailState,
-    default: ''
+export const signupDetailsState = atom({
+    key: 'signupDetailsState',
+    default: {
+        signupEmailState: '',
+        signupPasswordState: ''
+    }
 })
 
-export const signupPasswordState= atom({
-    key: signupEmailState,
-    default: ''
-})
-
-export const loginEmailState= atom({
-    key: signupEmailState,
-    default: ''
-})
-
-export const loginPasswordlState= atom({
-    key: signupEmailState,
-    default: ''
+export const loginDetailsState = atom({
+    key: 'loginEmailState',
+    default: {
+        loginEmailState: '',
+        loginPasswordState: ''
+    }
 })
