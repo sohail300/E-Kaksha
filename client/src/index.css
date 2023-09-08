@@ -1,0 +1,18 @@
+:root {
+  font-family: Klein, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: #000;
+  background-color: rgb(70, 70, 70);
+  /* background-image: url("./images/bg.png"); */
+  background-size: cover;
+  /* background-repeat: no-repeat; */
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}

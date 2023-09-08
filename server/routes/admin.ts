@@ -1,8 +1,8 @@
-const { User, Admin, Course } = require('../db/model')
-const express = require('express');
-const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken')
-const { authenticate, secretKey } = require('../middleware/auth');
+import { User, Admin, Course } from '../db/model';
+import express from 'express';
+import mongoose from 'mongoose';
+import jwt from 'jsonwebtoken';
+import { authenticate, secretKey } from '../middleware/auth'
 
 const router = express.Router();
 
@@ -60,9 +60,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/courses', authenticate, async (req, res) => {
-    // console.log(req.body);
     try {
-        // console.log(req.user)
         const newCourse = new Course(req.body);
         console.log(req.body);
         await newCourse.save();
@@ -84,11 +82,10 @@ router.get('/courses', authenticate, async (req, res) => {
         const obj = {
             "course": courses
         }
-        // console.log(obj);
         return res.status(200).json(obj);
     } catch (err) {
         return res.status(500).send({ 'Internal Error': err });
     }
 });
 
-module.exports = router;
+export default router;

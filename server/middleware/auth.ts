@@ -1,10 +1,12 @@
-const jwt = require('jsonwebtoken')
-const dotenv = require('dotenv');
-dotenv.config();
-const secretKey = process.env.SECRET_KEY;
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+import {Request, Response, NextFunction} from 'express'
 
-async function authenticate(req, res, next) {
-    
+dotenv.config();
+
+export const secretKey = process.env.SECRET_KEY;
+
+export async function authenticate(req:Request, res:Response, next:NextFunction) {    
     console.log("auth section "+req.headers.authorization);
     const authHeader = req.headers.authorization;
 
@@ -15,8 +17,13 @@ async function authenticate(req, res, next) {
             if (err) {
                 return res.status(403).send(err);
             }
-            req.user = user;
-            // console.log(req.user)
+
+            if(typeof user =='string'){
+                return res.status(403).send(err);
+            }
+            
+            req.headers['username']=user.username;
+            req.headers['role']=user.role;
             next();
         });
     } else {
@@ -24,5 +31,3 @@ async function authenticate(req, res, next) {
         return res.status(401).send('Unauthorised');
     }
 }
-
-module.exports = {authenticate, secretKey}
