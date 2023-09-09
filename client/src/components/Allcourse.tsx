@@ -20,7 +20,7 @@ const Allcourse = () => {
             "Authorization": "Bearer " + localStorage.getItem('token')
           }
         })
-      console.log(data.data)
+      // console.log(data.data)
       setCoursearray(data.data.course);
     }
     call();

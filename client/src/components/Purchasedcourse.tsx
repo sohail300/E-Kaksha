@@ -17,7 +17,7 @@ const Purchasedcourse = () => {
             {headers:{
                 "Authorization": "Bearer " + localStorage.getItem('token')
             }})
-            console.log(data.data);
+            // console.log(data.data);
             setPurchasedcoursearray(data.data.purchasedCourses);
         }
         call();

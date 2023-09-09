@@ -33,7 +33,7 @@ router.post('/signup', async (req, res) => {
             // const options = { expiresIn: '1h' };
             // const token = jwt.sign(payload, secretKey, options);
 
-            const token = jwt.sign({ username, role: 'admin' }, secretKey, { expiresIn: '1h' })
+            const token = jwt.sign({ id: newAdmin._id, role: 'admin' }, secretKey, { expiresIn: '1h' })
 
             return res.status(201).json(token);
         }
@@ -49,7 +49,7 @@ router.post('/login', async (req, res) => {
         const user = await Admin.findOne({ username, password })
 
         if (user) {
-            const token = jwt.sign({ username, role: 'admin' }, secretKey, { expiresIn: '1h' })
+            const token = jwt.sign({ id: user._id, role: 'admin' }, secretKey, { expiresIn: '1h' })
             return res.status(200).json(token);
         } else {
             return res.status(403).send('Invalid Credentials');

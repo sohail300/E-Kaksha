@@ -61,8 +61,9 @@ const Signup = () => {
             "username": signupEmail,
             "password": signupPassword
         })
+
         localStorage.setItem('token', data.data);
-        navigate('/allcourse')
+        window.location.href='/allcourse'
     }
 
     async function handleLogin() {
@@ -70,10 +71,9 @@ const Signup = () => {
             "username": loginEmail,
             "password": loginPassword
         })
-        console.log(data)
-    //   console.log(data.data)
+
         localStorage.setItem('token', data.data);
-        navigate('/allcourse')
+        window.location.href='/allcourse'
     }
 
     return (

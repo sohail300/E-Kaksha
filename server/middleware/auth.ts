@@ -22,7 +22,7 @@ export async function authenticate(req:Request, res:Response, next:NextFunction)
                 return res.status(403).send(err);
             }
             
-            req.headers['username']=user.username;
+            req.headers['id']=user.id;
             req.headers['role']=user.role;
             next();
         });

@@ -32,11 +32,11 @@ const Addcourse = () => {
   }
 
   async function Addcoursefunc() {
-    console.log("inside add course");
-    console.log(title);
-    console.log(description);
-    console.log(price);
-    console.log(imagelink);
+    // console.log("inside add course");
+    // console.log(title);
+    // console.log(description);
+    // console.log(price);
+    // console.log(imagelink);
 
     const data = await api.post(
       "/admin/courses",
@@ -54,7 +54,7 @@ const Addcourse = () => {
         },
       }
     );
-    console.log(data);
+    // console.log(data);
     navigate("/allcourse");
   }
 

@@ -33,7 +33,7 @@ router.post("/signup", async (req, res) => {
       // const options = { expiresIn: '1h' };
       // const token = jwt.sign(payload, secretKey, options);
 
-      const token = jwt.sign({ username, role: "user" }, secretKey, {
+      const token = jwt.sign({ id: newUser._id, role: "user" }, secretKey, {
         expiresIn: "1h",
       });
 
@@ -54,9 +54,9 @@ router.post("/login", async (req, res) => {
 
     const user = await User.findOne({ username, password });
     // console.log("user: "+user)
-
+    
     if (user) {
-      const token = jwt.sign({ username, role: "user" }, secretKey, {
+      const token = jwt.sign({ id: user._id, role: "user" }, secretKey, {
         expiresIn: "1h",
       });
       console.log(token);

@@ -28,6 +28,14 @@ app.get("/", (req, res) => {
   res.send("Hello");
 });
 
+app.get("/profile",authenticate, (req,res) => {
+  console.log('in profile')
+  const id = req.headers["id"];
+  const role = req.headers["role"];
+  res.json({id,role});
+  // res.send("sent")
+})
+
 app.listen(3000, () => {
   console.log("Server is listening on port 3000");
 });
