@@ -2,6 +2,7 @@ import './Appbar.css'
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios'
+import baseURL from './config.js'
 import {currUserState} from '../store/atoms/admin'
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
@@ -9,9 +10,13 @@ const Appbar = () => {
     const setCurrUser=useSetRecoilState(currUserState);
     const navigate = useNavigate();
     
+    const api = axios.create({
+        baseURL
+      });
+
     useEffect(() => {
         async function call() {
-            const data = await axios.get('http://localhost:3000/profile',{
+            const data = await api.get('/profile',{
                 headers: {
                   Authorization: 'Bearer ' + localStorage.getItem('token')
                 }

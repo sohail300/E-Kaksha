@@ -2,6 +2,7 @@ import './Admin.css'
 import './Student.css'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import baseURL from './config.js'
 import axios from 'axios'
 
 const Signup = () => {
@@ -16,6 +17,10 @@ const Signup = () => {
     const [userSignupbgcolor, setUsersignupbgcolor] = useState('#1976d2')
     const [userLoginfontcolor, setUserloginfontcolor] = useState('#1976d2')
     const [userLoginbgcolor, setUserloginbgcolor] = useState('#fff')
+
+    const api = axios.create({
+        baseURL
+      });
 
     function enableLogin() {
         setSignup(false);
@@ -52,7 +57,7 @@ const Signup = () => {
     }
 
     async function handleSignup() {
-        const data = await axios.post('http://localhost:3000/users/signup', {
+        const data = await api.post('/users/signup', {
             "username": signupEmail,
             "password": signupPassword
         })
@@ -61,7 +66,7 @@ const Signup = () => {
     }
 
     async function handleLogin() {
-        const data = await axios.post('http://localhost:3000/users/login', {
+        const data = await api.post('/users/login', {
             "username": loginEmail,
             "password": loginPassword
         })

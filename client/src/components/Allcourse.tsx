@@ -1,15 +1,20 @@
 import { useEffect, useState } from 'react'
 import './Allcourse.css'
 import Cards from './Cards'
+import baseURL from './config.js'
 import axios from 'axios'
 
 const Allcourse = () => {
   const [courseArray, setCoursearray] = useState([]);
 
+  const api = axios.create({
+    baseURL
+  });
+
   useEffect(() => {
 
     async function call() {
-      const data = await axios.get('http://localhost:3000/admin/courses',
+      const data = await api.get('/admin/courses',
         {
           headers: {
             "Authorization": "Bearer " + localStorage.getItem('token')
