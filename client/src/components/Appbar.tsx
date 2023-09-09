@@ -1,6 +1,6 @@
 import './Appbar.css'
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import axios from 'axios'
 import baseURL from './config.js'
 import {currUserState} from '../store/atoms/admin'
