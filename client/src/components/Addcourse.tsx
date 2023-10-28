@@ -49,7 +49,7 @@ const Addcourse = () => {
         },
       }
     );
-    // console.log(data);
+    console.log(data);
     navigate("/allcourse");
   }
 

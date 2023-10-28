@@ -1,12 +1,12 @@
 import './Admin.css'
 import './Student.css'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import baseURL from './config.js'
 import axios from 'axios'
 
 const Signup = () => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const [signup, setSignup] = useState(true);
     const [login, setLogin] = useState(false);
     const [signupEmail, setSignupEmail] = useState('')
