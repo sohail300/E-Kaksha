@@ -72,6 +72,7 @@ const Signup = () => {
             "password": loginPassword
         })
 
+        console.log(data)
         localStorage.setItem('token', data.data);
         window.location.href='/allcourse'
     }

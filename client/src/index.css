@@ -4,9 +4,9 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: #000;
-  background-color: rgb(70, 70, 70);
-  /* background-image: url("./images/bg.png"); */
+  /* color: #000; */
+  /* background-color: #101010; */
+  background-image: url("./assets/bg.jpg");
   background-size: cover;
   /* background-repeat: no-repeat; */
 

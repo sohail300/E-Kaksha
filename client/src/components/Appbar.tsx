@@ -61,7 +61,7 @@ const Appbar = () => {
   if (currUser == "admin") {
     return (
       <nav className="navbar">
-        <p className="logo">E-Kaksha</p>
+        <p className="logo" onClick={() => {navigate('/')}} style={{cursor:"pointer"}}>E-Kaksha</p>
         <div className="nav-links">
           <a onClick={openAllcourses} className="navlink-btn admin">
             All Courses
@@ -78,7 +78,7 @@ const Appbar = () => {
   } else if (currUser == "user") {
     return (
       <nav className="navbar">
-        <p className="logo">E-Kaksha</p>
+        <p className="logo" onClick={() => {navigate('/')}} style={{cursor:"pointer"}}>E-Kaksha</p>
         <div className="nav-links">
           <a onClick={openAllcourses} className="navlink-btn student">
             All Courses
@@ -95,7 +95,7 @@ const Appbar = () => {
   } else {
     return (
       <nav className="navbar">
-        <p className="logo">E-Kaksha</p>
+        <p className="logo" onClick={() => {navigate('/')}} style={{cursor:"pointer"}}>E-Kaksha</p>
         <div className="nav-links">
           <a onClick={openAdmin} className="navlink-btn admin">
             Admin

@@ -1,7 +1,7 @@
 .reg-container {
   margin: 0px;
-  height: 95vh;
-  width: 100vw;
+  height: 85vh;
+  width: 99vw;
   display: flex;
   flex-direction: column;
   justify-content: center;

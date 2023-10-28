@@ -7,7 +7,7 @@ dotenv.config();
 export const secretKey = process.env.SECRET_KEY;
 
 export async function authenticate(req:Request, res:Response, next:NextFunction) {    
-    console.log("auth section "+req.headers.authorization);
+    console.log("auth section: "+req.headers.authorization);
     const authHeader = req.headers.authorization;
 
     if (authHeader) {
@@ -27,7 +27,6 @@ export async function authenticate(req:Request, res:Response, next:NextFunction)
             next();
         });
     } else {
-        console.log('inside unauth')
         return res.status(401).send('Unauthorised');
     }
 }

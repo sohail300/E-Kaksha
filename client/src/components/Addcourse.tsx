@@ -32,11 +32,6 @@ const Addcourse = () => {
   }
 
   async function Addcoursefunc() {
-    // console.log("inside add course");
-    // console.log(title);
-    // console.log(description);
-    // console.log(price);
-    // console.log(imagelink);
 
     const data = await api.post(
       "/admin/courses",
@@ -62,7 +57,6 @@ const Addcourse = () => {
     <>
       <div id="addcourse-div">
         <h1>Add Course</h1>
-        <br />
         <div id="card">
           <input
             id="title"
