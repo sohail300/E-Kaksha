@@ -1,25 +1,34 @@
 {
-  "name": "02-course-app-easy",
+  "name": "E-Kaksha",
   "version": "1.0.0",
   "description": "### Description 1. Admins should be able to sign up 2. Admins should be able to create courses    1. Course has a title, description, price, and image link    2. Course should be able to be published or unpublished 3. Admins should be able to edit courses 4. Users should be able to sign up 5. Users should be able to purchase courses 6. Users should be able to view purchased courses 7. Users should be able to view all courses",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm i && tsc",
-    "start": "nodemon dist/index.js"
+    "start": "nodemon dist/index.js",
+    "compile": "tsc && nodemon dist/index.js",
+    "dev": "nodemon -e ts  --exec \"npm run compile\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "add": "^2.0.6",
     "body-parser": "^1.20.2",
+    "chart.js": "^4.4.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.0",
     "nodemon": "^3.0.1",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "pdf-lib": "^1.17.1",
+    "react-chartjs-2": "^5.2.0",
+    "stripe": "^14.4.0",
+    "ts-node": "^10.9.1",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",

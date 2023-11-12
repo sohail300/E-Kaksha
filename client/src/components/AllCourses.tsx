@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import './Allcourse.css'
-import Cards from './Cards'
+import './AllCourses.css'
+import Cards from './Cards.js'
 import baseURL from './config.js'
 import axios from 'axios'
 
@@ -12,7 +12,6 @@ const Allcourse = () => {
   });
 
   useEffect(() => {
-
     async function call() {
       const data = await api.get('/admin/courses',
         {
@@ -20,7 +19,7 @@ const Allcourse = () => {
             "Authorization": "Bearer " + localStorage.getItem('token')
           }
         })
-      // console.log(data.data)
+      console.log(data.data.course)
       setCoursearray(data.data.course);
     }
     call();
@@ -28,18 +27,20 @@ const Allcourse = () => {
 
   return (
     <>
-      <h1 id="allcourse-heading">All courses</h1>
+    <main>
+      <h1 id="allcourse-heading" style={{color: "#000"}}>All courses</h1>
       <div id="allcourse-div">
         {
           courseArray.map((item, index) => {
             return (
               <>
-                <Cards key={index} title={item.title} description={item.description} price={item.price} linkImage={item.linkImage} />
+                <Cards key={index} id={item._id} title={item.title} description={item.description} price={item.price} imagelink={item.imagelink} />
               </>
             )
           })
         }
       </div>
+        </main>
     </>
   )
 }

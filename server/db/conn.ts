@@ -2,12 +2,17 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import path from "path";
 
-// const envPath = path.join(__dirname, '../.env');
-// dotenv.config({ path: envPath });
-dotenv.config();
+const envPath = path.join(__dirname, '../../.env');
+dotenv.config({ path: envPath });
+// This looks for the .env file in the specified directory.
 
-const dbURL = process.env.DB_URL;
+// dotenv.config();
+// dotenv.config() looks for .env file in the root directory, i.e.m where the index.js is situated.
 
+// While hosting we dont have to worry about .env file bcoz we give that separately.
+
+
+const dbURL=process.env.DB_URL;
 // MongoDB Connection
 export async function connectDB() {
   try {

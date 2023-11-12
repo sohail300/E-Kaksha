@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import './Purchasedcourse.css'
-import Cards from './Cards'
+import './PurchasedCourses.css'
+import Cards from './Cards.js'
 import baseURL from './config.js'
 import axios from 'axios';
 
@@ -12,12 +12,13 @@ const Purchasedcourse = () => {
       });
 
     useEffect(() => {
+        console.log("print");
         async function call(){
-            const data= await api.get('/users/purchasedCourses',
+            const data= await api.get('/user/purchasedcourses',
             {headers:{
                 "Authorization": "Bearer " + localStorage.getItem('token')
             }})
-            // console.log(data.data);
+            console.log(data.data.purchasedCourses);
             setPurchasedcoursearray(data.data.purchasedCourses);
         }
         call();
@@ -30,7 +31,7 @@ const Purchasedcourse = () => {
             {
                 purchasedcourseArray.map((item, index) => {
                     return (
-                        <Cards key={index} title={item.title} description={item.description} price={item.price} linkImage={item.linkImage} />
+                        <Cards key={index} title={item.title} description={item.description} price={item.price} imagelink={item.imagelink} />
                     )
                 })
             }

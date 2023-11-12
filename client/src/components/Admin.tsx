@@ -58,7 +58,7 @@ const Signup = () => {
 
   async function handleSignup() {
     const data = await api.post("/admin/signup", {
-      username: signupEmail,
+      email: signupEmail,
       password: signupPassword,
     });
     localStorage.setItem("token", data.data);
@@ -67,7 +67,7 @@ const Signup = () => {
 
   async function handleLogin() {
     const data = await api.post("/admin/login", {
-      username: loginEmail,
+      email: loginEmail,
       password: loginPassword,
     });
     localStorage.setItem("token", data.data);
@@ -76,7 +76,7 @@ const Signup = () => {
 
   return (
     <div className="reg-container admin-section">
-      <h1>Admin Login</h1>
+      <h1 style={{color:"#fff"}}>Admin Login</h1>
       <div className="card">
         <div className="reg-option">
           <a

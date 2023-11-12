@@ -8,7 +8,7 @@ const Home = () => {
       <main id="main-div">
         <div className="heading">
           <h1>Welcome to </h1>
-        <h1>E-Kaksha</h1>
+          <h1>E-Kaksha</h1>
         </div>
         <div>
           <div className="bg"></div>

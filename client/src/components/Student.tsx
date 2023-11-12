@@ -4,9 +4,10 @@ import { useState } from 'react'
 // import { useNavigate } from 'react-router-dom'
 import baseURL from './config.js'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const Signup = () => {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const [signup, setSignup] = useState(true);
     const [login, setLogin] = useState(false);
     const [signupEmail, setSignupEmail] = useState('')
@@ -57,29 +58,26 @@ const Signup = () => {
     }
 
     async function handleSignup() {
-        const data = await api.post('/users/signup', {
-            "username": signupEmail,
+        const data = await api.post('/user/signup', {
+            "email": signupEmail,
             "password": signupPassword
         })
-
         localStorage.setItem('token', data.data);
-        window.location.href='/allcourse'
+        navigate('/allcourse');
     }
 
     async function handleLogin() {
-        const data = await api.post('/users/login', {
-            "username": loginEmail,
+        const data = await api.post('/user/login', {
+            "email": loginEmail,
             "password": loginPassword
         })
-
-        console.log(data)
         localStorage.setItem('token', data.data);
-        window.location.href='/allcourse'
+        navigate('/allcourse');
     }
 
     return (
         <div className="reg-container user-section">
-        <h1>Student Login</h1>
+        <h1 style={{color:"#fff"}}>Student Login</h1>
             <div className='card'>
                 <div className='reg-option'>
                     <a onClick={enableSignup} style={{color: userSignupfontcolor, backgroundColor: userSignupbgcolor }} className='card-signup' >SIGNUP</a>

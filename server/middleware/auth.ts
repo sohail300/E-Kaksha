@@ -1,8 +1,13 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import path from "path";
 import {Request, Response, NextFunction} from 'express'
 
-dotenv.config();
+// dotenv.config();
+
+const envPath = path.join(__dirname, '../../.env');
+dotenv.config({ path: envPath });
+// This looks for the .env file in the specified directory.
 
 export const secretKey = process.env.SECRET_KEY;
 

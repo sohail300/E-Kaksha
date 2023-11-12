@@ -22,7 +22,7 @@ app.use(express.json());
 
 connectDB();
 app.use("/admin", adminRoute);
-app.use("/users", userRoute);
+app.use("/user", userRoute);
 
 app.get("/", (req, res) => {
   res.send("Hello");

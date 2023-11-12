@@ -1,11 +1,13 @@
 .reg-container {
   margin: 0px;
-  height: 85vh;
-  width: 99vw;
+  height: 90vh;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-image: url("../images/bg.jpg");
+  background-size: cover;
   /* border: 2px solid red; */
 }
 

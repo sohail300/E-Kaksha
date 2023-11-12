@@ -1,0 +1,57 @@
+Front-End Web Development 9 lectures • 37 min
+Introduction to HTML 8 lectures • 51 min
+Intermediate HTML 7 lectures • 51 min
+Multi-Page Websites 7 lectures • 1 h 10 min
+Introduction to CSS 6 lectures • 59 min
+CSS Properties 5 lectures • 1 h 9 min
+Intermediate CSS 5 lectures • 1 h 33 min
+Advanced CSS 6 lectures • 1 h 4 min
+Flexbox 6 lectures • 1 h 25 min
+Grid 4 lectures • 1 h 11 min
+Bootstrap 4 lectures • 1 h 40 min
+Capstone Project 1 - Personal Site 1 lecture • 2 min
+Introduction to Javascript ES6 25 lectures • 2 h 28 min
+Intermediate Javascript 15 lectures • 1 h 30 min
+The Document Object Model (DOM) 9 lectures • 56 min
+Capstone Project 2 - The Dice Game 11 lectures • 20 minutes
+Advanced Javascript and DOM Manipulation 15 lectures • 1 h 35 min
+React.js 46 lectures • 8 h 54 min
+Backend Web Development 2 lectures • 21 min
+Node.js 8 lectures • 1 h 6 min
+Express.js with Node.js 8 lectures • 2 h 1 min
+EJS 6 lectures • 1 h 30 min
+Capstone Project 3 - Todolist Application 1 lecture • 3 min
+Git, Github and Version Control 9 lectures • 1 h 17 min
+Application Programming Interfaces (APIs) 8 lectures • 2 h 28 min
+BuildYour Own API 6 lectures • 1 h 17 min
+Databases 2 lectures • 22 min
+SQL 6 lectures • 36 min
+PostgreSQL 16 lectures • 4 h 11 min
+Authentication & Security 15 lectures • 3 h 33 min
+
+Details:
+Description
+
+This course includes:
+62 h video on request
+118 resources for download
+Access via mobile devices and TV
+Certificate of completion
+
+Requirements
+No programming experience needed - I'll teach you everything you need to know
+A computer with access to the internet
+No paid software required
+I'll walk you through, step-by-step how to get all the software installed and set up
+
+For whom is this course:
+If you want to learn to code through building fun and useful projects, then take this course.
+If you want to start your own startup by building your own websites and web apps.
+If you are a seasoned programmer, then take this course to get up to speed quickly with the latest frameworks and NodeJS
+If you want to take ONE COURSE and learn everything you need to know about web development, take this course
+
+Reviews
+Yes, it was. For me, it's a whole package for diving into the exciting journey of full- stack web development.
+Great course, If the video is to fast you can slow it down and if the chapter is outdated you can google it and figure it out, that' s part of the learning process.	
+Angela is an amazing teacher म ... I totally recommend this course for anyone who wants to learn webdev.
+Every concept is explained very nicely and the teaching approach is what makes this course super amazing as it gives problem statement to solve every single concept. So far loving the tutorial.

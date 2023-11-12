@@ -1,9 +1,11 @@
 #main-div{
-    height: 85vh;
-    width: 98vw;
+    height: 90vh;
+    width: 100vw;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    background-image: url("../images/bg.jpg");
+    background-size: cover;
     /* border:1px solid red; */
     /* background-color: white; */
 }

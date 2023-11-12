@@ -2,12 +2,12 @@ import mongoose from "mongoose";
 
 // MongoDB Schema
 const adminSchema = new mongoose.Schema({
-  username: String,
+  email: String,
   password: String,
 });
 
 const userSchema = new mongoose.Schema({
-  username: String,
+  email: String,
   password: String,
   purchasedCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
 });
@@ -16,8 +16,10 @@ const courseSchema = new mongoose.Schema({
   title: String,
   description: String,
   price: Number,
-  linkImage: String,
-  published: Boolean,
+  imagelink: String,
+  duration: Number,
+  resource: Number,
+  priceid: String
 });
 
 // MongoDB Models
