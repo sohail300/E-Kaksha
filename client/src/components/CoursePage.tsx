@@ -49,7 +49,8 @@ function CoursePage() {
         }
       })
 
-      console.log(response.data);
+      console.log(response.data.url);
+      window.location.href=response.data.url;
   }
   
   return (

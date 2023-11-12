@@ -13,7 +13,9 @@ import { authenticate, secretKey } from "../middleware/auth";
 const router = express.Router();
 const app = express();
 dotenv.config();
-app.use(cors());
+router.use(cors({
+  origin: ["https://checkout.stripe.com"],
+}));
 
 const signupInput = z.object({
   email: z
@@ -196,8 +198,7 @@ router.get("/certificate", authenticate, async (req, res) => {
   }
 });
 
-
-const stripeInstance = new Stripe('sk_test_51OBVmiSCd9iukU67HrTADqYFEDVuqVsNtIQrx51CCJyxasDZuytzzoxcFS1qU7HPVDm5aGJ31JDTxBzwcnZ2apdJ00A070gq4T');
+const stripeInstance = new Stripe(process.env.STRIPE_API_KEY);
 
 router.post('/checkout', async (req, res) => {
   const PRICE_ID=req.body.priceid;
@@ -214,6 +215,7 @@ router.post('/checkout', async (req, res) => {
     cancel_url: `${process.env.FRONTEND_URL}payment/canceled/`,
   });
   console.log(session.url)
-  res.redirect(303, session.url);
+  // res.redirect(303, session.url);
+  return res.json({url:session.url});
 })
 export default router;
