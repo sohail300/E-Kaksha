@@ -74,44 +74,13 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.post('/courses', authenticate, async (req, res) => {
+router.post('/course', authenticate, async (req, res) => {
     try {
         const newCourse = new Course(req.body);
         console.log(req.body);
         await newCourse.save();
 
         return res.status(201).send({ message: 'Course created successfully', courseId: newCourse.id })
-    } catch (err) {
-        return res.status(500).send({ 'Internal Error': err });
-    }
-});
-
-// router.put('/courses/:courseId', authenticate, (req, res) => {
-
-// });
-
-router.get('/courses', authenticate, async (req, res) => {
-    try {
-        const courses = await Course.find();
-
-        const obj = {
-            "course": courses
-        }
-        return res.status(200).json(obj);
-    } catch (err) {
-        return res.status(500).send({ 'Internal Error': err });
-    }
-});
-
-router.get('/courses/:id', authenticate, async (req, res) => {
-    try {
-        const id=req.params.id;
-        const course = await Course.findById(id);
-
-        const obj = {
-            course
-        }
-        return res.status(200).json(obj);
     } catch (err) {
         return res.status(500).send({ 'Internal Error': err });
     }

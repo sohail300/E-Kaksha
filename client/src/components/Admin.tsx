@@ -1,7 +1,7 @@
 import "./Admin.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import baseURL from "./config.js";
+import {baseURL} from "./config.js";
 import axios from "axios";
 
 const Signup = () => {

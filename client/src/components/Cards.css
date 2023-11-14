@@ -1,8 +1,7 @@
 .cards {
   width: 25%;
-  height: 85%;
+  /* height: 25%; */
   margin: 30px;
-  /* border: 2px solid red; */
   position: relative;
   color: #000;
   border-radius: 8px;
@@ -19,11 +18,28 @@
   font-size: 18px;
 }
 
+.description{
+  display: flex;
+  align-self: flex-start;
+  text-align: justify;
+  margin: 0px 16px;
+  height: 200px;
+  overflow-y: scroll;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;
+}
+
+.description::-webkit-scrollbar {
+  display: none;
+}
+
 .purchase-btn {
   background: #1976d2;
   border-radius: 5px;
-  position: absolute;
-  bottom: 16px;
+  /* position: absolute; */
+  /* bottom: 16px; */
+  margin: 16px;
+  margin-bottom: 32px;
   width: 25%;
   font-family: Archivo, Helvetica, sans-serif, Arial;
   height: 36px;

@@ -1,4 +1,7 @@
 // const baseUrl = "https://e-kaksha-9l1a.onrender.com";
-const baseUrl = "http://localhost:3000";
+const baseURL = "http://localhost:3000";
 
-export default baseUrl
+// FRONTEND_URL="https://e-kaksha.vercel.app/"
+const FRONTEND_URL="http://localhost:5173/"
+
+export {FRONTEND_URL, baseURL};

@@ -1,6 +1,4 @@
 #allcourse-div{
-    /* border: 2px solid red; */
-    height: 100vh;
     width: 100vw;
     display: flex;
     flex-wrap: wrap;
@@ -12,7 +10,6 @@
     text-align: center;
     margin-top: 30px;
     margin-bottom: 0px;
-    /* border: 5px solid red; */
     font-size: 40px;
     width: 100vw;
     font-size: 48px;

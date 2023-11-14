@@ -1,15 +1,17 @@
 import "./Appbar.css";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import baseURL from "./config.js";
+
+import { baseURL } from "./config.js";
 import { currUserState } from "../store/atoms/admin";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import AdminNavbar from "./AdminNavbar.js";
+import StudentNavbar from "./StudentNavbar.js";
+import OpenNavbar from "./OpenNavbar.js";
 
 const Appbar = () => {
   const setCurrUser = useSetRecoilState(currUserState);
   const currUser = useRecoilValue(currUserState);
-  const navigate = useNavigate();
 
   const api = axios.create({
     baseURL,
@@ -17,95 +19,33 @@ const Appbar = () => {
 
   useEffect(() => {
     async function call() {
-      const data = await api.get("/profile", {
+      const response = await api.get("/profile", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       });
-      
-      if (data.data.role == "admin") {
+
+      if (response.data.role == "admin") {
         setCurrUser("admin");
-      } else if (data.data.role == "user") {
+      } else if (response.data.role == "user") {
         setCurrUser("user");
       }
     }
+    console.log(currUser)
     call();
   }, [currUser]);
 
-  function openAdmin() {
-    navigate("/admin");
-  }
-
-  function openStudent() {
-    navigate("/student");
-  }
-
-  function openAllcourses() {
-    navigate("/allcourse");
-  }
-
-  function openAddcourses() {
-    navigate("/addcourse");
-  }
-
-  function openPurchasedcourses() {
-    navigate("/purchasedcourse");
-  }
-
-  function logout() {
-    localStorage.setItem("token", null);
-    setCurrUser(null);
-    navigate("/");
-  }
-
   if (currUser == "admin") {
-    return (
-      <nav className="navbar">
-        <p className="logo" onClick={() => {navigate('/')}} style={{cursor:"pointer"}}>E-Kaksha</p>
-        <div className="nav-links">
-          <a onClick={openAllcourses} className="navlink-btn admin">
-            All Courses
-          </a>
-          <a onClick={openAddcourses} className="navlink-btn admin">
-            Add Course
-          </a>
-          <a onClick={logout} className="navlink-btn admin">
-            Logout
-          </a>
-        </div>
-      </nav>
-    );
+    return <AdminNavbar />;
   } else if (currUser == "user") {
     return (
-      <nav className="navbar">
-        <p className="logo" onClick={() => {navigate('/')}} style={{cursor:"pointer"}}>E-Kaksha</p>
-        <div className="nav-links">
-          <a onClick={openAllcourses} className="navlink-btn student">
-            All Courses
-          </a>
-          <a onClick={openPurchasedcourses} className="navlink-btn student">
-            Purchased Courses
-          </a>
-          <a onClick={logout} className="navlink-btn student">
-            Logout
-          </a>
-        </div>
-      </nav>
+      <StudentNavbar/>
     );
   } else {
     return (
-      <nav className="navbar">
-        <p className="logo" onClick={() => {navigate('/')}} style={{cursor:"pointer"}}>E-Kaksha</p>
-        <div className="nav-links">
-          <a onClick={openAdmin} className="navlink-btn admin">
-            Admin
-          </a>
-          <a onClick={openStudent} className="navlink-btn student">
-            Student
-          </a>
-        </div>
-      </nav>
+   <OpenNavbar/>
     );
   }
 };
+
 export default Appbar;

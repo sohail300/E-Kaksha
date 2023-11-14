@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './PurchasedCourses.css'
 import Cards from './Cards.js'
-import baseURL from './config.js'
+import {baseURL} from './config.js'
 import axios from 'axios';
 
 const Purchasedcourse = () => {

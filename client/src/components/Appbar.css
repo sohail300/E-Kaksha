@@ -11,7 +11,8 @@
   top: 0px;
   z-index: 10;
   backdrop-filter: blur(2px) saturate(130%);
-  background-color: rgba(10, 10, 10, 1);
+  /* background-color: rgba(10, 10, 10, 1); */
+  background-color: #262726
 }
 
 .nav-links {
@@ -25,7 +26,7 @@
 }
 
 .nav-links a{
-  width: 12vw;
+  width: 8vw;
   font-family: Klein,sans-serif;
 }
 
@@ -57,4 +58,8 @@
   font-size: 28px;
   margin: 15px;
   margin-left: 40px;
+}
+
+#standard-basic::placeholder{
+  color: #fff;
 }

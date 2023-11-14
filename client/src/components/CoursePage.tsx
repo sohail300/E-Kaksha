@@ -1,58 +1,82 @@
 import { useParams } from "react-router-dom";
-import {AccordianComp, Course} from "./Components";
-import DoughnutComp from './DoughnutComp.jsx'
+import CourseDetails from "./CourseDetails";
 import Button from "@mui/material/Button";
+import Switch from "@mui/material/Switch";
+import Rating from "@mui/material/Rating";
+import StarIcon from "@mui/icons-material/Star";
 import axios from "axios";
-import baseURL from './config.js'
-import { useEffect,useState } from "react";
+import { baseURL } from "./config.js";
+import { useEffect, useState } from "react";
+import GiveReview from "./GiveReview";
+import ViewReviews from "./ViewReviews";
+import CourseCompletion from "./CourseCompletion";
+import Syllabus from "./Syllabus";
 
 function CoursePage() {
-  const [course, setCourse]=useState({});
-  const {id}=useParams();
+  const [course, setCourse] = useState({});
+  const [userid, setUserid] = useState("");
+  const [checked, setChecked] = useState(true);
+  const [reviews, setReviews] = useState([]);
+  const [giveReview, setgiveReview] = useState(false);
 
-  const api=axios.create({
-    baseURL
-  })
+  const { id } = useParams();
 
-  useEffect(()=>{
-    async function callFunc(){
-      console.log("1")
-      console.log(id)
-      const response=await api.get(`admin/courses/${id}`,{
-        headers:{
-          Authorization: "bearer "+localStorage.getItem('token')
-        }
-      })
-      setCourse(response.data.course);
-      console.log(course);
-    }
-    callFunc();
-  },[])
+  const api = axios.create({
+    baseURL,
+  });
 
-  async function getCert(){
-    const response=await api.get('user/certificate',{
+  // UseEffect Functions
+  async function callFunc() {
+    const response = await api.get(`course/${id}`, {
       headers: {
-        Authorization:"Bearer "+localStorage.getItem('token')
-      }
-    })
-
-    console.log(response.data);
+        Authorization: "bearer " + localStorage.getItem("token"),
+      },
+    });
+    setCourse(response.data.course);
   }
 
-  async function checkout(){
-    const priceid=course.priceid;
-      const response= await api.post('user/checkout',{
-        priceid
-      }, {
+  async function getId() {
+    const response = await api.get("/profile", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    setUserid(response.data.id);
+  }
+
+  async function getReviews() {
+    const response = await api.get(`course/review/${id}`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    setReviews(response.data.reviews);
+  }
+
+  useEffect(() => {
+    callFunc();
+    getId();
+    getReviews();
+  }, []);
+
+  // Other Functions
+  async function checkout() {
+    const priceid = course.priceid;
+    const response = await api.post(
+      "course/checkout",
+      {
+        priceid,
+      },
+      {
         headers: {
-          Authorization: "Bearer "+ localStorage.getItem('item')
-        }
-      })
+          Authorization: "Bearer " + localStorage.getItem("item"),
+        },
+      }
+    );
 
-      console.log(response.data.url);
-      window.location.href=response.data.url;
+    window.location.href = response.data.url;
   }
-  
+
   return (
     <>
       <div
@@ -74,48 +98,76 @@ function CoursePage() {
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
-            color:"#fff",
-            width:"700px"
+            color: "#fff",
+            width: "700px",
           }}
         >
-          <p style={{fontWeight:"bold", fontSize:"24px"}}>{course.title}</p>
-          <p>Price: <span style={{color:"#00ff00", fontWeight:"bold"}}>₹{course.price}</span></p>
-          <p style={{textAlign:"justify"}}>{course.description}</p>
-          <p>Ratings <a href="" style={{marginLeft:"8px"}}>See all reviews</a></p>
+          <p style={{ fontWeight: "bold", fontSize: "24px" }}>{course.title}</p>
+          <div className="sharethis-sticky-share-buttons"></div>
+          <p>
+            Price:{" "}
+            <span style={{ color: "#00ff00", fontWeight: "bold" }}>
+              ₹{course.price}
+            </span>
+          </p>
+          <p style={{ textAlign: "justify" }}>{course.description}</p>
+          <span>
+            <span style={{ marginRight: "40px" }}>
+              <Rating
+                value={3.4}
+                precision={0.5}
+                emptyIcon={
+                  <StarIcon
+                    style={{ opacity: 0.2, color: "#fff" }}
+                    fontSize="inherit"
+                  />
+                }
+                readOnly
+              />
+            </span>
+            <span>Reviews</span>
+            <Switch
+              checked={checked}
+              onChange={(e) => setChecked(e.target.checked)}
+            />
+            <span>Syllabus</span>
+          </span>
           <div>
-          <Button variant="contained" style={{marginRight: "24px"}} onClick={checkout}>Buy Course</Button>
-          <Button variant="contained">Give Review</Button>
+            <Button
+              variant="contained"
+              style={{ margin: "16px 24px 0px 0px" }}
+              onClick={checkout}
+            >
+              Buy Course
+            </Button>
+            <Button
+              variant="contained"
+              style={{ margin: "16px 24px 0px 0px" }}
+              onClick={() => setgiveReview(true)}
+            >
+              Give Review
+            </Button>
           </div>
         </div>
       </div>
 
-      <div style={{width: "100vw", display:"flex"}}>
-        <div style={{width: "70%"}}>
-        <h2 style={{textAlign:"start", marginLeft:"16px"}}>Syllabus</h2>
-        <div style={{overflowY: "scroll",maxHeight:"75vh"}}>
-        <AccordianComp />
-        <AccordianComp />
-        <AccordianComp />
-        <AccordianComp />
-        <AccordianComp />
-        <AccordianComp />
-        <AccordianComp />
-        <AccordianComp />
-        <AccordianComp />
-        <AccordianComp />
+      <div style={{ width: "100vw", display: "flex" }}>
+        <div style={{ width: "70%" }}>
+          {checked ? <ViewReviews reviews={reviews} /> : <Syllabus />}
         </div>
-        </div>
-        <div style={{marginRight:"16px", border:"2px solid red", width: "30%"}}>
-        <h2 style={{textAlign:"start", marginLeft:"16px"}}>Details</h2>
-        <Course duration={course.duration} resources={course.resource} />
-          <h3 style={{textAlign:"left", margin:"4px 12px"}}>Course Completion</h3>
-        <div style={{display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center"}}>
-          <DoughnutComp/>
-          <p style={{textAlign:"center"}}>You have completed 15 out of 25 modules.</p>          
-          <Button variant="contained" onClick={getCert}>Get Completion Certificate</Button>
-        </div>
+        <div
+          style={{ marginRight: "16px", border: "2px solid red", width: "30%" }}
+        >
+          <h2 style={{ textAlign: "start", marginLeft: "16px" }}>Details</h2>
+          <CourseDetails
+            duration={course.duration}
+            resources={course.resource}
+          />
+          <CourseCompletion />
         </div>
       </div>
+
+      {giveReview && <GiveReview userid={userid} courseid={id} />}
     </>
   );
 }

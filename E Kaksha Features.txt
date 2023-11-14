@@ -1,19 +1,22 @@
 Student:
 Profiles -> Name, Email (email send verification code), password change, Photo upload
 Search
-Course Syllabus and Details
-Secure Payment Gateway
-Course Ratings (those bought)
-Course Reviews and Ratings
+Course Syllabus and Details ✅
+Course Reviews and Ratings ✅
 Course Progress Tracking
-Course Certificates
-Wishlist and Cart
-Customer Support
-Social Sharing
+Wishlist
+Contact us Page
+Social Sharing ✅
+Course Certificates ✅
+Secure Payment Gateway ✅
 
 Admin:
 Profiles -> Email (email send verification code), password change, Photo upload
 Implement a system to easily update and manage course content, descriptions, and pricing.
+Upload Course Syllabus and Details
+Modify course btn in course cards
+
+✅ Modify Appbar
 
 Course Selling App
 Alerts on WhatsApp about latest video upload

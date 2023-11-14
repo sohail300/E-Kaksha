@@ -1,19 +1,13 @@
 import express from "express";
-import mongoose from "mongoose";
-import jwt from "jsonwebtoken";
 import cors from "cors";
 import bodyParser from "body-parser";
-
-import adminRoute from "./routes/admin.js";
-import userRoute from "./routes/user.js";
-import { connectDB } from "./db/conn.js";
+import adminRoute from "./routes/admin";
+import userRoute from "./routes/user";
+import courseRoute from "./routes/course";
+import { connectDB } from "./db/conn";
 import { authenticate, secretKey } from "./middleware/auth";
 
 const app = express();
-
-// app.use(cors({
-//   origin: 'https://e-kaksha.vercel.app/'
-// }));
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -23,9 +17,10 @@ app.use(express.json());
 connectDB();
 app.use("/admin", adminRoute);
 app.use("/user", userRoute);
+app.use("/course", courseRoute);
 
 app.get("/", (req, res) => {
-  res.send("Hello");
+  res.send("Root Page");
 });
 
 app.get("/profile",authenticate, (req,res) => {

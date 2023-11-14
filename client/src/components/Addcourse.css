@@ -1,5 +1,4 @@
 #addcourse-div{
-    /* border: 2px solid red; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -9,12 +8,9 @@
     
   background-image: url("../images/bg.jpg");
   background-size: cover;
-  /* background-repeat: no-repeat; */
-    /* height: 95vh; */
 }
 
 #addcourse-div h1 {
-  /* border: 2px solid red; */
     margin-top: 24px;
     font-size: 48px;
     color: #fff;
@@ -24,7 +20,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* height: 100vh; */
   padding-top: 40px;
   margin-bottom: 40px;
   width: 30%;
@@ -36,7 +31,6 @@
 }
 
 .card-component{
-  /* width: 16vw; */
   margin-bottom: 16px;
 }
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './AllCourses.css'
 import Cards from './Cards.js'
-import baseURL from './config.js'
+import {baseURL} from './config.js'
 import axios from 'axios'
 
 const Allcourse = () => {
@@ -13,7 +13,7 @@ const Allcourse = () => {
 
   useEffect(() => {
     async function call() {
-      const data = await api.get('/admin/courses',
+      const data = await api.get('/course/all',
         {
           headers: {
             "Authorization": "Bearer " + localStorage.getItem('token')
@@ -27,7 +27,7 @@ const Allcourse = () => {
 
   return (
     <>
-    <main>
+    <main style={{height: "100vh"}}>
       <h1 id="allcourse-heading" style={{color: "#000"}}>All courses</h1>
       <div id="allcourse-div">
         {
