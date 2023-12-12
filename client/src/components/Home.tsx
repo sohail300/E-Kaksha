@@ -11,7 +11,7 @@ const Home = () => {
           <h1>E-Kaksha</h1>
         </div>
         <div>
-          <div className="bg"></div>
+          {/* <div className="bg"></div> */}
 
           <div className="star-field">
             <div className="layer"></div>
@@ -22,7 +22,7 @@ const Home = () => {
           <img
             src={imageurl}
             alt="not loaded"
-            style={{ transform: "scaleX(-1)", height: "520px", marginRight:"10px" }}
+            style={{ transform: "scaleX(-1)", height: "520px", marginRight:"10px", zIndex: "20" }}
           />
           {/* <Book></Book> */}
         </div>
