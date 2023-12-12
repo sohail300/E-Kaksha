@@ -1,5 +1,5 @@
 import "./Home.css";
-import imageurl from "../images/character.png";
+import imageurl from "../assets/images/character.png";
 // import About from './About'
 
 const Home = () => {

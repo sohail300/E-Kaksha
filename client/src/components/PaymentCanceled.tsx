@@ -1,6 +1,6 @@
 import React from "react";
 import CancelIcon from '@mui/icons-material/Cancel';
-import imagepath from "../images/notebook.png";
+import imagepath from "../assets/images/notebook.png";
 import "./PaymentCanceled.css";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";

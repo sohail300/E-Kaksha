@@ -1,6 +1,6 @@
 import React from "react";
 import VerifiedIcon from "@mui/icons-material/Verified";
-import imagepath from "../images/notebook.png";
+import imagepath from "../assets/images/notebook.png";
 import "./PaymentSuccess.css";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
