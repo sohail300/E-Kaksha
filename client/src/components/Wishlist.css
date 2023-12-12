@@ -1,4 +1,4 @@
-#purchasedcourse-div{
+#wishlist-div{
     height: 100vh;
     width: 100vw;
     display: flex;
@@ -6,7 +6,7 @@
     justify-content: space-evenly;
 }
 
-#purchasedcourse-heading{
+#wishlist-heading{
     text-align: center;
     margin-top: 30px;
     margin-bottom: 0px;

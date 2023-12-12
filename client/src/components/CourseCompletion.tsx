@@ -15,7 +15,6 @@ const CourseCompletion = () => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-
     console.log(response.data);
   }
 

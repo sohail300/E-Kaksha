@@ -50,7 +50,33 @@ router.post("/buy/:courseId", authenticate, async (req, res) => {
       if (user) {
         user.purchasedCourses.push(new mongoose.Types.ObjectId(courseId));
         await user.save();
-        console.log("User saved");
+        console.log("Saved");
+        res.status(201).send("Updated");
+      } else {
+        return res.status(401).send("User doesn't exist");
+      }
+    } else {
+      return res.status(401).send("Course doesnt exist");
+    }
+  } catch (err) {
+    return res.status(500).send({ "Internal Error": err });
+  }
+});
+
+router.post("/wishlist/:courseId", authenticate, async (req, res) => {
+  try {
+    const courseId = req.params.courseId;
+    console.log(courseId);
+    const course = await Course.findById(courseId);
+    const id = req.headers["id"];
+    console.log(id);
+    if (course) {
+      const user = await User.findById(id);
+
+      if (user) {
+        user.wishlist.push(new mongoose.Types.ObjectId(courseId));
+        await user.save();
+        console.log("Saved");
         res.status(201).send("Updated");
       } else {
         return res.status(401).send("User doesnt exist");
@@ -63,10 +89,14 @@ router.post("/buy/:courseId", authenticate, async (req, res) => {
   }
 });
 
-router.get("/certificate", authenticate, async (req, res) => {
+router.get("/certificate", async (req, res) => {
+    console.log("1")
+    return res.status(500).send({msg:"Done!"});
+
   try {
     const name = "Mr. John Wick";
     let pdf = fs.readFileSync("resources/certificate.pdf");
+    console.log("1")
 
     const pdfDoc = await PDFDocument.load(pdf);
     const page = pdfDoc.getPage(0);
@@ -147,13 +177,14 @@ router.post('/review', async (req, res) => {
 
     const userid= req.body.userid;
     const rating= req.body.ratingValue;
-    const courseid= req.body.id;
+    const courseid= req.body.courseid;
     comment = parsedInput.data.comment;
 
     const user= await User.findById(userid);
     const username=user.name;
+    const photoUrl=user.photoUrl;
 
-    const obj={userid, courseid, username, rating, comment};
+    const obj={userid, courseid, username, rating, comment, photoUrl};
 
     const newReview=new Review(obj);
     await newReview.save();
@@ -177,4 +208,5 @@ router.get('/review/:id', async (req,res) => {
     return res.status(500).send({ "Internal Error": err });
   }
 })
+
 export default router;

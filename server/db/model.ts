@@ -7,11 +7,13 @@ const adminSchema = new mongoose.Schema({
 });
 
 const userSchema = new mongoose.Schema({
-  email: String,
-  password: String,
   name: String,
+  password: String,
+  email: String,
   mobile: Number,
+  photoUrl: String,
   purchasedCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
+  wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
 });
 
 const courseSchema = new mongoose.Schema({
@@ -29,7 +31,17 @@ const reviewSchema= new mongoose.Schema({
   courseid: String,
   username: String,
   rating: Number,
-  comment: String
+  comment: String,
+  photoUrl: String,
+})
+
+const contactSchema= new mongoose.Schema({
+  userid: String,
+  username: String,
+  email: String,
+  mobile: Number,
+  description: String,
+  photoUrl: String,
 })
 
 // MongoDB Models
@@ -37,3 +49,4 @@ export const Admin = mongoose.model("Admin", adminSchema);
 export const User = mongoose.model("User", userSchema);
 export const Course = mongoose.model("Course", courseSchema);
 export const Review = mongoose.model("Review", reviewSchema);
+export const Contact = mongoose.model("Contact", contactSchema);

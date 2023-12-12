@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 // import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import {baseURL} from "./config.js";
+import { baseURL } from "./config.js";
 import "./AddCourse.css";
 
 const Addcourse = () => {
@@ -40,7 +40,7 @@ const Addcourse = () => {
         imagelink,
         duration,
         resource,
-        priceid
+        priceid,
         // requirement,
         // who
       },
@@ -66,12 +66,11 @@ const Addcourse = () => {
             id="title"
             className="card-component"
             value={title}
-            onChange={(e)=>setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)}
             size="small"
             autoComplete="off"
             style={{ marginBottom: "40px" }}
-            />
-            
+          />
 
           <TextField
             label="Description"
@@ -79,7 +78,7 @@ const Addcourse = () => {
             id="description"
             className="card-component"
             value={description}
-            onChange={(e)=>setDescription(e.target.value)}
+            onChange={(e) => setDescription(e.target.value)}
             size="small"
             autoComplete="off"
             style={{ marginBottom: "40px" }}
@@ -91,7 +90,7 @@ const Addcourse = () => {
             id="price"
             className="card-component"
             value={price}
-            onChange={(e)=> setPrice(e.target.value)}
+            onChange={(e) => setPrice(e.target.value)}
             size="small"
             autoComplete="off"
             style={{ marginBottom: "40px" }}
@@ -103,7 +102,7 @@ const Addcourse = () => {
             id="imagelink"
             className="card-component"
             value={imagelink}
-            onChange={(e)=> setImagelink(e.target.value)}
+            onChange={(e) => setImagelink(e.target.value)}
             size="small"
             autoComplete="off"
             style={{ marginBottom: "40px" }}
@@ -115,7 +114,7 @@ const Addcourse = () => {
             id="priceid"
             className="card-component"
             value={priceid}
-            onChange={(e)=> setPriceid(e.target.value)}
+            onChange={(e) => setPriceid(e.target.value)}
             size="small"
             autoComplete="off"
             style={{ marginBottom: "40px" }}
@@ -127,7 +126,7 @@ const Addcourse = () => {
               id="duration"
               className="card-component"
               value={duration}
-              onChange={(e)=> setDuration(e.target.value)}
+              onChange={(e) => setDuration(e.target.value)}
               autoComplete="off"
               style={{
                 marginBottom: "40px",
@@ -145,7 +144,7 @@ const Addcourse = () => {
               id="resources"
               className="card-component"
               value={resource}
-              onChange={(e)=>setResource(e.target.value)}
+              onChange={(e) => setResource(e.target.value)}
               size="small"
               autoComplete="off"
               style={{

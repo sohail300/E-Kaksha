@@ -1,14 +1,16 @@
 import axios from "axios";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
+import Button from "@mui/material/Button";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
-import Button from "@mui/material/Button";
 import { useState } from "react";
 import { baseURL } from "./config.js";
 
 const GiveReview = (props) => {
   const userid = props.userid;
   const courseid = props.courseid;
+  console.log(userid)
+  console.log(courseid)
 
   const [ratingValue, setRatingvalue] = useState(0);
   const [comment, setComment] = useState("");

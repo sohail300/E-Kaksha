@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import { baseURL } from "./config.js";
 import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -8,17 +10,25 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
+import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import { currUserState } from "../store/atoms/admin";
+import { TextareaAutosize } from "@mui/base/TextareaAutosize";
+import Button from "@mui/material/Button";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 const StudentNavbar = () => {
   const navigate = useNavigate();
   const setCurrUser = useSetRecoilState(currUserState);
-
+  const [describe, setDescribe] = useState("");
+  const [showContact, setShowcontact] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
+  const api = axios.create({
+    baseURL,
+  });
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -60,83 +70,135 @@ const StudentNavbar = () => {
     setAnchorEl(null);
   }
 
+  function openContact() {
+    setShowcontact(true);
+  }
+
+  async function submitContact() {
+    const reponse = await api.post(
+      "user/contact",
+      { describe },
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+
+    console.log(reponse.data);
+    alert("Submitted!");
+    setShowcontact(false);
+  }
+
+  async function closeContact() {
+    setShowcontact(false);
+  }
+
   return (
-    <nav className="navbar">
-      <p
-        className="logo"
-        onClick={() => {
-          navigate("/");
-        }}
-        style={{ cursor: "pointer" }}
-      >
-        E-Kaksha
-      </p>
-      <div className="nav-links">
-        <a onClick={openPurchasedcourses} className="navlink-btn student">
-          My Courses
-        </a>
-        <div
-          className="navlink-btn student"
-          style={{
-            backgroundColor: "#464647",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+    <>
+      <nav className="navbar">
+        <p
+          className="logo"
+          onClick={() => {
+            navigate("/");
           }}
+          style={{ cursor: "pointer" }}
         >
-          <SearchIcon
+          E-Kaksha
+        </p>
+        <div className="nav-links">
+          <a onClick={openPurchasedcourses} className="navlink-btn student">
+            My Courses
+          </a>
+          
+          <MenuIcon
             fontSize="large"
-            style={{ color: "#fff", margin: "0px 16px", cursor: "pointer" }}
+            onClick={handleClick}
+            style={{
+              color: "#fff",
+              margin: "0px 48px 0px 16px",
+              cursor: "pointer",
+            }}
           />
-          <TextField
-            id="standard-basic"
-            label=""
-            variant="standard"
-            placeholder="Search..."
-            fullWidth={false}
-          />
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+          >
+            <MenuItem onClick={openProfile} style={{ textAlign: "center" }}>
+              <PersonIcon style={{ marginRight: "8px" }} />
+              Profile
+            </MenuItem>
+            <MenuItem onClick={openAllcourses}>
+              <AutoStoriesIcon style={{ marginRight: "8px" }} />
+              All Courses
+            </MenuItem>
+            <MenuItem onClick={openWishlist}>
+              <FavoriteIcon style={{ marginRight: "8px" }} />
+              Wishlist
+            </MenuItem>
+            <MenuItem onClick={openContact}>
+              <ContactPageIcon style={{ marginRight: "8px" }} />
+              Contact Us
+            </MenuItem>
+            <MenuItem onClick={logout}>
+              <LogoutIcon style={{ marginRight: "8px" }} />
+              Logout
+            </MenuItem>
+          </Menu>
         </div>
-        <MenuIcon
-          fontSize="large"
-          onClick={handleClick}
+      </nav>
+
+      {showContact && (
+        <div
           style={{
-            color: "#fff",
-            margin: "0px 48px 0px 16px",
-            cursor: "pointer",
-          }}
-        />
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          MenuListProps={{
-            "aria-labelledby": "basic-button",
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "30%",
+            backgroundColor: "#fff",
+            borderRadius: "10px",
+            height: "30vh",
+            padding: "8px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-around",
+            alignItems: "flex-start",
+            zIndex: "1"
           }}
         >
-          <MenuItem onClick={openProfile} style={{ textAlign: "center" }}>
-            <PersonIcon style={{ marginRight: "8px" }} />
-            Profile
-          </MenuItem>
-          <MenuItem onClick={openAllcourses}>
-            <AutoStoriesIcon style={{ marginRight: "8px" }} />
-            All Courses
-          </MenuItem>
-          <MenuItem onClick={openWishlist}>
-            <FavoriteIcon style={{ marginRight: "8px" }} />
-            Wishlist
-          </MenuItem>
-          <MenuItem onClick={openContact}>
-            <ContactPageIcon style={{ marginRight: "8px" }} />
-            Contact Us
-          </MenuItem>
-          <MenuItem onClick={logout}>
-            <LogoutIcon style={{ marginRight: "8px" }} />
-            Logout
-          </MenuItem>
-        </Menu>
-      </div>
-    </nav>
+
+          <div >
+            <DisabledByDefaultIcon style={{position:"absolute", right:"12px",cursor:"pointer", color:"#DC3545"}} onClick={closeContact}/>
+          </div>
+          <span style={{ display: "flex", alignSelf: "center" }}>
+            Mail at <a href="mailto:sohailatwork10@gmail.com" style={{cursor:"pointer", color:"#0000EE", textDecoration:"none"}}>sohailatwork10@gmail.com</a>
+          </span>
+          <span style={{ display: "flex", alignSelf: "center", color:"#464646" }}>
+            ---------------------OR---------------------
+            </span>
+          <TextareaAutosize
+            minRows={5}
+            placeholder="Comments Here..."
+            value={describe}
+            onChange={(e) => setDescribe(e.target.value)}
+            style={{ backgroundColor: "#fff", width: "99%", color: "#000" }}
+          />
+          <Button
+            variant="contained"
+            onClick={submitContact}
+            style={{ textAlign: "center", alignSelf: "center" }}
+          >
+            Submit
+          </Button>
+        </div>
+      )}
+    </>
   );
 };
 

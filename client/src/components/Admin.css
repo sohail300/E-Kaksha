@@ -24,7 +24,7 @@
   border: 1px solid rgba(255, 255, 255, 0.125);
 }
 
-.reg-option a {
+.reg-option-admin a {
   font-size: 20px;
   width: 40%;
   font-family: Archivo, Helvetica, sans-serif, Arial;
@@ -32,12 +32,12 @@
   border-radius: 5px;
 }
 
-.admin-section .reg-option a{
+.admin-section .reg-option-admin a{
   border: 2px solid #e91965;
   color: #e91965;
 }
 
-.reg-option a:hover {
+.reg-option-admin a:hover {
   cursor: pointer;
 }
 
@@ -61,16 +61,17 @@
   padding-left: 12px;
 }
 
-.reg-option {
+.reg-option-admin {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  justify-content: center;
   /* border: 2px solid red; */
   width: 70%;
   margin: 30px;
 }
 
-.card-component {
+.card-comp {
   /* border: 2px solid red; */
   width: 70%;
   margin: 15px;

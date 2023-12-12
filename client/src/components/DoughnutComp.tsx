@@ -38,7 +38,7 @@ const DoughnutComp = () => {
 
     return (
         <div>
-        <Doughnut data={data} options={options} style={{border:"2px solid red"}}/>
+        <Doughnut data={data} options={options} style={{}}/>
         </div>
     )
 }

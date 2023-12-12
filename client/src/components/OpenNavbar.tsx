@@ -38,27 +38,6 @@ const OpenNavbar = () => {
         <a onClick={openAllcourses} className="navlink-btn student">
           All Courses
         </a>
-        <div
-          className="navlink-btn student"
-          style={{
-            backgroundColor: "#464647",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <SearchIcon
-            fontSize="large"
-            style={{ color: "#fff", margin: "0px 16px", cursor: "pointer" }}
-          />
-          <TextField
-            id="standard-basic"
-            label=""
-            variant="standard"
-            placeholder="Search..."
-            fullWidth={false}
-          />
-        </div>
       </div>
     </nav>
   );

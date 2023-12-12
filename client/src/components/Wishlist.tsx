@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
-import "./PurchasedCourses.css";
-import Cards from "./Cards.tsx";
-import CardSkeleton from "./CardSkeleton";
+import "./Wishlist.css";
+import Cards from "./Cards";
 import { baseURL } from "./config.js";
 import axios from "axios";
+import CardSkeleton from "./CardSkeleton";
 
-const Purchasedcourse = () => {
-  const [purchasedcourseArray, setPurchasedcoursearray] = useState([]);
+const Wishlist = () => {
+  const [wishlistArray, setWishlistarray] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -17,25 +17,25 @@ const Purchasedcourse = () => {
     baseURL,
   });
 
-  async function getPurchased() {
-    const response = await api.get("/user/purchasedcourses", {
+  async function getWishlist() {
+    const response = await api.get("/user/wishlist", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    setPurchasedcoursearray(response.data.purchasedCourses);
-    setFilteredList(response.data.purchasedCourses);
+    setWishlistarray(response.data.wishlist);
+    setFilteredList(response.data.wishlist);
     setIsLoading(false);
   }
 
   useEffect(() => {
-    getPurchased();
-  },[]);
+    getWishlist();
+  }, []);
 
   function handleSearch(e) {
     const searchText = e.target.value;
     setSearch(searchText);
-    const tempList = purchasedcourseArray.filter((list) =>
+    const tempList = wishlistArray.filter((list) =>
       list.title.toLowerCase().includes(searchText.toLowerCase())
     );
     setFilteredList(tempList);
@@ -43,8 +43,8 @@ const Purchasedcourse = () => {
 
   return (
     <>
-      <h1 id="purchasedcourse-heading" style={{ color: "#000" }}>
-        My Courses
+      <h1 id="wishlist-heading" style={{ color: "#000" }}>
+        Wishlist courses
       </h1>
       <div
         className="navlink-btn student"
@@ -91,7 +91,7 @@ const Purchasedcourse = () => {
           ))}
         </div>
       ) : (
-        <div id="purchasedcourse-div">
+        <div id="wishlist-div">
           {filteredList.map((item, index) => {
             return (
               <Cards
@@ -110,4 +110,4 @@ const Purchasedcourse = () => {
   );
 };
 
-export default Purchasedcourse;
+export default Wishlist;

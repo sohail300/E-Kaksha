@@ -1,7 +1,6 @@
 import "./Appbar.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
 import { baseURL } from "./config.js";
 import { currUserState } from "../store/atoms/admin";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -19,7 +18,7 @@ const Appbar = () => {
 
   useEffect(() => {
     async function call() {
-      const response = await api.get("/profile", {
+      const response = await api.get("/me", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },

@@ -7,6 +7,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import ContactPageIcon from "@mui/icons-material/ContactPage";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import { currUserState } from "../store/atoms/admin";
@@ -42,6 +43,11 @@ const AdminNavbar = () => {
     setAnchorEl(null);
   }
 
+  function openContactInfo() {
+    navigate("/contact");
+    setAnchorEl(null);
+  }
+
   function logout() {
     localStorage.setItem("token", null);
     setCurrUser(null);
@@ -61,27 +67,6 @@ const AdminNavbar = () => {
         E-Kaksha
       </p>
       <div className="nav-links">
-        <div
-          className="navlink-btn student"
-          style={{
-            backgroundColor: "#464647",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <SearchIcon
-            fontSize="large"
-            style={{ color: "#fff", margin: "0px 16px", cursor: "pointer" }}
-          />
-          <TextField
-            id="standard-basic"
-            label=""
-            variant="standard"
-            placeholder="Search..."
-            fullWidth={false}
-          />
-        </div>
         <MenuIcon
           fontSize="large"
           onClick={handleClick}
@@ -111,6 +96,10 @@ const AdminNavbar = () => {
           <MenuItem onClick={openAddcourses}>
             <AddCircleOutlineIcon style={{ marginRight: "8px" }} />
             Add Courses
+          </MenuItem>
+          <MenuItem onClick={openContactInfo}>
+          <ContactPageIcon style={{ marginRight: "8px" }} />
+            Contact Info
           </MenuItem>
           <MenuItem onClick={logout}>
             <LogoutIcon style={{ marginRight: "8px" }} />

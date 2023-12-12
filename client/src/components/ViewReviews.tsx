@@ -28,16 +28,17 @@ const ViewReviews = (props) => {
                 style={{
                   width: "40%",
                   height: "30%",
-                  border: "2px solid red",
                   borderRadius: "5px",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-around",
                   marginBottom: "40px",
+                  backgroundColor:"#fff",
+                  padding:"16px 4px"
                 }}
               >
                 <div style={{ display: "flex" , justifyContent:"space-around", alignItems:"center"}}>
-                  <div
+                  {/* <div
                     style={{
                       backgroundColor: "#000",
                       borderRadius: "50%",
@@ -48,9 +49,9 @@ const ViewReviews = (props) => {
                       alignSelf: "center",
                       justifySelf:"center"
                     }}
-                  >
-                  </div>
-
+                  > */}
+                  {/* </div> */}
+                  <img src={item.photoUrl} alt="photo" style={{width:"8vw", height:"14vh", borderRadius:"50%"}}/>
                     <div style={{ display: "flex", flexDirection: "column" }}>
                       <p>{item.username}</p>
                       <Rating
@@ -66,7 +67,7 @@ const ViewReviews = (props) => {
                       />
                     </div>
                 </div>
-                <p style={{ textAlign: "justify", border: "2px solid red" }}>
+                <p style={{ textAlign: "justify", padding:"0px 16px", margin:"0px", marginTop:"16px" }}>
                   {item.comment}
                 </p>
               </div>

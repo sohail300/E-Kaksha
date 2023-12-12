@@ -11,6 +11,7 @@ import GiveReview from "./GiveReview";
 import ViewReviews from "./ViewReviews";
 import CourseCompletion from "./CourseCompletion";
 import Syllabus from "./Syllabus";
+import Loader from "./Loader";
 
 function CoursePage() {
   const [course, setCourse] = useState({});
@@ -18,6 +19,8 @@ function CoursePage() {
   const [checked, setChecked] = useState(true);
   const [reviews, setReviews] = useState([]);
   const [giveReview, setgiveReview] = useState(false);
+  const [bought, setBought] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { id } = useParams();
 
@@ -36,7 +39,7 @@ function CoursePage() {
   }
 
   async function getId() {
-    const response = await api.get("/profile", {
+    const response = await api.get("/me", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
@@ -50,14 +53,37 @@ function CoursePage() {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
+    console.log(response.data.reviews);
     setReviews(response.data.reviews);
+  }
+
+  async function hasBought() {
+    const response = await api.post(
+      "user/hasbought",
+      {
+        id,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    console.log(response.data.result);
+    setBought(response.data.result);
+    setIsLoading(false);
   }
 
   useEffect(() => {
     callFunc();
     getId();
     getReviews();
+    hasBought();
   }, []);
+
+  // Payment succeeds -> 4242 4242 4242 4242
+  // Payment requires authentication -> 4000 0025 0000 3155
+  // Payment is declined -> 4000 0000 0000 9995
 
   // Other Functions
   async function checkout() {
@@ -74,89 +100,135 @@ function CoursePage() {
       }
     );
 
+    const resp = await api.post(`course/buy/${id}`, null, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    console.log(resp.data);
     window.location.href = response.data.url;
+  }
+
+  async function wishlist() {
+    const response = await api.post(`course/wishlist/${id}`, null, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    console.log(response.data);
+  }
+
+  function calcRating() {
+    let rating = 0;
+    const length = reviews.length;
+    reviews.forEach((item) => {
+      console.log(typeof item.rating);
+      console.log(typeof rating);
+      rating = rating + item.rating;
+      console.log(rating);
+    });
+    console.log(rating / length);
+    return rating / length;
   }
 
   return (
     <>
-      <div
-        style={{
-          background: "#161616",
-          width: "99vw",
-          height: "50vh",
-          display: "flex",
-          flexDirection: "row",
-        }}
-      >
-        <img
-          src={course.imagelink}
-          alt=""
-          style={{ margin: "16px 80px 16px 80px" }}
-        />
+      {isLoading ? (
+        <Loader />
+      ) : (
         <div
           style={{
+            background: "#161616",
+            width: "99vw",
+            height: "50vh",
             display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            color: "#fff",
-            width: "700px",
+            flexDirection: "row",
           }}
         >
-          <p style={{ fontWeight: "bold", fontSize: "24px" }}>{course.title}</p>
-          <div className="sharethis-sticky-share-buttons"></div>
-          <p>
-            Price:{" "}
-            <span style={{ color: "#00ff00", fontWeight: "bold" }}>
-              ₹{course.price}
-            </span>
-          </p>
-          <p style={{ textAlign: "justify" }}>{course.description}</p>
-          <span>
-            <span style={{ marginRight: "40px" }}>
-              <Rating
-                value={3.4}
-                precision={0.5}
-                emptyIcon={
-                  <StarIcon
-                    style={{ opacity: 0.2, color: "#fff" }}
-                    fontSize="inherit"
-                  />
-                }
-                readOnly
+          <img
+            src={course.imagelink}
+            alt=""
+            style={{ margin: "16px 80px 16px 80px" }}
+          />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              color: "#fff",
+              width: "700px",
+            }}
+          >
+            <p style={{ fontWeight: "bold", fontSize: "24px" }}>
+              {course.title}
+            </p>
+            <div className="sharethis-sticky-share-buttons"></div>
+            <p>
+              Price:{" "}
+              <span style={{ color: "#00ff00", fontWeight: "bold" }}>
+                ₹{course.price}
+              </span>
+            </p>
+            <p style={{ textAlign: "justify" }}>{course.description}</p>
+            <span>
+              <span style={{ marginRight: "40px" }}>
+                <Rating
+                  value={calcRating()}
+                  precision={0.5}
+                  emptyIcon={
+                    <StarIcon
+                      style={{ opacity: 0.2, color: "#fff" }}
+                      fontSize="inherit"
+                    />
+                  }
+                  readOnly
+                />
+              </span>
+              <span>Reviews</span>
+              <Switch
+                checked={checked}
+                onChange={(e) => setChecked(e.target.checked)}
               />
+              <span>Syllabus</span>
             </span>
-            <span>Reviews</span>
-            <Switch
-              checked={checked}
-              onChange={(e) => setChecked(e.target.checked)}
-            />
-            <span>Syllabus</span>
-          </span>
-          <div>
-            <Button
-              variant="contained"
-              style={{ margin: "16px 24px 0px 0px" }}
-              onClick={checkout}
-            >
-              Buy Course
-            </Button>
-            <Button
-              variant="contained"
-              style={{ margin: "16px 24px 0px 0px" }}
-              onClick={() => setgiveReview(true)}
-            >
-              Give Review
-            </Button>
+            <div>
+              {bought ? (
+                <Button
+                  variant="contained"
+                  style={{ margin: "16px 24px 0px 0px" }}
+                  onClick={() => setgiveReview(true)}
+                >
+                  Give Review
+                </Button>
+              ) : (
+                <>
+                  <Button
+                    variant="contained"
+                    style={{ margin: "16px 24px 0px 0px" }}
+                    onClick={checkout}
+                  >
+                    Buy Course
+                  </Button>
+                  <Button
+                    variant="contained"
+                    style={{ margin: "16px 24px 0px 0px" }}
+                    onClick={wishlist}
+                  >
+                    Add to Wishlist
+                  </Button>
+                </>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       <div style={{ width: "100vw", display: "flex" }}>
         <div style={{ width: "70%" }}>
-          {checked ? <ViewReviews reviews={reviews} /> : <Syllabus />}
+          {checked ? <Syllabus /> : <ViewReviews reviews={reviews} />}
         </div>
         <div
-          style={{ marginRight: "16px", border: "2px solid red", width: "30%" }}
+          style={{ marginRight: "16px", width: "30%" }}
         >
           <h2 style={{ textAlign: "start", marginLeft: "16px" }}>Details</h2>
           <CourseDetails
@@ -166,7 +238,6 @@ function CoursePage() {
           <CourseCompletion />
         </div>
       </div>
-
       {giveReview && <GiveReview userid={userid} courseid={id} />}
     </>
   );
