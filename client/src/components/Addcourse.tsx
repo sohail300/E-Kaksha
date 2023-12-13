@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import { baseURL } from "./config";
 import "./AddCourse.css";
 
-const Addcourse = () => {
+const AddCourse = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -154,4 +154,4 @@ const Addcourse = () => {
   );
 };
 
-export default Addcourse;
+export default AddCourse;

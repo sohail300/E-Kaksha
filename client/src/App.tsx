@@ -31,14 +31,12 @@ function App() {
     <Route path='/addcourse' element={<AddCourse />} />
     <Route path='/allcourse' element={<AllCourses />} />
     <Route path='/course/:id' element={<CoursePage />} />
-    {/* <Route path='/' element={<CoursePage />} /> */}
     <Route path='/purchasedcourse' element={<Purchasedcourse />} />
     <Route path='/wishlist' element={<Wishlist />} />
     <Route path='/contact' element={<Contact />} />
     <Route path='/payment/success' element={<PaymentSuccess />} />
     <Route path='/payment/canceled' element={<PaymentCanceled />} />
     <Route path='/forgotpassword' element={<ForgotPassword />} />
-    {/* <Route path='/changepassword' element={<ChangePassword />} /> */}
     </Routes>
     </Router>
     </RecoilRoot>
