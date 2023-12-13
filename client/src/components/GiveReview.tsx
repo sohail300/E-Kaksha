@@ -5,16 +5,14 @@ import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 import { useState } from "react";
 import { baseURL } from "./config.js";
+import { giveReview } from "../store/atoms/course";
+import { useSetRecoilState } from "recoil";
 
-const GiveReview = (props) => {
-  const userid = props.userid;
-  const courseid = props.courseid;
-  console.log(userid)
-  console.log(courseid)
+const GiveReview = ({userid, courseid}) => {
 
   const [ratingValue, setRatingvalue] = useState(0);
   const [comment, setComment] = useState("");
-  const [giveReview, setgiveReview] = useState(true);
+  const setGetReview = useSetRecoilState(giveReview);
 
   const api = axios.create({
     baseURL,
@@ -37,7 +35,7 @@ const GiveReview = (props) => {
       }
     );
     console.log(response.data);
-    setgiveReview(false);
+    setGetReview(false);
     alert("Review Submitted!");
   }
 
@@ -71,7 +69,7 @@ const GiveReview = (props) => {
               fontSize="inherit"
             />
           }
-          onChange={(event, newValue) => {
+          onChange={(_event, newValue) => {
             setRatingvalue(newValue);
           }}
         />

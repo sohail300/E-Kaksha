@@ -21,7 +21,7 @@ const ViewReviews = (props) => {
           justifyContent: "space-around",
         }}
       >
-        {reviews.map((item, index) => {
+        {reviews.map((item) => {
           return (
             <>
               <div

@@ -19,3 +19,8 @@ export const imageLinkState = atom({
     key: 'imageLinkState',
     default: ''
 })
+
+export const giveReview = atom({
+    key: 'giveReview',
+    default: false
+})

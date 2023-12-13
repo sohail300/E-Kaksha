@@ -12,13 +12,36 @@ import ViewReviews from "./ViewReviews";
 import CourseCompletion from "./CourseCompletion";
 import Syllabus from "./Syllabus";
 import Loader from "./Loader";
+import { giveReview } from "../store/atoms/course";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 function CoursePage() {
-  const [course, setCourse] = useState({});
+  interface Course {
+    title: string;
+    description: string;
+    price: number;
+    imagelink: string;
+    duration: number;
+    resource: number;
+    priceid: string;
+  }
+
+  const [course, setCourse] = useState<Course>({
+    title: "",
+    description: "",
+    price: 0,
+    imagelink: "",
+    duration: 0,
+    resource: 0,
+    priceid: "",
+  });
+
   const [userid, setUserid] = useState("");
   const [checked, setChecked] = useState(true);
   const [reviews, setReviews] = useState([]);
-  const [giveReview, setgiveReview] = useState(false);
+  const setGiveReview = useSetRecoilState(giveReview);
+  const currGiveReview = useRecoilValue(giveReview);
+
   const [bought, setBought] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -196,7 +219,7 @@ function CoursePage() {
                 <Button
                   variant="contained"
                   style={{ margin: "16px 24px 0px 0px" }}
-                  onClick={() => setgiveReview(true)}
+                  onClick={() => setGiveReview(true)}
                 >
                   Give Review
                 </Button>
@@ -227,9 +250,7 @@ function CoursePage() {
         <div style={{ width: "70%" }}>
           {checked ? <Syllabus /> : <ViewReviews reviews={reviews} />}
         </div>
-        <div
-          style={{ marginRight: "16px", width: "30%" }}
-        >
+        <div style={{ marginRight: "16px", width: "30%" }}>
           <h2 style={{ textAlign: "start", marginLeft: "16px" }}>Details</h2>
           <CourseDetails
             duration={course.duration}
@@ -238,7 +259,7 @@ function CoursePage() {
           <CourseCompletion />
         </div>
       </div>
-      {giveReview && <GiveReview userid={userid} courseid={id} />}
+      {currGiveReview && <GiveReview userid={userid} courseid={id} />}
     </>
   );
 }

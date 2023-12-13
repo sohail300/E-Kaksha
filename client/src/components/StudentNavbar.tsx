@@ -14,7 +14,7 @@ import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import Button from "@mui/material/Button";
 import { currUserState } from "../store/atoms/admin";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 
 const StudentNavbar = () => {
   const navigate = useNavigate();

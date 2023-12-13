@@ -1,13 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import "./Cards.css";
 
-const Cards = (props) => {
+const Cards = ({id, title, description, price, imagelink}) => {
   const navigate = useNavigate();
-  const id = props.id;
-  const title = props.title;
-  const description = props.description;
-  const price = props.price;
-  const imagelink = props.imagelink;
 
   async function viewCourse() {
     console.log(id);

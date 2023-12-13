@@ -1,4 +1,3 @@
-import React from "react";
 import AccordianComp from "./AccordianComp";
 
 const Syllabus = () => {

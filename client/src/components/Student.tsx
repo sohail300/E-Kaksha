@@ -6,7 +6,7 @@ import { baseURL } from "./config.js";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { currUserState } from "../store/atoms/admin";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 
 const Signup = () => {
   const navigate = useNavigate();

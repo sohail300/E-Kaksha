@@ -1,6 +1,5 @@
 import "./Home.css";
 import imageurl from "../assets/images/character.png";
-// import About from './About'
 
 const Home = () => {
   return (
