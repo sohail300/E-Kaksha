@@ -1,4 +1,3 @@
-import Skeleton from "@mui/material/Skeleton";
 import "./Loader.scss";
 
 const Loader = () => {

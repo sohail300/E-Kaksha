@@ -1,6 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import SearchIcon from "@mui/icons-material/Search";
-import TextField from "@mui/material/TextField";
 
 const OpenNavbar = () => {
   const navigate = useNavigate();

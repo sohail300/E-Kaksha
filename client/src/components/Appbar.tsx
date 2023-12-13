@@ -16,34 +16,25 @@ const Appbar = () => {
     baseURL,
   });
 
-  useEffect(() => {
-    async function call() {
-      const response = await api.get("/me", {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      });
+  async function call() {
+    const response = await api.get("/me", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    setCurrUser(response.data.role);
+  }
 
-      if (response.data.role == "admin") {
-        setCurrUser("admin");
-      } else if (response.data.role == "user") {
-        setCurrUser("user");
-      }
-    }
-    console.log(currUser)
+  useEffect(() => {
     call();
   }, [currUser]);
 
   if (currUser == "admin") {
     return <AdminNavbar />;
   } else if (currUser == "user") {
-    return (
-      <StudentNavbar/>
-    );
+    return <StudentNavbar />;
   } else {
-    return (
-   <OpenNavbar/>
-    );
+    return <OpenNavbar />;
   }
 };
 

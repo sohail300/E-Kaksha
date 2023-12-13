@@ -1,4 +1,3 @@
-import React from "react";
 import axios from "axios";
 import { baseURL } from "./config.js";
 import DoughnutComp from "./DoughnutComp.jsx";
@@ -10,7 +9,7 @@ const CourseCompletion = () => {
   });
 
   async function getCert() {
-    const response = await api.get("course/certificate", {
+    const response = await api.get("course/completion/certificate", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },

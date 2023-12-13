@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { baseURL } from "./config.js";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -11,20 +11,18 @@ import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
 import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
-import SearchIcon from "@mui/icons-material/Search";
-import TextField from "@mui/material/TextField";
-import { currUserState } from "../store/atoms/admin";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import Button from "@mui/material/Button";
+import { currUserState } from "../store/atoms/admin";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 const StudentNavbar = () => {
   const navigate = useNavigate();
-  const setCurrUser = useSetRecoilState(currUserState);
   const [describe, setDescribe] = useState("");
   const [showContact, setShowcontact] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const setCurrUser = useSetRecoilState(currUserState);
 
   const api = axios.create({
     baseURL,
@@ -62,16 +60,12 @@ const StudentNavbar = () => {
     navigate("/contact");
     setAnchorEl(null);
   }
-
+  
   function logout() {
     localStorage.setItem("token", null);
-    setCurrUser(null);
     navigate("/");
+    setCurrUser(null);
     setAnchorEl(null);
-  }
-
-  function openContact() {
-    setShowcontact(true);
   }
 
   async function submitContact() {

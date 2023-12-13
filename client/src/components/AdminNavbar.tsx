@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -8,10 +8,8 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
-import SearchIcon from "@mui/icons-material/Search";
-import TextField from "@mui/material/TextField";
 import { currUserState } from "../store/atoms/admin";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 
 const AdminNavbar = () => {
   const navigate = useNavigate();
@@ -50,8 +48,8 @@ const AdminNavbar = () => {
 
   function logout() {
     localStorage.setItem("token", null);
-    setCurrUser(null);
     navigate("/");
+    setCurrUser(null);
     setAnchorEl(null);
   }
 

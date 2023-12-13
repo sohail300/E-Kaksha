@@ -3,19 +3,24 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { baseURL } from "./config.js";
 import axios from "axios";
+import "./Home.css";
+import { currUserState } from "../store/atoms/admin";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 const Signup = () => {
   const navigate = useNavigate();
   // const [signup, setSignup] = useState(true);
   // const [login, setLogin] = useState(false);
   const [login, setLogin] = useState(true);
+  const setCurrUser = useSetRecoilState(currUserState);
 
-  const [signupEmail, setSignupEmail] = useState("");
-  const [signupPassword, setSignupPassword] = useState("");
+
+  // const [signupEmail, setSignupEmail] = useState("");
+  // const [signupPassword, setSignupPassword] = useState("");
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const [signupfontcolor, setSignupfontcolor] = useState("#fff");
-  const [signupbgcolor, setSignupbgcolor] = useState("#e91965");
+  // const [signupfontcolor, setSignupfontcolor] = useState("#fff");
+  // const [signupbgcolor, setSignupbgcolor] = useState("#e91965");
   const [loginfontcolor, setLoginfontcolor] = useState("#e91965");
   const [loginbgcolor, setLoginbgcolor] = useState("#fff");
 
@@ -48,6 +53,7 @@ const Signup = () => {
   // function handleSignupPassword(e) {
   //   setSignupPassword(e.target.value);
   // }
+  
 
   function handleLoginEmail(e) {
     setLoginEmail(e.target.value);
@@ -67,15 +73,14 @@ const Signup = () => {
   // }
 
   async function handleLogin() {
-    const data = await api.post("/admin/login", {
+    const response = await api.post("/admin/login", {
       email: loginEmail,
       password: loginPassword,
     });
-    localStorage.setItem("token", data.data);
+    localStorage.setItem("token", response.data);
+    setCurrUser('user');
     navigate("/allcourse");
   }
-  console.log("Email: admin1@gmail.com");
-  console.log("Password: admin123");
 
   return (
     <div className="reg-container admin-section">
@@ -97,6 +102,7 @@ const Signup = () => {
             LOGIN
           </a>
         </div>
+        
         {/* {signup && (
           <>
             <input

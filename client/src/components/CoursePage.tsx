@@ -30,7 +30,7 @@ function CoursePage() {
 
   // UseEffect Functions
   async function callFunc() {
-    const response = await api.get(`course/${id}`, {
+    const response = await api.get(`/course/${id}`, {
       headers: {
         Authorization: "bearer " + localStorage.getItem("token"),
       },
@@ -48,7 +48,7 @@ function CoursePage() {
   }
 
   async function getReviews() {
-    const response = await api.get(`course/review/${id}`, {
+    const response = await api.get(`/course/review/${id}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
@@ -100,7 +100,7 @@ function CoursePage() {
       }
     );
 
-    const resp = await api.post(`course/buy/${id}`, null, {
+    const resp = await api.post(`/course/buy/${id}`, null, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
@@ -110,7 +110,7 @@ function CoursePage() {
   }
 
   async function wishlist() {
-    const response = await api.post(`course/wishlist/${id}`, null, {
+    const response = await api.post(`/course/wishlist/${id}`, null, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },

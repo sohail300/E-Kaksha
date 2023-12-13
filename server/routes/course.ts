@@ -89,9 +89,8 @@ router.post("/wishlist/:courseId", authenticate, async (req, res) => {
   }
 });
 
-router.get("/certificate", async (req, res) => {
+router.get("/completion/certificate", async (req, res) => {
     console.log("1")
-    return res.status(500).send({msg:"Done!"});
 
   try {
     const name = "Mr. John Wick";

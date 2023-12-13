@@ -5,6 +5,8 @@ import { useState } from "react";
 import { baseURL } from "./config.js";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { currUserState } from "../store/atoms/admin";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -18,6 +20,8 @@ const Signup = () => {
   const [userSignupbgcolor, setUsersignupbgcolor] = useState("#1976d2");
   const [userLoginfontcolor, setUserloginfontcolor] = useState("#1976d2");
   const [userLoginbgcolor, setUserloginbgcolor] = useState("#fff");
+
+  const setCurrUser = useSetRecoilState(currUserState);
 
   const api = axios.create({
     baseURL,
@@ -58,29 +62,29 @@ const Signup = () => {
   }
 
   async function handleSignup() {
-    const data = await api.post("/user/signup", {
+    const response = await api.post("/user/signup", {
       email: signupEmail,
       password: signupPassword,
     });
-    localStorage.setItem("token", data.data);
+    localStorage.setItem("token", response.data);
+    setCurrUser('user');
     navigate("/allcourse");
   }
 
   async function handleLogin() {
-    const data = await api.post("/user/login", {
+    const response = await api.post("/user/login", {
       email: loginEmail,
       password: loginPassword,
     });
-    localStorage.setItem("token", data.data);
+    localStorage.setItem("token", response.data);
+    setCurrUser('user');
     navigate("/allcourse");
   }
-
-  console.log("Email: stud1@gmail.com");
-  console.log("Password: stud123");
 
   return (
     <div className="reg-container user-section">
       <h1 style={{ color: "#fff" }}>Student Login</h1>
+      
       <div className="card">
         <div className="reg-option">
           <a
