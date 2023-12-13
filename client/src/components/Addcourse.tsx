@@ -2,8 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
-// import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { baseURL } from "./config.js";
+import { baseURL } from "./config";
 import "./AddCourse.css";
 
 const Addcourse = () => {
@@ -31,8 +30,6 @@ const Addcourse = () => {
         duration,
         resource,
         priceid,
-        // requirement,
-        // who
       },
       {
         headers: {
