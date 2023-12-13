@@ -3,9 +3,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import { baseURL } from "./config";
-import "./AddCourse.css";
+import "./AddCourses.css";
 
-const AddCourse = () => {
+const AddCourses = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -154,4 +154,4 @@ const AddCourse = () => {
   );
 };
 
-export default AddCourse;
+export default AddCourses;
