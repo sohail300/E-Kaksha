@@ -3,12 +3,11 @@ import { Doughnut } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const DoughnutComp = () => {
-    // const total=props.total;
-    // const completed=props.completed;
-
-    const total= 15;
-    const completed=5;
+const DoughnutComp = ({completed, total}) => {
+    if(total===0){
+        completed=5;
+        total=10;
+    }
     const remaining=total-completed;
 
     const options = {
@@ -27,7 +26,7 @@ const DoughnutComp = () => {
                     'rgba(255, 159, 64, 0.2)',
                 ],
                 borderColor: [
-                    'rgba(75, 192, 192, 1)',
+                    'rgb(37,211,102)',
                     'rgba(255, 159, 64, 1)',
                 ],
                 borderWidth: 1,

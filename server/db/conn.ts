@@ -7,7 +7,7 @@ dotenv.config({ path: envPath });
 // This looks for the .env file in the specified directory.
 
 // dotenv.config();
-// dotenv.config() looks for .env file in the root directory, i.e.m where the index.js is situated.
+// dotenv.config() looks for .env file in the root directory, i.e. where the index.js is situated.
 
 // While hosting we dont have to worry about .env file bcoz we give that separately.
 
@@ -18,7 +18,7 @@ export async function connectDB() {
   try {
     const uri = dbURL;
     await mongoose.connect(uri);
-    console.log("Database connected");
+    // console.log("Database connected");
   } catch (err) {
     console.log("Error connecting to DB: " + err);
   }

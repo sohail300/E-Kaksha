@@ -2,9 +2,9 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { baseURL } from "./config.js";
-import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import MenuIcon from "@mui/icons-material/Menu";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
@@ -14,15 +14,20 @@ import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import Button from "@mui/material/Button";
 import { currUserState } from "../store/atoms/admin";
-import { useSetRecoilState } from "recoil";
+import { useSetRecoilState,useRecoilValue } from "recoil";
+import { isUserLoggedInState } from "../store/atoms/user";
+import { showContact } from "../store/atoms/course";
 
 const StudentNavbar = () => {
   const navigate = useNavigate();
   const [describe, setDescribe] = useState("");
-  const [showContact, setShowcontact] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const setCurrUser = useSetRecoilState(currUserState);
+  const currIsUserLoggedIn = useRecoilValue(isUserLoggedInState);
+  const setIsUserLoggedIn = useSetRecoilState(isUserLoggedInState);
+  const currShowContact = useRecoilValue(showContact);
+  const setShowContact = useSetRecoilState(showContact);
 
   const api = axios.create({
     baseURL,
@@ -57,8 +62,9 @@ const StudentNavbar = () => {
   }
 
   function openContact() {
-    navigate("/contact");
+    setShowContact(true);
     setAnchorEl(null);
+    console.log(currShowContact)
   }
   
   function logout() {
@@ -66,6 +72,7 @@ const StudentNavbar = () => {
     navigate("/");
     setCurrUser(null);
     setAnchorEl(null);
+    setIsUserLoggedIn(false);
   }
 
   async function submitContact() {
@@ -81,11 +88,12 @@ const StudentNavbar = () => {
 
     console.log(reponse.data);
     alert("Submitted!");
-    setShowcontact(false);
+    setShowContact(false);
+    console.log(currShowContact)
   }
 
   async function closeContact() {
-    setShowcontact(false);
+    setShowContact(false);
   }
 
   return (
@@ -100,7 +108,7 @@ const StudentNavbar = () => {
         >
           E-Kaksha
         </p>
-        <div className="nav-links">
+        <div className="student-nav-links nav-links">
           <a onClick={openPurchasedcourses} className="navlink-btn student">
             My Courses
           </a>
@@ -147,7 +155,7 @@ const StudentNavbar = () => {
         </div>
       </nav>
 
-      {showContact && (
+      {currShowContact && (
         <div
           style={{
             position: "fixed",
@@ -171,7 +179,7 @@ const StudentNavbar = () => {
             <DisabledByDefaultIcon style={{position:"absolute", right:"12px",cursor:"pointer", color:"#DC3545"}} onClick={closeContact}/>
           </div>
           <span style={{ display: "flex", alignSelf: "center" }}>
-            Mail at <a href="mailto:sohailatwork10@gmail.com" style={{cursor:"pointer", color:"#0000EE", textDecoration:"none"}}>sohailatwork10@gmail.com</a>
+            Mail at <a href="mailto:sohailatwork10@gmail.com" style={{cursor:"pointer", color:"#0000EE", textDecoration:"none", marginLeft: "6px"}}>sohailatwork10@gmail.com</a>
           </span>
           <span style={{ display: "flex", alignSelf: "center", color:"#464646" }}>
             ---------------------OR---------------------

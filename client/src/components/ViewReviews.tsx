@@ -2,6 +2,7 @@ import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 
 const ViewReviews = (props) => {
+  const placeholderPhoto='https://firebasestorage.googleapis.com/v0/b/e-kaksha-2001.appspot.com/o/Portrait_Placeholder.png?alt=media&token=c73e56ba-6a59-45b5-b328-26cafc0d9a56'
   const reviews = props.reviews;
   console.log(reviews);
 
@@ -51,7 +52,8 @@ const ViewReviews = (props) => {
                     }}
                   > */}
                   {/* </div> */}
-                  <img src={item.photoUrl} alt="photo" style={{width:"8vw", height:"14vh", borderRadius:"50%"}}/>
+
+                  <img src={item.photoUrl || placeholderPhoto} alt={item.photoUrl} style={{width:"6vw", height:"12vh", borderRadius:"50%"}}/>
                     <div style={{ display: "flex", flexDirection: "column" }}>
                       <p>{item.username}</p>
                       <Rating

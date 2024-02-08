@@ -6,7 +6,8 @@ import { baseURL } from "./config.js";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { currUserState } from "../store/atoms/admin";
-import { useSetRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import { isUserLoggedInState } from "../store/atoms/user";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -22,6 +23,10 @@ const Signup = () => {
   const [userLoginbgcolor, setUserloginbgcolor] = useState("#fff");
 
   const setCurrUser = useSetRecoilState(currUserState);
+  const currUser = useRecoilValue(currUserState);
+
+  const currIsUserLoggedIn = useRecoilValue(isUserLoggedInState);
+  const setIsUserLoggedIn = useSetRecoilState(isUserLoggedInState);
 
   const api = axios.create({
     baseURL,
@@ -68,6 +73,7 @@ const Signup = () => {
     });
     localStorage.setItem("token", response.data);
     setCurrUser('user');
+    setIsUserLoggedIn(true);
     navigate("/allcourse");
   }
 
@@ -78,6 +84,10 @@ const Signup = () => {
     });
     localStorage.setItem("token", response.data);
     setCurrUser('user');
+    setIsUserLoggedIn(true);
+    console.log(currUser)
+    console.log(isUserLoggedInState)
+    console.log(currIsUserLoggedIn)
     navigate("/allcourse");
   }
 

@@ -7,9 +7,9 @@ import { useState } from "react";
 import { baseURL } from "./config.js";
 import { giveReview } from "../store/atoms/course";
 import { useSetRecoilState } from "recoil";
+import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 
-const GiveReview = ({userid, courseid}) => {
-
+const GiveReview = ({ userid, courseid }) => {
   const [ratingValue, setRatingvalue] = useState(0);
   const [comment, setComment] = useState("");
   const setGetReview = useSetRecoilState(giveReview);
@@ -57,6 +57,17 @@ const GiveReview = ({userid, courseid}) => {
         alignItems: "flex-start",
       }}
     >
+      <div>
+        <DisabledByDefaultIcon
+          style={{
+            position: "absolute",
+            right: "12px",
+            cursor: "pointer",
+            color: "#DC3545",
+          }}
+          onClick={() => setGetReview(false)}
+        />
+      </div>
       <span style={{ display: "flex", alignItems: "center" }}>
         <span style={{ marginRight: "8px" }}>Rating:</span>{" "}
         <Rating

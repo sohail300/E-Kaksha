@@ -44,7 +44,7 @@ const Wishlist = () => {
   return (
     <>
       <h1 id="wishlist-heading" style={{ color: "#000" }}>
-        Wishlist courses
+        Wishlist
       </h1>
       <div
         className="navlink-btn student"

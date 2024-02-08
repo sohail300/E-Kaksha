@@ -34,7 +34,7 @@ function App() {
     <Route path='/purchasedcourse' element={<Purchasedcourse />} />
     <Route path='/wishlist' element={<Wishlist />} />
     <Route path='/contact' element={<Contact />} />
-    <Route path='/payment/success' element={<PaymentSuccess />} />
+    <Route path='/payment/success/:id' element={<PaymentSuccess />} />
     <Route path='/payment/canceled' element={<PaymentCanceled />} />
     <Route path='/forgotpassword' element={<ForgotPassword />} />
     </Routes>

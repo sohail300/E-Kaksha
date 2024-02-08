@@ -182,40 +182,6 @@ router.put("/profile", authenticate, async (req, res) => {
   }
 });
 
-// router.put("/profile/photo", authenticate, async (req, res) => {
-//   try {
-//     const id = req.headers["id"];
-//     console.log(id);
-
-//     const file = req.body.file;
-
-//     const storageRef = ref(storage, "images/" + file.name);
-//     console.log(file.name);
-
-//     const uploadTask: UploadTask = uploadBytesResumable(storageRef, file);
-
-//     uploadTask.on(
-//       "state_changed",
-//       (snapshot) => {
-//         const progress =
-//           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-//         console.log("Upload is " + progress + "% done");
-//       },
-//       (error) => {
-//         console.error("Error uploading file:", error);
-//       },
-//       async () => {
-//         console.log("File uploaded successfully");
-//         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-//         console.log("File available at", downloadURL);
-//         return res.status(201).json({"url": downloadURL})
-//       }
-//     );
-//   } catch (err) {
-//     return res.status(500).send({ "Internal Error": err });
-//   }
-// });
-
 router.put("/profile/photo", authenticate, async (req, res) => {
   try {
     const id = req.headers["id"];

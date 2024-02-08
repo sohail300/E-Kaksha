@@ -64,7 +64,7 @@ const Profile = () => {
 
   useEffect(() => {
     getUser();
-  });
+  },[]);
 
   async function updateName() {
     const response = await api.put(

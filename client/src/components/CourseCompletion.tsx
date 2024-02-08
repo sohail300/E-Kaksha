@@ -1,15 +1,27 @@
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { baseURL } from "./config.js";
 import DoughnutComp from "./DoughnutComp.jsx";
 import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
 
 const CourseCompletion = () => {
+  const [completed, setCompleted] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [isComplete, setIsComplete] = useState(false);
+
   const api = axios.create({
     baseURL,
   });
 
+  useEffect(() => {
+    if (completed === total && total !== 0) {
+      setIsComplete(true);
+    }
+  }, []);
+
   async function getCert() {
-    const response = await api.get("course/completion/certificate", {
+    const response = await api.get("/course/completion/certificate", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
@@ -26,17 +38,30 @@ const CourseCompletion = () => {
         style={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
+          justifyContent: "space-evenly",
           alignItems: "center",
+          width: "100%",
+          height: "55%"
         }}
       >
-        <DoughnutComp />
+        <DoughnutComp completed={completed} total={total} />
         <p style={{ textAlign: "center" }}>
-          You have completed 15 out of 25 modules.
+          You have completed <b>{completed}</b> out of <b>{total}</b> modules.
         </p>
-        <Button variant="contained" onClick={getCert}>
-          Get Completion Certificate
-        </Button>
+
+        {isComplete ? (
+          <Button variant="contained" onClick={getCert}>
+            Get Completion Certificate
+          </Button>
+        ) : (
+          <Tooltip title="Complete the course to get a certificate" >
+            <span>
+            <Button variant="contained" onClick={getCert} disabled>
+              Get Completion Certificate
+            </Button>
+            </span>
+          </Tooltip>
+        )}
       </div>
     </>
   );

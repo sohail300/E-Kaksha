@@ -29,10 +29,8 @@ const courseSchema = new mongoose.Schema({
 const reviewSchema= new mongoose.Schema({
   userid: String,
   courseid: String,
-  username: String,
   rating: Number,
   comment: String,
-  photoUrl: String,
 })
 
 const contactSchema= new mongoose.Schema({

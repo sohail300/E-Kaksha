@@ -24,3 +24,8 @@ export const giveReview = atom({
     key: 'giveReview',
     default: false
 })
+
+export const showContact = atom({
+    key: 'showContact',
+    default: false
+})

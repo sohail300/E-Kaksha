@@ -24,7 +24,6 @@ app.get("/", (req, res) => {
 });
 
 app.get("/me",authenticate, (req,res) => {
-  console.log('in me')
   const id = req.headers["id"];
   const role = req.headers["role"];
   res.json({id,role});

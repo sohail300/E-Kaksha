@@ -5,16 +5,6 @@ export const currUserState = atom({
     default: ''
 })
 
-export const signupState = atom({
-    key: 'signupState',
-    default: true
-})
-
-export const loginState = atom({
-    key: 'loginState',
-    default: false
-})
-
 export const signupDetailsState = atom({
     key: 'signupDetailsState',
     default: {

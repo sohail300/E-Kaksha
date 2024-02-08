@@ -1,10 +1,11 @@
 import { User, Admin, Course, Review } from "../db/model";
 import express from "express";
+import { Types } from "mongoose";
 import mongoose from "mongoose";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import fs from "fs";
 import { z } from "zod";
-import Stripe from 'stripe';
+import Stripe from "stripe";
 import { authenticate, secretKey } from "../middleware/auth";
 
 const router = express.Router();
@@ -23,32 +24,47 @@ router.get("/all", async (req, res) => {
   }
 });
 
-router.get('/:id', authenticate, async (req, res) => {
-    try {
-        const id=req.params.id;
-        const course = await Course.findById(id);
+router.get("/id/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const course = await Course.findById(id);
 
-        const obj = {
-            course
-        }
-        return res.status(200).json(obj);
-    } catch (err) {
-        return res.status(500).send({ 'Internal Error': err });
-    }
+    const obj = {
+      course,
+    };
+    return res.status(200).json(obj);
+  } catch (err) {
+    return res.status(500).send({ "Internal Error": err });
+  }
 });
 
 router.post("/buy/:courseId", authenticate, async (req, res) => {
   try {
     const courseId = req.params.courseId;
     console.log(courseId);
-    const course = await Course.findById(courseId);
     const id = req.headers["id"];
     console.log(id);
+
+    const course = await Course.findById(courseId);
     if (course) {
       const user = await User.findById(id);
+      console.log("in");
 
       if (user) {
-        user.purchasedCourses.push(new mongoose.Types.ObjectId(courseId));
+        const courseIdObject = new Types.ObjectId(courseId);
+        
+        user.wishlist = user.wishlist.filter(
+          (item) => {
+            return !(item.equals(courseIdObject));
+          }
+        );
+        console.log(user.wishlist);
+        
+        if(!(user.purchasedCourses.includes(courseIdObject))){
+          user.purchasedCourses.push(courseIdObject);
+        }
+        console.log(user.purchasedCourses);
+        
         await user.save();
         console.log("Saved");
         res.status(201).send("Updated");
@@ -63,6 +79,37 @@ router.post("/buy/:courseId", authenticate, async (req, res) => {
   }
 });
 
+const stripeInstance = new Stripe(process.env.STRIPE_API_KEY);
+
+router.post("/checkout", authenticate, async (req, res) => {
+  const PRICE_ID = req.body.priceid;
+  const courseid = req.body.id;
+
+  const session = await stripeInstance.checkout.sessions.create({
+    line_items: [
+      {
+        price: PRICE_ID,
+        quantity: 1,
+      },
+    ],
+    mode: "payment",
+    success_url: `${process.env.FRONTEND_URL}payment/success/${courseid}`,
+    cancel_url: `${process.env.FRONTEND_URL}payment/canceled/`,
+  });
+
+  // console.log("3");
+  // console.log(session.url);
+  return res.json({ url: session.url });
+  // res.redirect(303, session.url);
+});
+
+const reviewInput = z.object({
+  comment: z
+    .string()
+    .min(1, { message: "This field has to be filled." })
+    .max(800),
+});
+
 router.post("/wishlist/:courseId", authenticate, async (req, res) => {
   try {
     const courseId = req.params.courseId;
@@ -74,10 +121,16 @@ router.post("/wishlist/:courseId", authenticate, async (req, res) => {
       const user = await User.findById(id);
 
       if (user) {
-        user.wishlist.push(new mongoose.Types.ObjectId(courseId));
-        await user.save();
-        console.log("Saved");
-        res.status(201).send("Updated");
+        const courseIdObject = new Types.ObjectId(courseId);
+        
+        if (user.wishlist.includes(courseIdObject)) {
+          return res.status(401).send("Course already in wishlist");
+        } else {
+          user.wishlist.push(courseIdObject);
+          await user.save();
+          console.log("Saved");
+          res.status(201).send("Updated");
+        }
       } else {
         return res.status(401).send("User doesnt exist");
       }
@@ -89,13 +142,13 @@ router.post("/wishlist/:courseId", authenticate, async (req, res) => {
   }
 });
 
-router.get("/completion/certificate", async (req, res) => {
-    console.log("1")
+router.get("/completion/certificate", authenticate, async (req, res) => {
+  console.log("1");
 
   try {
     const name = "Mr. John Wick";
     let pdf = fs.readFileSync("resources/certificate.pdf");
-    console.log("1")
+    console.log("1");
 
     const pdfDoc = await PDFDocument.load(pdf);
     const page = pdfDoc.getPage(0);
@@ -136,37 +189,10 @@ router.get("/completion/certificate", async (req, res) => {
   }
 });
 
-const stripeInstance = new Stripe(process.env.STRIPE_API_KEY);
-
-router.post('/checkout', async (req, res) => {
-  const PRICE_ID=req.body.priceid;
-  const session = await stripeInstance.checkout.sessions.create({
-    line_items: [
-      {
-        price: PRICE_ID,
-        quantity: 1,
-      },
-    ],
-    mode: 'payment',
-    success_url: `${process.env.FRONTEND_URL}payment/success/`,
-    cancel_url: `${process.env.FRONTEND_URL}payment/canceled/`,
-  });
-  console.log(session.url)
-  // res.redirect(303, session.url);
-  return res.json({url:session.url});
-})
-
-const signupInput = z.object({
-  comment: z
-    .string()
-    .min(1, { message: "This field has to be filled." })
-    .max(100)
-});
-
-router.post('/review', async (req, res) => {
-  try{
-    let comment=req.body.comment;
-    const parsedInput = signupInput.safeParse({comment});
+router.post("/review", authenticate, async (req, res) => {
+  try {
+    let comment = req.body.comment;
+    const parsedInput = reviewInput.safeParse({ comment });
 
     if (parsedInput.success === false) {
       return res.status(411).json({
@@ -174,38 +200,48 @@ router.post('/review', async (req, res) => {
       });
     }
 
-    const userid= req.body.userid;
-    const rating= req.body.ratingValue;
-    const courseid= req.body.courseid;
+    const userid = req.body.userid;
+    const courseid = req.body.courseid;
+    const rating = req.body.ratingValue;
     comment = parsedInput.data.comment;
 
-    const user= await User.findById(userid);
-    const username=user.name;
-    const photoUrl=user.photoUrl;
+    const user = await User.findById(userid);
 
-    const obj={userid, courseid, username, rating, comment, photoUrl};
+    const obj = { userid, courseid, rating, comment };
 
-    const newReview=new Review(obj);
+    const newReview = new Review(obj);
     await newReview.save();
-    console.log('Review Saved');
-    return res.json({msg:"Review Saved!"});
-    
+    console.log("Review Saved");
+    return res.json({ msg: "Review Saved!" });
   } catch (err) {
     return res.status(500).send({ "Internal Error": err });
   }
-})
+});
 
-router.get('/review/:id', async (req,res) => {
-  try{
-    const courseid=req.params.id;
-    console.log(courseid)
+router.get("/review/:id", async (req, res) => {
+  try {
+    const courseid = req.params.id;
+    const reviewArray = await Review.find({ courseid });
+    let reviews = [];
 
-    const reviews= await Review.find({courseid});
-    console.log(reviews)
-    return res.status(201).json({reviews});
+    reviews = await Promise.all(
+      reviewArray.map(async (item) => {
+        const userid = item.userid;
+        const user = await User.findById(userid);
+
+        const obj = {
+          comment: item.comment,
+          rating: item.rating,
+          username: user.name,
+          photoUrl: user.photoUrl,
+        };
+        return obj;
+      })
+    );
+    return res.status(201).json({ reviews });
   } catch (err) {
     return res.status(500).send({ "Internal Error": err });
   }
-})
+});
 
 export default router;

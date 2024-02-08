@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import CourseDetails from "./CourseDetails";
 import Button from "@mui/material/Button";
 import Switch from "@mui/material/Switch";
@@ -12,7 +12,8 @@ import ViewReviews from "./ViewReviews";
 import CourseCompletion from "./CourseCompletion";
 import Syllabus from "./Syllabus";
 import Loader from "./Loader";
-import { giveReview } from "../store/atoms/course";
+import { giveReview } from "../store/atoms/course.js";
+import { isUserLoggedInState } from "../store/atoms/user.js";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 function CoursePage() {
@@ -39,11 +40,15 @@ function CoursePage() {
   const [userid, setUserid] = useState("");
   const [checked, setChecked] = useState(true);
   const [reviews, setReviews] = useState([]);
-  const setGiveReview = useSetRecoilState(giveReview);
   const currGiveReview = useRecoilValue(giveReview);
+  const setGiveReview = useSetRecoilState(giveReview);
+  const currIsUserLoggedIn = useRecoilValue(isUserLoggedInState);
+  const setIsUserLoggedIn = useSetRecoilState(isUserLoggedInState);
 
   const [bought, setBought] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  const navigate = useNavigate();
 
   const { id } = useParams();
 
@@ -53,12 +58,13 @@ function CoursePage() {
 
   // UseEffect Functions
   async function callFunc() {
-    const response = await api.get(`/course/${id}`, {
+    const response = await api.get(`/course/id/${id}`, {
       headers: {
         Authorization: "bearer " + localStorage.getItem("token"),
       },
     });
     setCourse(response.data.course);
+    setIsLoading(false);
   }
 
   async function getId() {
@@ -68,6 +74,7 @@ function CoursePage() {
       },
     });
     setUserid(response.data.id);
+    console.log(currIsUserLoggedIn);
   }
 
   async function getReviews() {
@@ -82,7 +89,7 @@ function CoursePage() {
 
   async function hasBought() {
     const response = await api.post(
-      "user/hasbought",
+      "/user/hasbought",
       {
         id,
       },
@@ -94,7 +101,6 @@ function CoursePage() {
     );
     console.log(response.data.result);
     setBought(response.data.result);
-    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -110,47 +116,44 @@ function CoursePage() {
 
   // Other Functions
   async function checkout() {
-    const priceid = course.priceid;
-    const response = await api.post(
-      "course/checkout",
-      {
-        priceid,
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("item"),
+      const priceid = course.priceid;
+      const response = await api.post(
+        "/course/checkout",
+        {
+          priceid,
+          id
         },
-      }
-    );
-
-    const resp = await api.post(`/course/buy/${id}`, null, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    console.log(resp.data);
-    window.location.href = response.data.url;
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+      console.log('inside checkout')
+      console.log(response.data);
+      window.location.href = response.data.url;
   }
 
   async function wishlist() {
-    const response = await api.post(`/course/wishlist/${id}`, null, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    console.log(response.data);
+    // console.log(currIsUserLoggedIn);
+    // if (!currIsUserLoggedIn) {
+      // navigate("/student");
+    // } else {
+      const response = await api.post(`/course/wishlist/${id}`, null, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      console.log(response.data);
+    // }
   }
 
   function calcRating() {
     let rating = 0;
     const length = reviews.length;
     reviews.forEach((item) => {
-      console.log(typeof item.rating);
-      console.log(typeof rating);
       rating = rating + item.rating;
-      console.log(rating);
     });
-    console.log(rating / length);
     return rating / length;
   }
 

@@ -9,7 +9,7 @@ Contact us Page ✅
 Social Sharing ✅
 Course Certificates ✅
 Secure Payment Gateway ✅
-|Skeleton Loading ✅
+Skeleton Loading ✅
 
 Admin:
 Profiles -> Email (email send verification code), password change, Photo upload

@@ -4,9 +4,9 @@ import axios from "axios";
 import { baseURL } from "./config.js";
 import { currUserState } from "../store/atoms/admin";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import AdminNavbar from "./AdminNavbar.js";
-import StudentNavbar from "./StudentNavbar.js";
-import OpenNavbar from "./OpenNavbar.js";
+import AdminNavbar from "./AdminNavbar";
+import StudentNavbar from "./StudentNavbar";
+import OpenNavbar from "./OpenNavbar";
 
 const Appbar = () => {
   const setCurrUser = useSetRecoilState(currUserState);
@@ -27,6 +27,7 @@ const Appbar = () => {
 
   useEffect(() => {
     call();
+    console.log(currUser)
   }, [currUser]);
 
   if (currUser == "admin") {
