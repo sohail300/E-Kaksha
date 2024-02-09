@@ -11,7 +11,8 @@ import Contact from './components/Contact'
 import CoursePage from './components/CoursePage'
 import PaymentSuccess from './components/PaymentSuccess'
 import PaymentCanceled from './components/PaymentCanceled'
-import ForgotPassword from './components/ForgotPassword'
+import AdminForgotPassword from './components/AdminForgotPassword'
+import StudentForgotPassword from './components/StudentForgotPassword'
 import { BrowserRouter as Router, Routes,Route } from 'react-router-dom'
 import {RecoilRoot} from 'recoil'
 import Profile from './components/Profile'
@@ -36,7 +37,8 @@ function App() {
     <Route path='/contact' element={<Contact />} />
     <Route path='/payment/success/:id' element={<PaymentSuccess />} />
     <Route path='/payment/canceled' element={<PaymentCanceled />} />
-    <Route path='/forgotpassword' element={<ForgotPassword />} />
+    <Route path='/adminforgotpassword' element={<AdminForgotPassword />} />
+    <Route path='/studentforgotpassword' element={<StudentForgotPassword />} />
     </Routes>
     </Router>
     </RecoilRoot>

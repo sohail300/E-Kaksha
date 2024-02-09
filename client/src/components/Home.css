@@ -5,6 +5,7 @@
     justify-content: space-around;
     align-items: center;
     background-image: url("../assets/images/bg.jpg");
+    /* background:#000; */
     background-size: cover;
 }
 
@@ -22,7 +23,6 @@
 }
 
 .bg {
-    /* background:#000; */
     background-size: cover;
     height: 100%;
     width: 100%;

@@ -39,8 +39,6 @@ const Signup = () => {
     <div className="reg-container admin-section">
       <h1 style={{ color: "#fff" }}>Admin Login</h1>
       <div className="card">
-
-        <>
           <input
             type="text"
             className="LoginEmail card-comp"
@@ -68,7 +66,7 @@ const Signup = () => {
               cursor: "pointer",
               textDecoration: "underline",
             }}
-            onClick={() => navigate("/forgotpassword")}
+            onClick={() => navigate("/adminforgotpassword")}
           >
             Forgot Password
           </a>
@@ -76,7 +74,6 @@ const Signup = () => {
           <p style={{ margin: "4px 0px" }}>
             Email: <b>admin1@gmail.com</b> & Password: <b>admin123</b>
           </p>
-        </>
       </div>
     </div>
   );

@@ -8,11 +8,14 @@ import {
   UploadTask,
 } from "firebase/storage";
 import storage from "../db/firebase";
+import bcrypt from "bcrypt";
 import express from "express";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
 import { authenticate, secretKey } from "../middleware/auth";
+import nodemailer from "nodemailer";
 
+const saltRounds = 10;
 const router = express.Router();
 
 const signupInput = z.object({
@@ -77,14 +80,19 @@ router.post("/login", async (req, res) => {
     const email = parsedInput.data.email;
     const password = parsedInput.data.password;
 
-    const user = await User.findOne({ email, password });
+    const user = await User.findOne({ email });
 
     if (user) {
-      const token = jwt.sign({ id: user._id, role: "user" }, secretKey, {
-        expiresIn: "1h",
-      });
-      console.log(token);
-      return res.status(201).json(token);
+      const match = await bcrypt.compare(password, user.password);
+
+      if (match) {
+        const token = jwt.sign({ id: user._id, role: "user" }, secretKey, {
+          expiresIn: "1h",
+        });
+        return res.status(200).json(token);
+      } else {
+        return res.status(403).send("Invalid Credentials");
+      }
     } else {
       return res.status(403).send("Invalid credentials");
     }
@@ -141,7 +149,7 @@ router.post("/contact", authenticate, async (req, res) => {
       description: description,
       username: user.name,
       email: user.email,
-      mobile: user.mobile,
+      // mobile: user.mobile,
     };
 
     const newReview = new Review(obj);
@@ -186,18 +194,17 @@ router.put("/profile/photo", authenticate, async (req, res) => {
   try {
     const id = req.headers["id"];
     console.log(id);
-    const url=req.body.downloadURL;
-    
-    const user=await User.findById(id);
-    user.photoUrl=url;
+    const url = req.body.downloadURL;
+
+    const user = await User.findById(id);
+    user.photoUrl = url;
     await user.save();
-    console.log("Updated!")
-    return res.status(201).json({msg:"Updated!"})
+    console.log("Updated!");
+    return res.status(201).json({ msg: "Updated!" });
   } catch (err) {
     return res.status(500).send({ "Internal Error": err });
   }
 });
-
 
 router.delete("/delete", authenticate, async (req, res) => {
   try {
@@ -216,20 +223,86 @@ router.delete("/delete", authenticate, async (req, res) => {
   }
 });
 
-router.post('/hasbought', authenticate, async (req,res) => {
-  try{ 
-    const id=req.headers["id"];
-    const courseid=req.body.id;
+router.post("/hasbought", authenticate, async (req, res) => {
+  try {
+    const id = req.headers["id"];
+    const courseid = req.body.id;
 
-    const user=await User.findById(id);
+    const user = await User.findById(id);
 
-    const purchased=user.purchasedCourses;
+    const purchased = user.purchasedCourses;
 
-    const result=purchased.includes(courseid);
-    return res.status(200).json({result});
+    const result = purchased.includes(courseid);
+    return res.status(200).json({ result });
   } catch (err) {
     return res.status(500).send({ "Internal Error": err });
   }
-})
+});
+
+const transporter = nodemailer.createTransport({
+  host: process.env.MAIL_HOST,
+  port: process.env.MAIL_PORT,
+  secure: false, // true for 465, false for other ports
+  auth: {
+    user: process.env.MAIL_ADDRESS,
+    pass: process.env.MAIL_PASSWORD,
+  },
+});
+
+function generateOtp() {
+  const min = 100000;
+  const max = 999999;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+router.post("/sendotp", async (req, res) => {
+  const email = req.body.email;
+  const user = User.findOne({ email: email });
+
+  if (!user) {
+    return res.status(403).send("User doesnt exist");
+  } else {
+    const otp = generateOtp();
+    const info = await transporter.sendMail({
+      from: `"E-Kaksha" <ekaksha2001@gmail.com>`,
+      to: `${email}`,
+      subject: "OTP Verification",
+      html: `Your <b>E-Kaksha</b> verification code is: <b>${otp}</b>`,
+    });
+    console.log("Message sent:", info.messageId);
+    console.log("1");
+    res.status(200).json({ email: email, otp: otp });
+  }
+});
+
+const passwordInput = z.object({
+  password: z.string().min(6, { message: "Minimum 6 characters." }).max(20),
+});
+
+router.post("/changepassword", async (req, res) => {
+  const parsedInput = passwordInput.safeParse(req.body);
+
+  if (parsedInput.success === false) {
+    return res.status(411).json({
+      msg: parsedInput.error,
+    });
+  }
+
+  const email = req.body.sentemail;
+  const password = parsedInput.data.password;
+
+  const user = await User.findOne({ email: email });
+
+  if (!user) {
+    return res.status(403).send("User doesnt exist");
+  } else {
+    console.log(password);
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    console.log(hashedPassword);
+    user.password = hashedPassword;
+    await user.save();
+    return res.status(200).send("Password Changed!");
+  }
+});
 
 export default router;

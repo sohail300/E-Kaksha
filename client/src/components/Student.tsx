@@ -72,29 +72,30 @@ const Signup = () => {
       password: signupPassword,
     });
     localStorage.setItem("token", response.data);
-    setCurrUser('user');
+    setCurrUser("user");
     setIsUserLoggedIn(true);
     navigate("/allcourse");
   }
 
   async function handleLogin() {
+    console.log(loginPassword);
     const response = await api.post("/user/login", {
       email: loginEmail,
       password: loginPassword,
     });
     localStorage.setItem("token", response.data);
-    setCurrUser('user');
+    setCurrUser("user");
     setIsUserLoggedIn(true);
-    console.log(currUser)
-    console.log(isUserLoggedInState)
-    console.log(currIsUserLoggedIn)
+    console.log(currUser);
+    console.log(isUserLoggedInState);
+    console.log(currIsUserLoggedIn);
     navigate("/allcourse");
   }
 
   return (
     <div className="reg-container user-section">
       <h1 style={{ color: "#fff" }}>Student Login</h1>
-      
+
       <div className="card">
         <div className="reg-option">
           <a
@@ -168,9 +169,20 @@ const Signup = () => {
               LOGIN
             </button>
             <br />
+            <a
+              style={{
+                color: "Highlight",
+                cursor: "pointer",
+                textDecoration: "underline",
+              }}
+              onClick={() => navigate("/studentforgotpassword")}
+            >
+              Forgot Password
+            </a>
             <p style={{ margin: "4px 0px" }}>Login Credentials for trial</p>
-            <p style={{ margin: "4px 0px" }}>Email: <b>stud1@gmail.com</b> & Password: <b>stud123</b></p>
-            {/* <br /> */}
+            <p style={{ margin: "4px 0px" }}>
+              Email: <b>stud1@gmail.com</b> & Password: <b>stud123</b>
+            </p>
           </>
         )}
       </div>

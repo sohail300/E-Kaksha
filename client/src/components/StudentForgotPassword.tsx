@@ -20,7 +20,7 @@ const ForgotPassword = () => {
 
   async function sendOtp() {
     const response = await api.post(
-      "admin/sendotp",
+      "/user/sendotp",
       {
         email,
       },
@@ -45,16 +45,21 @@ const ForgotPassword = () => {
     }
   }
 
-  async function changePassword(){
-        const response= await api.post('admin/changepassword',{
-          sentemail, password
-        }, {
-            headers: {
-                Authorization: "Bearer "+localStorage.getItem('token')
-            }
-        })
-        console.log(response.data);
-        navigate('/admin')
+  async function changePassword() {
+    const response = await api.post(
+      "/user/changepassword",
+      {
+        sentemail,
+        password,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    console.log(response.data);
+    navigate("/student");
   }
 
   return (
@@ -75,7 +80,7 @@ const ForgotPassword = () => {
           <Button
             variant="contained"
             style={{ marginLeft: "16px" }}
-            onClick={sendOtp}
+            onClick={() => sendOtp()}
           >
             SEND OTP
           </Button>
@@ -95,7 +100,7 @@ const ForgotPassword = () => {
           <Button
             variant="contained"
             style={{ marginLeft: "16px" }}
-            onClick={verifyOtp}
+            onClick={() => verifyOtp()}
           >
             VERIFY OTP
           </Button>
@@ -115,7 +120,7 @@ const ForgotPassword = () => {
             <Button
               variant="contained"
               style={{ marginLeft: "16px" }}
-              onClick={changePassword}
+              onClick={() => changePassword()}
             >
               CHANGE PASSWORD
             </Button>

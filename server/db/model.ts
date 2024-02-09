@@ -2,15 +2,19 @@ import mongoose, { mongo } from "mongoose";
 
 // MongoDB Schema
 const adminSchema = new mongoose.Schema({
-  email: String,
+  name: String,
   password: String,
+  email: String,
+  // mobile: Number,
+  photoUrl: String,
+  publishedCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
 });
 
 const userSchema = new mongoose.Schema({
   name: String,
   password: String,
   email: String,
-  mobile: Number,
+  // mobile: Number,
   photoUrl: String,
   purchasedCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
   wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
@@ -23,24 +27,24 @@ const courseSchema = new mongoose.Schema({
   imagelink: String,
   duration: Number,
   resource: Number,
-  priceid: String
+  priceid: String,
 });
 
-const reviewSchema= new mongoose.Schema({
+const reviewSchema = new mongoose.Schema({
   userid: String,
   courseid: String,
   rating: Number,
   comment: String,
-})
+});
 
-const contactSchema= new mongoose.Schema({
+const contactSchema = new mongoose.Schema({
   userid: String,
   username: String,
   email: String,
-  mobile: Number,
+  // mobile: Number,
   description: String,
   photoUrl: String,
-})
+});
 
 // MongoDB Models
 export const Admin = mongoose.model("Admin", adminSchema);

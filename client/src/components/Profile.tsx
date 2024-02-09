@@ -19,12 +19,18 @@ const Profile = () => {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [mobile, setMobile] = useState("");
+  // const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
   const [photourl, setPhotourl] = useState("");
   const [toDelete, setTodelete] = useState(false);
   const [deleteText, setDeletetext] = useState("");
-  const [isLoading, setIsLoading]= useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [sentemail, setSentemail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [sentOtp, setSentotp] = useState("");
+  const [showchangepassswordContainer, setShowchangepassswordContainer] =
+    useState(false);
+  // const [showchangepasssword, setShowchangepasssword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -45,7 +51,7 @@ const Profile = () => {
   });
 
   async function getUser() {
-    const response = await api.get("user/profile", {
+    const response = await api.get("/user/profile", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
@@ -53,22 +59,21 @@ const Profile = () => {
 
     setName(response.data.user.name);
     setEmail(response.data.user.email);
-    setMobile(response.data.user.mobile);
+    // setMobile(response.data.user.mobile);
     setPassword(response.data.user.password);
     setPhotourl(response.data.user.photoUrl);
     setId(response.data.user._id);
     setIsLoading(false);
     console.log(response.data);
-
   }
 
   useEffect(() => {
     getUser();
-  },[]);
+  }, []);
 
   async function updateName() {
     const response = await api.put(
-      "user/profile",
+      "/user/profile",
       {
         name,
       },
@@ -81,11 +86,55 @@ const Profile = () => {
     console.log(response.data);
   }
 
+  async function sendOtp() {
+    const response = await api.post(
+      "/user/sendotp",
+      {
+        email,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    console.log(response.data.otp);
+    setSentotp(response.data.otp);
+    console.log(response.data.email);
+    setSentemail(response.data.email);
+    setShowchangepassswordContainer(true);
+  }
+
+  async function verifyOtp() {
+    if (sentOtp.length !== 0 && sentOtp.toString() == otp) {
+      setShowchangepasssword(true);
+    } else {
+      alert(`OTP doesn't match`);
+    }
+  }
+
+  async function changePassword() {
+    const response = await api.post(
+      "/user/changepassword",
+      {
+        sentemail,
+        password,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    console.log(response.data);
+    navigate("/student");
+  }
+
   async function deleteAccount() {
     if (deleteText !== "Delete Account") {
       alert("Input right text");
     } else {
-      const response = await api.delete("user/delete", {
+      const response = await api.delete("/user/delete", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -120,7 +169,7 @@ const Profile = () => {
         downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
         console.log("File available at", downloadURL);
         const response = await api.put(
-          "user/profile/photo",
+          "/user/profile/photo",
           {
             downloadURL,
           },
@@ -137,88 +186,96 @@ const Profile = () => {
 
   return (
     <>
-    { isLoading ? 
-    <Loader/> :
-      <div
-        style={{
-          // border: "2px solid red",
-          width: "100vw",
-          height: "80vh",
-          display: "flex",
-        }}
-      >
+      {isLoading ? (
+        <Loader />
+      ) : (
         <div
           style={{
-            //   border: "2px solid red",
-            width: "35vw",
+            // border: "2px solid red",
+            width: "100vw",
             height: "80vh",
             display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <img src={photourl} alt="photo"  style={{ width: "16vw", height: "60vh", borderRadius:"10px"}}/>
-          <Button
-            style={{ marginTop: "40px" }}
-            component="label"
-            variant="contained"
-            startIcon={<CloudUploadIcon />}
-          >
-            Upload
-            <VisuallyHiddenInput type="file" onChange={handleUpload} />
-          </Button>
-        </div>
-        <div
-          style={{
-            //   border: "2px solid red",
-            width: "65vw",
-            height: "80vh",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-evenly",
-            alignItems: "center",
           }}
         >
           <div
             style={{
+              //   border: "2px solid red",
+              width: "35vw",
+              height: "80vh",
               display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
               alignItems: "center",
-              justifyContent: "space-between",
-              width: "30vw",
             }}
           >
-            <TextField
-              label="Name"
-              variant="outlined"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              autoComplete="off"
+            <img
+              src={photourl}
+              alt="photo"
+              style={{ width: "16vw", height: "60vh", borderRadius: "10px" }}
             />
-            <Button variant="contained" onClick={updateName}>
-              UPDATE
+            <Button
+              style={{ marginTop: "40px" }}
+              component="label"
+              variant="contained"
+              startIcon={<CloudUploadIcon />}
+            >
+              Upload
+              <VisuallyHiddenInput
+                type="file"
+                onChange={(e) => handleUpload(e)}
+              />
             </Button>
           </div>
-
           <div
             style={{
+              //   border: "2px solid red",
+              width: "65vw",
+              height: "80vh",
               display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-evenly",
               alignItems: "center",
-              justifyContent: "space-between",
-              width: "30vw",
             }}
           >
-            <TextField
-              label="Email"
-              variant="outlined"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              autoComplete="off"
-            />
-            <Button variant="contained">UPDATE</Button>
-          </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                width: "30vw",
+              }}
+            >
+              <TextField
+                label="Name"
+                variant="outlined"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                autoComplete="off"
+              />
+              <Button variant="contained" onClick={() => updateName()}>
+                UPDATE
+              </Button>
+            </div>
 
-          <div
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                width: "30vw",
+              }}
+            >
+              <TextField
+                label="Email"
+                variant="outlined"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="off"
+              />
+              <Button variant="contained">UPDATE</Button>
+            </div>
+
+            {/* <div
             style={{
               display: "flex",
               alignItems: "center",
@@ -235,38 +292,40 @@ const Profile = () => {
             />
 
             <Button variant="contained">UPDATE</Button>
-          </div>
+          </div> */}
 
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              width: "30vw",
-            }}
-          >
-            <TextField
-              label="Password"
-              type="password"
-              variant="outlined"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="off"
-            />
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                width: "30vw",
+              }}
+            >
+              <TextField
+                label="Password"
+                type="password"
+                variant="outlined"
+                disabled
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="off"
+              />
 
-            <Button variant="contained">UPDATE</Button>
+              <Button variant="contained" onClick={() => sendOtp()}>
+                CHANGE PASSWORD
+              </Button>
+            </div>
+            <Button
+              variant="contained"
+              style={{ backgroundColor: "#DC3545", width: "30vw" }}
+              onClick={() => setTodelete(true)}
+            >
+              DELETE ACCOUNT
+            </Button>
           </div>
-          <Button
-            variant="contained"
-            style={{ backgroundColor: "#DC3545", width: "30vw" }}
-            onClick={() => setTodelete(true)}
-          >
-            DELETE ACCOUNT
-          </Button>
         </div>
-      </div>
-    }
-
+      )}
 
       {toDelete && (
         <div
@@ -304,7 +363,7 @@ const Profile = () => {
           />
           <Button
             variant="contained"
-            onClick={deleteAccount}
+            onClick={() => deleteAccount()}
             style={{
               textAlign: "center",
               alignSelf: "center",
@@ -314,6 +373,51 @@ const Profile = () => {
             DELETE ACCOUNT
           </Button>
         </div>
+      )}
+
+      {showchangepassswordContainer && (
+        <>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <TextField
+              label="OTP"
+              variant="outlined"
+              className="card-component"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              autoComplete="off"
+              size="small"
+              style={{ margin: "16px" }}
+            />
+            <Button
+              variant="contained"
+              style={{ marginLeft: "16px" }}
+              onClick={() => verifyOtp()}
+            >
+              VERIFY OTP
+            </Button>
+          </div>
+          {showchangepasssword && (
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <TextField
+                label="Password"
+                variant="outlined"
+                className="card-component"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="off"
+                size="small"
+                style={{ margin: "16px" }}
+              />
+              <Button
+                variant="contained"
+                style={{ marginLeft: "16px" }}
+                onClick={() => changePassword()}
+              >
+                CHANGE PASSWORD
+              </Button>
+            </div>
+          )}
+        </>
       )}
     </>
   );
