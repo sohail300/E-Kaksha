@@ -1,10 +1,10 @@
 import "./Admin.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { baseURL } from "./config.js";
+import { baseURL } from "../utils/config.js";
 import axios from "axios";
 import "./Home.css";
-import { currUserState } from "../store/atoms/admin";
+import { currUserState } from "../store/atoms/admin.js";
 import { useSetRecoilState } from "recoil";
 
 const Signup = () => {

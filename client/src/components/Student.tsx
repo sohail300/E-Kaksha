@@ -2,12 +2,12 @@ import "./Admin.css";
 import "./Student.css";
 import { useState } from "react";
 // import { useNavigate } from 'react-router-dom'
-import { baseURL } from "./config.js";
+import { baseURL } from "../utils/config.js";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { currUserState } from "../store/atoms/admin";
+import { currUserState } from "../store/atoms/admin.js";
 import { useSetRecoilState, useRecoilValue } from "recoil";
-import { isUserLoggedInState } from "../store/atoms/user";
+import { isUserLoggedInState } from "../store/atoms/user.js";
 
 const Signup = () => {
   const navigate = useNavigate();

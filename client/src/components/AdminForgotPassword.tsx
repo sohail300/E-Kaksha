@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import { baseURL } from "./config.js";
+import { baseURL } from "../utils/config.js";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const ForgotPassword = () => {
   const [otp, setOtp] = useState("");
   const [sentOtp, setSentotp] = useState("");
   const [password, setPassword] = useState("");
-  const [showchangepasssword, setShowchangepasssword] = useState(false);
+  const [showchangepasswordContainer, setShowchangepasssword] = useState(false);
 
   const api = axios.create({
     baseURL,
@@ -105,7 +105,7 @@ const ForgotPassword = () => {
             VERIFY OTP
           </Button>
         </div>
-        {showchangepasssword && (
+        {showchangepasswordContainer && (
           <div style={{ display: "flex", alignItems: "center" }}>
             <TextField
               label="Password"

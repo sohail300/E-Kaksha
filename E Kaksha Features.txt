@@ -1,5 +1,5 @@
 Student:
-Profiles -> Name ✅, Email (email send verification code), password change, Photo upload ✅
+Profiles -> Name ✅, Email (email send verification code) ✅, password change✅, Photo upload ✅
 Search ✅
 Course Syllabus and Details ✅
 Course Reviews and Ratings ✅
@@ -13,7 +13,7 @@ Skeleton Loading ✅
 Forgot Password ✅
 
 Admin:
-Profiles -> Name ✅, Email (email send verification code), password change, Photo upload
+Profiles -> Name , Email (email send verification code), password change, Photo upload
 Implement a system to easily update and manage course content, descriptions, and pricing.
 Upload Course Syllabus
 Modify course btn in course cards

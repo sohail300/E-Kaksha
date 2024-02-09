@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import "./AllCourses.css";
-import CardSkeleton from "./CardSkeleton";
+import CardSkeleton from "./CardSkeleton.js";
 import Cards from "./Cards.js";
-import { baseURL } from "./config.js";
+import { baseURL } from "../utils/config.js";
 import axios from "axios";
 
 const Allcourse = () => {

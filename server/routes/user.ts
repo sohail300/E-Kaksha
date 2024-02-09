@@ -258,7 +258,7 @@ function generateOtp() {
 router.post("/sendotp", async (req, res) => {
   const email = req.body.email;
   const user = User.findOne({ email: email });
-
+  console.log(email);
   if (!user) {
     return res.status(403).send("User doesnt exist");
   } else {
@@ -302,6 +302,26 @@ router.post("/changepassword", async (req, res) => {
     user.password = hashedPassword;
     await user.save();
     return res.status(200).send("Password Changed!");
+  }
+});
+
+router.post("/changeemail", async (req, res) => {
+  const email = req.body.email;
+  const newEmail = req.body.newEmail;
+  console.log(email);
+  console.log(newEmail);
+  const user = await User.findOne({ email: email });
+
+  console.log("1")
+  if (!user) {
+    console.log("2")
+    return res.status(403).send("User doesnt exist");
+  } else {
+    user.email = newEmail;
+    await user.save();
+  console.log("3")
+
+    return res.status(200).send("Email Changed!");
   }
 });
 

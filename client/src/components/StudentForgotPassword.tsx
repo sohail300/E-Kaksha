@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import { baseURL } from "./config.js";
+import { baseURL } from "../utils/config.js";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -12,7 +12,9 @@ const ForgotPassword = () => {
   const [otp, setOtp] = useState("");
   const [sentOtp, setSentotp] = useState("");
   const [password, setPassword] = useState("");
-  const [showchangepasssword, setShowchangepasssword] = useState(false);
+  const [showchangepassword, setShowchangepassword] = useState(false);
+  const [showchangepasswordContainer] =
+    useState(true);
 
   const api = axios.create({
     baseURL,
@@ -39,7 +41,7 @@ const ForgotPassword = () => {
 
   async function verifyOtp() {
     if (sentOtp.length !== 0 && sentOtp.toString() == otp) {
-      setShowchangepasssword(true);
+      setShowchangepassword(true);
     } else {
       alert(`OTP doesn't match`);
     }
@@ -86,45 +88,49 @@ const ForgotPassword = () => {
           </Button>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <TextField
-            label="OTP"
-            variant="outlined"
-            className="card-component"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-            autoComplete="off"
-            size="small"
-            style={{ margin: "16px" }}
-          />
-          <Button
-            variant="contained"
-            style={{ marginLeft: "16px" }}
-            onClick={() => verifyOtp()}
-          >
-            VERIFY OTP
-          </Button>
-        </div>
-        {showchangepasssword && (
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <TextField
-              label="Password"
-              variant="outlined"
-              className="card-component"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="off"
-              size="small"
-              style={{ margin: "16px" }}
-            />
-            <Button
-              variant="contained"
-              style={{ marginLeft: "16px" }}
-              onClick={() => changePassword()}
-            >
-              CHANGE PASSWORD
-            </Button>
-          </div>
+        {showchangepasswordContainer && (
+          <>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <TextField
+                label="OTP"
+                variant="outlined"
+                className="card-component"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                autoComplete="off"
+                size="small"
+                style={{ margin: "16px" }}
+              />
+              <Button
+                variant="contained"
+                style={{ marginLeft: "16px" }}
+                onClick={() => verifyOtp()}
+              >
+                VERIFY OTP
+              </Button>
+            </div>
+            {showchangepassword && (
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <TextField
+                  label="Password"
+                  variant="outlined"
+                  className="card-component"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="off"
+                  size="small"
+                  style={{ margin: "16px" }}
+                />
+                <Button
+                  variant="contained"
+                  style={{ marginLeft: "16px" }}
+                  onClick={() => changePassword()}
+                >
+                  CHANGE PASSWORD
+                </Button>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

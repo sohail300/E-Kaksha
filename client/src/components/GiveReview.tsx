@@ -4,8 +4,8 @@ import Button from "@mui/material/Button";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 import { useState } from "react";
-import { baseURL } from "./config.js";
-import { giveReview } from "../store/atoms/course";
+import { baseURL } from "../utils/config.js";
+import { giveReview } from "../store/atoms/course.js";
 import { useSetRecoilState } from "recoil";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 

@@ -12,7 +12,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import { baseURL } from "./config.js";
+import { baseURL } from "../utils/config.js";
 import Loader from "./Loader.js";
 
 const Profile = () => {
@@ -28,9 +28,13 @@ const Profile = () => {
   const [sentemail, setSentemail] = useState("");
   const [otp, setOtp] = useState("");
   const [sentOtp, setSentotp] = useState("");
-  const [showchangepassswordContainer, setShowchangepassswordContainer] =
+  const [showchangepassword, setShowchangepasssword] = useState(false);
+  const [showchangepasswordContainer, setShowchangepassswordContainer] =
     useState(false);
-  // const [showchangepasssword, setShowchangepasssword] = useState(false);
+  const [showchangeemail, setShowchangeemail] = useState(false);
+  const [showchangeemailContainer, setShowchangeemailContainer] =
+    useState(false);
+    const [newEmail, setNewEmail] = useState('');
 
   const navigate = useNavigate();
 
@@ -60,7 +64,8 @@ const Profile = () => {
     setName(response.data.user.name);
     setEmail(response.data.user.email);
     // setMobile(response.data.user.mobile);
-    setPassword(response.data.user.password);
+    // setPassword(response.data.user.password);
+    setPassword("password");
     setPhotourl(response.data.user.photoUrl);
     setId(response.data.user._id);
     setIsLoading(false);
@@ -102,7 +107,6 @@ const Profile = () => {
     setSentotp(response.data.otp);
     console.log(response.data.email);
     setSentemail(response.data.email);
-    setShowchangepassswordContainer(true);
   }
 
   async function verifyOtp() {
@@ -113,12 +117,21 @@ const Profile = () => {
     }
   }
 
+  
+  async function verifyOtpEmail() {
+    if (sentOtp.length !== 0 && sentOtp.toString() == otp) {
+      setShowchangeemail(true);
+    } else {
+      alert(`OTP doesn't match`);
+    }
+  }
+
   async function changePassword() {
     const response = await api.post(
       "/user/changepassword",
       {
         sentemail,
-        password,
+        password
       },
       {
         headers: {
@@ -127,7 +140,22 @@ const Profile = () => {
       }
     );
     console.log(response.data);
-    navigate("/student");
+  }
+
+  async function changeEmail() {
+    const response = await api.post(
+      "/user/changeemail",
+      {
+        email,
+        newEmail
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    console.log(response.data);
   }
 
   async function deleteAccount() {
@@ -268,11 +296,12 @@ const Profile = () => {
               <TextField
                 label="Email"
                 variant="outlined"
+                disabled
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="off"
               />
-              <Button variant="contained">UPDATE</Button>
+              <Button variant="contained" onClick={() => setShowchangeemailContainer(true)}>CHANGE EMAIL</Button>
             </div>
 
             {/* <div
@@ -312,7 +341,7 @@ const Profile = () => {
                 autoComplete="off"
               />
 
-              <Button variant="contained" onClick={() => sendOtp()}>
+              <Button variant="contained" onClick={() => setShowchangepassswordContainer(true)}>
                 CHANGE PASSWORD
               </Button>
             </div>
@@ -375,35 +404,47 @@ const Profile = () => {
         </div>
       )}
 
-      {showchangepassswordContainer && (
+      {showchangepasswordContainer && (
         <>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <TextField
-              label="OTP"
-              variant="outlined"
-              className="card-component"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              autoComplete="off"
-              size="small"
-              style={{ margin: "16px" }}
-            />
+          <div
+            style={{
+              backgroundColor: "white",
+              position: "fixed",
+              top: "40%",
+              right: "35%",
+              padding: "8px",
+              borderRadius: "8px",
+              zIndex: 10,
+            }}
+          >
+            
             <Button
-              variant="contained"
-              style={{ marginLeft: "16px" }}
-              onClick={() => verifyOtp()}
+                variant="contained"
+                style={{ marginLeft: "16px" }}
+                onClick={() => sendOtp()}
+              >
+                SEND OTP
+              </Button>
+              <span
+              style={{
+                textAlign: "right",
+                paddingRight: "16px",
+                paddingLeft: "64px",
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                setShowchangepassswordContainer(false);
+              }}
             >
-              VERIFY OTP
-            </Button>
-          </div>
-          {showchangepasssword && (
+              X
+            </span>
             <div style={{ display: "flex", alignItems: "center" }}>
               <TextField
-                label="Password"
+                label="OTP"
                 variant="outlined"
                 className="card-component"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
                 autoComplete="off"
                 size="small"
                 style={{ margin: "16px" }}
@@ -411,12 +452,112 @@ const Profile = () => {
               <Button
                 variant="contained"
                 style={{ marginLeft: "16px" }}
-                onClick={() => changePassword()}
+                onClick={() => verifyOtp()}
               >
-                CHANGE PASSWORD
+                VERIFY OTP
               </Button>
             </div>
-          )}
+            {showchangepassword && (
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <TextField
+                  type="password"
+                  label="Password"
+                  variant="outlined"
+                  className="card-component"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="off"
+                  size="small"
+                  style={{ margin: "16px" }}
+                />
+                <Button
+                  variant="contained"
+                  style={{ marginLeft: "16px" }}
+                  onClick={() => changePassword()}
+                >
+                  CHANGE PASSWORD
+                </Button>
+              </div>
+            )}
+          </div>
+        </>
+      )}
+
+      {showchangeemailContainer && (
+        <>
+          <div
+            style={{
+              backgroundColor: "white",
+              position: "fixed",
+              top: "40%",
+              right: "35%",
+              padding: "8px",
+              borderRadius: "8px",
+              zIndex: 10,
+            }}
+          >
+            
+            <Button
+                variant="contained"
+                style={{ marginLeft: "16px" }}
+                onClick={() => sendOtp()}
+              >
+                SEND OTP
+              </Button>
+              <span
+              style={{
+                textAlign: "right",
+                paddingRight: "16px",
+                paddingLeft: "64px",
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                setShowchangeemailContainer(false);
+              }}
+            >
+              X
+            </span>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <TextField
+                label="OTP"
+                variant="outlined"
+                className="card-component"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                autoComplete="off"
+                size="small"
+                style={{ margin: "16px" }}
+              />
+              <Button
+                variant="contained"
+                style={{ marginLeft: "16px" }}
+                onClick={() => verifyOtpEmail()}
+              >
+                VERIFY OTP
+              </Button>
+            </div>
+            {showchangeemail && (
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <TextField
+                  label="Email"
+                  variant="outlined"
+                  className="card-component"
+                  value={newEmail}
+                  onChange={(e) => setNewEmail(e.target.value)}
+                  autoComplete="off"
+                  size="small"
+                  style={{ margin: "16px" }}
+                />
+                <Button
+                  variant="contained"
+                  style={{ marginLeft: "16px" }}
+                  onClick={() => changeEmail()}
+                >
+                  CHANGE EMAIL
+                </Button>
+              </div>
+            )}
+          </div>
         </>
       )}
     </>

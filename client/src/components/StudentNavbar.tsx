@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-import { baseURL } from "./config.js";
+import { baseURL } from "../utils/config.js";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -13,10 +13,10 @@ import ContactPageIcon from "@mui/icons-material/ContactPage";
 import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import Button from "@mui/material/Button";
-import { currUserState } from "../store/atoms/admin";
+import { currUserState } from "../store/atoms/admin.js";
 import { useSetRecoilState,useRecoilValue } from "recoil";
-import { isUserLoggedInState } from "../store/atoms/user";
-import { showContact } from "../store/atoms/course";
+import { isUserLoggedInState } from "../store/atoms/user.js";
+import { showContact } from "../store/atoms/course.js";
 
 const StudentNavbar = () => {
   const navigate = useNavigate();

@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import "./Wishlist.css";
-import Cards from "./Cards";
-import { baseURL } from "./config.js";
+import Cards from "./Cards.js";
+import { baseURL } from "../utils/config.js";
 import axios from "axios";
-import CardSkeleton from "./CardSkeleton";
+import CardSkeleton from "./CardSkeleton.js";
 
 const Wishlist = () => {
   const [wishlistArray, setWishlistarray] = useState([]);

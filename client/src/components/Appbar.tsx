@@ -1,12 +1,12 @@
 import "./Appbar.css";
 import { useEffect } from "react";
 import axios from "axios";
-import { baseURL } from "./config.js";
-import { currUserState } from "../store/atoms/admin";
+import { baseURL } from "../utils/config.js";
+import { currUserState } from "../store/atoms/admin.js";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import AdminNavbar from "./AdminNavbar";
-import StudentNavbar from "./StudentNavbar";
-import OpenNavbar from "./OpenNavbar";
+import AdminNavbar from "./AdminNavbar.js";
+import StudentNavbar from "./StudentNavbar.js";
+import OpenNavbar from "./OpenNavbar.js";
 
 const Appbar = () => {
   const setCurrUser = useSetRecoilState(currUserState);

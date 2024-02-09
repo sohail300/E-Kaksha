@@ -4,7 +4,7 @@ import "./PaymentSuccess.css";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import { baseURL } from "./config.js";
+import { baseURL } from "../utils/config.js";
 import { useEffect, useState } from "react";
 
 const PaymentSuccess = () => {

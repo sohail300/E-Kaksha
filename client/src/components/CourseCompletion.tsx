@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { baseURL } from "./config.js";
-import DoughnutComp from "./DoughnutComp.jsx";
+import { baseURL } from "../utils/config.js";
+import DoughnutComp from "./DoughnutComp.js";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 

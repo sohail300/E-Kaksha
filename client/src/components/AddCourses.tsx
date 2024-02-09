@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
-import { baseURL } from "./config";
+import { baseURL } from "../utils/config";
 import "./AddCourses.css";
 
 const AddCourses = () => {

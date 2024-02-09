@@ -3,8 +3,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import "./PurchasedCourses.css";
 import Cards from "./Cards.tsx";
-import CardSkeleton from "./CardSkeleton";
-import { baseURL } from "./config.js";
+import CardSkeleton from "./CardSkeleton.tsx";
+import { baseURL } from "../utils/config.js";
 import axios from "axios";
 
 const Purchasedcourse = () => {
