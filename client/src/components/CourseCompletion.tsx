@@ -6,8 +6,8 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 
 const CourseCompletion = () => {
-  const [completed, setCompleted] = useState(0);
-  const [total, setTotal] = useState(0);
+  const [completed] = useState(0);
+  const [total] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
 
   const api = axios.create({

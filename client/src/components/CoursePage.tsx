@@ -1,4 +1,4 @@
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import CourseDetails from "./CourseDetails.js";
 import Button from "@mui/material/Button";
 import Switch from "@mui/material/Switch";
@@ -43,12 +43,12 @@ function CoursePage() {
   const currGiveReview = useRecoilValue(giveReview);
   const setGiveReview = useSetRecoilState(giveReview);
   const currIsUserLoggedIn = useRecoilValue(isUserLoggedInState);
-  const setIsUserLoggedIn = useSetRecoilState(isUserLoggedInState);
+  // const setIsUserLoggedIn = useSetRecoilState(isUserLoggedInState);
 
   const [bought, setBought] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const { id } = useParams();
 

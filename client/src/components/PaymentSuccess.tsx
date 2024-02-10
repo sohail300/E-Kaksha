@@ -5,10 +5,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import { baseURL } from "../utils/config.js";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const PaymentSuccess = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   const { id } = useParams();

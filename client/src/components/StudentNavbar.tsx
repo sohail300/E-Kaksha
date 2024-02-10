@@ -24,7 +24,7 @@ const StudentNavbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const setCurrUser = useSetRecoilState(currUserState);
-  const currIsUserLoggedIn = useRecoilValue(isUserLoggedInState);
+  // const currIsUserLoggedIn = useRecoilValue(isUserLoggedInState);
   const setIsUserLoggedIn = useSetRecoilState(isUserLoggedInState);
   const currShowContact = useRecoilValue(showContact);
   const setShowContact = useSetRecoilState(showContact);
