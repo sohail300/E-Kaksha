@@ -1,0 +1,89 @@
+// use only the available space inside the 400x400 frame
+.frame {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+	width: 100vw;
+	height: 85vh;
+	background: #eee;
+}
+
+.container {
+	height: 100%;
+	width: 100%;
+	display: grid;
+	align-items: center;
+	justify-items: center;
+	padding: 30px;
+}
+
+$purple: #6a1b9a;
+$border: 2px solid $purple;
+
+.box-4 {
+	height: 120px;
+	width: 120px;
+	background: #eee;
+	// background: #d1c4e9;
+}
+
+.loader-4 {
+	margin: 44px auto;
+	box-sizing: border-box;
+}
+
+.loader-4 {
+	position: relative;
+	height: 32px;
+	width: 32px;
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+
+	.dbl-spin-1,
+	.dbl-spin-2 {
+		position: absolute;
+		box-sizing: border-box;
+		display: block;
+		margin: auto;
+		border: 3px solid transparent;
+		border-radius: 50%;
+	}
+
+	.dbl-spin-1 {
+		height: 32px;
+		width: 32px;
+		border-top: 3px solid #9575cd;
+		border-left: 3px solid #9575cd;
+		animation: loader-4-dblspin 1.8s linear infinite;
+	}
+
+	.dbl-spin-2 {
+		height: 52px;
+		width: 52px;
+		border-bottom: 3px solid $purple;
+		border-left: 3px solid $purple;
+		animation: loader-4-dblspin2 1.2s linear infinite;
+	}
+}
+
+@keyframes loader-4-dblspin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(-720deg);
+	}
+}
+
+@keyframes loader-4-dblspin2 {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
