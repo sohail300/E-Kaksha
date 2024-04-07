@@ -17,7 +17,7 @@ const Signup = () => {
   const [loginPassword, setLoginPassword] = useState("");
 
   const setCurrUser = useSetRecoilState(currUserState);
-  const currIsUserLoggedIn = useRecoilValue(isUserLoggedInState);
+  // const currIsUserLoggedIn = useRecoilValue(isUserLoggedInState);
   const setIsUserLoggedIn = useSetRecoilState(isUserLoggedInState);
 
   const api = axios.create({

@@ -82,7 +82,7 @@ const StudentNavbar = () => {
         },
       }
     );
-
+    console.log(reponse)
     alert("Submitted!");
     setShowContact(false);
   }
