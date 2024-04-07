@@ -1,13 +1,11 @@
-import "./Admin.css";
-import "./Student.css";
 import { useState } from "react";
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import { baseURL } from "../utils/config.js";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { currUserState } from "../store/atoms/admin.js";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { isUserLoggedInState } from "../store/atoms/user.js";
+import bgImage from '../assets/images/bg.jpg'
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -17,14 +15,8 @@ const Signup = () => {
   const [signupPassword, setSignupPassword] = useState("");
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const [userSignupfontcolor, setUsersignupfontcolor] = useState("#fff");
-  const [userSignupbgcolor, setUsersignupbgcolor] = useState("#1976d2");
-  const [userLoginfontcolor, setUserloginfontcolor] = useState("#1976d2");
-  const [userLoginbgcolor, setUserloginbgcolor] = useState("#fff");
 
   const setCurrUser = useSetRecoilState(currUserState);
-  const currUser = useRecoilValue(currUserState);
-
   const currIsUserLoggedIn = useRecoilValue(isUserLoggedInState);
   const setIsUserLoggedIn = useSetRecoilState(isUserLoggedInState);
 
@@ -35,19 +27,11 @@ const Signup = () => {
   function enableLogin() {
     setSignup(false);
     setLogin(true);
-    setUserloginfontcolor("#fff");
-    setUserloginbgcolor("#1976d2");
-    setUsersignupfontcolor("#1976d2");
-    setUsersignupbgcolor("#fff");
   }
 
   function enableSignup() {
     setSignup(true);
     setLogin(false);
-    setUserloginfontcolor("#1976d2");
-    setUserloginbgcolor("#fff");
-    setUsersignupfontcolor("#fff");
-    setUsersignupbgcolor("#1976d2");
   }
 
   function handleSignupEmail(e) {
@@ -78,7 +62,6 @@ const Signup = () => {
   }
 
   async function handleLogin() {
-    console.log(loginPassword);
     const response = await api.post("/user/login", {
       email: loginEmail,
       password: loginPassword,
@@ -86,23 +69,63 @@ const Signup = () => {
     localStorage.setItem("token", response.data);
     setCurrUser("user");
     setIsUserLoggedIn(true);
-    console.log(currUser);
-    console.log(isUserLoggedInState);
-    console.log(currIsUserLoggedIn);
     navigate("/allcourse");
   }
 
   return (
-    <div className="reg-container user-section">
-      <h1 style={{ color: "#fff" }}>Student Login</h1>
-
-      <div className="card">
-        <div className="reg-option">
+    <div
+      className="reg-container user-section"
+      style={{
+        margin: 0,
+        height: "90vh",
+        width: "100vw",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: "cover",
+        fontFamily: "Inter, Helvetica, sans-serif, Arial",
+      }}
+    >
+      <h1 style={{ color: "#fff", fontFamily: "Manrope, Helvetica, sans-serif, Arial" }}>Student Login</h1>
+      <div
+        className="card"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          padding: "15px",
+          width: "30%",
+          backdropFilter: "blur(2px) saturate(120%)",
+          WebkitBackdropFilter: "blur(2px) saturate(100%)",
+          backgroundColor: "rgba(251, 251, 251, 1)",
+          borderRadius: "12px",
+          border: "1px solid rgba(255, 255, 255, 0.125)",
+        }}
+      >
+        <div
+          className="reg-option"
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: "70%",
+            margin: "30px",
+          }}
+        >
           <a
             onClick={enableSignup}
             style={{
-              color: userSignupfontcolor,
-              backgroundColor: userSignupbgcolor,
+              fontSize: "20px",
+              width: "40%",
+              fontFamily: "Archivo, Helvetica, sans-serif, Arial",
+              padding: "4px 12px",
+              borderRadius: "5px",
+              border: "2px solid #1976d2",
+              color: signup ? "#fff" : "#1976d2",
+              cursor: "pointer",
+              backgroundColor: signup ? "#1976d2" : "#fff",
             }}
             className="card-signup"
           >
@@ -111,8 +134,15 @@ const Signup = () => {
           <a
             onClick={enableLogin}
             style={{
-              color: userLoginfontcolor,
-              backgroundColor: userLoginbgcolor,
+              fontSize: "20px",
+              width: "40%",
+              fontFamily: "Archivo, Helvetica, sans-serif, Arial",
+              padding: "4px 12px",
+              borderRadius: "5px",
+              border: "2px solid #1976d2",
+              color: login ? "#fff" : "#1976d2",
+              cursor: "pointer",
+              backgroundColor: login ? "#1976d2" : "#fff",
             }}
             className="card-login"
           >
@@ -129,6 +159,15 @@ const Signup = () => {
               value={signupEmail}
               onChange={handleSignupEmail}
               autoComplete="off"
+              style={{
+                width: "70%",
+                margin: "15px",
+                backgroundColor: "white",
+                border: "1px solid black",
+                borderRadius: "5px",
+                height: "32px",
+                color: "black",
+              }}
             />
             <input
               type="password"
@@ -137,9 +176,29 @@ const Signup = () => {
               value={signupPassword}
               onChange={handleSignupPassword}
               autoComplete="off"
+              style={{
+                width: "70%",
+                margin: "15px",
+                backgroundColor: "white",
+                border: "1px solid black",
+                borderRadius: "5px",
+                height: "32px",
+                color: "black",
+              }}
             />
             <br />
-            <button className="signup-btn" onClick={handleSignup}>
+            <button
+              className="signup-btn"
+              onClick={handleSignup}
+              style={{
+                borderRadius: "5px",
+                width: "25%",
+                height: "36px",
+                border: "none",
+                background: "#1976d2",
+                cursor: 'pointer'
+              }}
+            >
               SIGNUP
             </button>
             <br />
@@ -155,6 +214,15 @@ const Signup = () => {
               onChange={handleLoginEmail}
               placeholder="Email"
               autoComplete="off"
+              style={{
+                width: "70%",
+                margin: "15px",
+                backgroundColor: "white",
+                border: "1px solid black",
+                borderRadius: "5px",
+                height: "32px",
+                color: "black",
+              }}
             />
             <input
               type="password"
@@ -163,9 +231,28 @@ const Signup = () => {
               placeholder="Password"
               onChange={handleLoginPassword}
               autoComplete="off"
+              style={{
+                width: "70%",
+                margin: "15px",
+                backgroundColor: "white",
+                border: "1px solid black",
+                borderRadius: "5px",
+                height: "32px",
+                color: "black",
+              }}
             />
-            {/* <br /> */}
-            <button className="login-btn" onClick={handleLogin}>
+            <button
+              className="login-btn"
+              onClick={handleLogin}
+              style={{
+                borderRadius: "5px",
+                width: "25%",
+                height: "36px",
+                border: "none",
+                background: "#1976d2",
+                cursor: 'pointer'
+              }}
+            >
               LOGIN
             </button>
             <br />

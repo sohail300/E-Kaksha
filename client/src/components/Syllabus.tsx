@@ -1,5 +1,5 @@
 import AccordianComp from "./AccordianComp";
-import syllabus from './syllabusArray'
+import syllabus from '../utils/syllabusArray'
 
 const Syllabus = () => {
   return (

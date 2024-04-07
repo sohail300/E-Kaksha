@@ -10,11 +10,11 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
-import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
+import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import Button from "@mui/material/Button";
 import { currUserState } from "../store/atoms/admin.js";
-import { useSetRecoilState,useRecoilValue } from "recoil";
+import { useSetRecoilState, useRecoilValue } from "recoil";
 import { isUserLoggedInState } from "../store/atoms/user.js";
 import { showContact } from "../store/atoms/course.js";
 
@@ -24,7 +24,6 @@ const StudentNavbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const setCurrUser = useSetRecoilState(currUserState);
-  // const currIsUserLoggedIn = useRecoilValue(isUserLoggedInState);
   const setIsUserLoggedIn = useSetRecoilState(isUserLoggedInState);
   const currShowContact = useRecoilValue(showContact);
   const setShowContact = useSetRecoilState(showContact);
@@ -64,14 +63,12 @@ const StudentNavbar = () => {
   function openContact() {
     setShowContact(true);
     setAnchorEl(null);
-    console.log(currShowContact)
   }
-  
+
   function logout() {
     localStorage.setItem("token", null);
     navigate("/");
     setCurrUser(null);
-    setAnchorEl(null);
     setIsUserLoggedIn(false);
   }
 
@@ -86,10 +83,8 @@ const StudentNavbar = () => {
       }
     );
 
-    console.log(reponse.data);
     alert("Submitted!");
     setShowContact(false);
-    console.log(currShowContact)
   }
 
   async function closeContact() {
@@ -98,21 +93,64 @@ const StudentNavbar = () => {
 
   return (
     <>
-      <nav className="navbar">
+      <nav
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          color: "black",
+          margin: "0px",
+          padding: "0px",
+          width: "100vw",
+          position: "sticky",
+          top: "0px",
+          zIndex: "10",
+          boxSizing: "border-box",
+          backdropFilter: "blur(2px) saturate(130%)",
+          backgroundColor: "#262726",
+        }}
+      >
         <p
           className="logo"
           onClick={() => {
             navigate("/");
           }}
-          style={{ cursor: "pointer" }}
+          style={{
+            fontFamily: "Clash Display, Helvetica, Arial, sans-serif",
+            fontWeight: "500",
+            color: "#1976d2",
+            fontSize: "28px",
+            margin: "15px",
+            marginLeft: "24px",
+            cursor: "pointer",
+          }}
         >
           E-Kaksha
         </p>
-        <div className="student-nav-links nav-links">
-          <a onClick={openPurchasedcourses} className="navlink-btn student">
-            My Courses
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-evenly",
+            alignItems: "center",
+            fontSize: "24px",
+            textAlign: "center",
+          }}
+        >
+          <a
+            onClick={openPurchasedcourses}
+            style={{
+              padding: "4px 20px",
+              borderRadius: "5px",
+              fontFamily: "Manrope, sans-serif",
+              backgroundColor: "#1976d2",
+              color: "white",
+              cursor: "pointer",
+            }}
+          >
+            Purchased Courses
           </a>
-          
+
           <MenuIcon
             fontSize="large"
             onClick={handleClick}
@@ -129,6 +167,9 @@ const StudentNavbar = () => {
             onClose={handleClose}
             MenuListProps={{
               "aria-labelledby": "basic-button",
+            }}
+            style={{
+              fontFamily: "Manrope, Helvetica, sans-serif, Arial",
             }}
           >
             <MenuItem onClick={openProfile} style={{ textAlign: "center" }}>
@@ -156,48 +197,81 @@ const StudentNavbar = () => {
       </nav>
 
       {currShowContact && (
-        <div
-          style={{
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "30%",
-            backgroundColor: "#fff",
-            borderRadius: "10px",
-            height: "30vh",
-            padding: "8px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-around",
-            alignItems: "flex-start",
-            zIndex: "1"
-          }}
-        >
-
-          <div >
-            <DisabledByDefaultIcon style={{position:"absolute", right:"12px",cursor:"pointer", color:"#DC3545"}} onClick={closeContact}/>
-          </div>
-          <span style={{ display: "flex", alignSelf: "center" }}>
-            Mail at <a href="mailto:sohailatwork10@gmail.com" style={{cursor:"pointer", color:"#0000EE", textDecoration:"none", marginLeft: "6px"}}>sohailatwork10@gmail.com</a>
-          </span>
-          <span style={{ display: "flex", alignSelf: "center", color:"#464646" }}>
-            ---------------------OR---------------------
-            </span>
-          <TextareaAutosize
-            minRows={5}
-            placeholder="Comments Here..."
-            value={describe}
-            onChange={(e) => setDescribe(e.target.value)}
-            style={{ backgroundColor: "#fff", width: "99%", color: "#000" }}
-          />
-          <Button
-            variant="contained"
-            onClick={submitContact}
-            style={{ textAlign: "center", alignSelf: "center" }}
+        <div style={{ position: "relative" }}>
+          {/* Gray overlay */}
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent gray color
+              zIndex: 9999, // Higher z-index to cover everything
+            }}
+            onClick={closeContact} // Close contact form when clicked outside
+          ></div>
+          <div
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "30%",
+              backgroundColor: "#fff",
+              borderRadius: "10px",
+              height: "30vh",
+              padding: "8px 24px",
+              zIndex: 10000,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-around",
+              alignItems: "flex-start",
+            }}
           >
-            Submit
-          </Button>
+            <div>
+              <DisabledByDefaultIcon
+                style={{
+                  position: "absolute",
+                  right: "12px",
+                  cursor: "pointer",
+                  color: "#DC3545",
+                }}
+                onClick={closeContact}
+              />
+            </div>
+            <span
+              style={{
+                display: "flex",
+                alignSelf: "center",
+                color: "#0000EE",
+                cursor: "pointer",
+                textDecoration: "none",
+                marginLeft: "6px",
+              }}
+            >
+              Mail at sohailatwork10@gmail.com
+            </span>
+            <span
+              style={{ display: "flex", alignSelf: "center", color: "#464646" }}
+            >
+              ---------------------OR---------------------
+            </span>
+            <TextareaAutosize
+              minRows={5}
+              placeholder="Comments Here..."
+              value={describe}
+              onChange={(e) => setDescribe(e.target.value)}
+              style={{ backgroundColor: "#fff", width: "99%", color: "#000" }}
+            />
+            <Button
+              variant="contained"
+              onClick={submitContact}
+              style={{ textAlign: "center", alignSelf: "center" }}
+            >
+              Submit
+            </Button>
+          </div>
         </div>
       )}
     </>

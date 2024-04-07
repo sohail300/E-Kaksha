@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
-import "./PurchasedCourses.css";
 import Cards from "./Cards.tsx";
 import CardSkeleton from "./CardSkeleton.tsx";
 import { baseURL } from "../utils/config.js";
@@ -30,7 +29,7 @@ const Purchasedcourse = () => {
 
   useEffect(() => {
     getPurchased();
-  },[]);
+  }, []);
 
   function handleSearch(e) {
     const searchText = e.target.value;
@@ -43,38 +42,48 @@ const Purchasedcourse = () => {
 
   return (
     <>
-      <h1 id="purchasedcourse-heading" style={{ color: "#000" }}>
-        My Courses
-      </h1>
-      <div
-        className="navlink-btn student"
+      <h1
         style={{
-          backgroundColor: "#464647",
+          textAlign: "center",
+          marginTop: "30px",
+          marginBottom: "0px",
+          fontSize: "48px",
+          color: "#000",
+          width: "100vw",
+          fontFamily: "Manrope, Helvetica, sans-serif, Arial",
+        }}
+      >
+        Purchased Courses
+      </h1>
+
+      <div
+        style={{
           position: "absolute",
           top: "108px",
           right: "20px",
-          width: "20%",
           display: "flex",
-          justifySelf: "end",
-          alignSelf: "self-end",
           alignItems: "center",
         }}
       >
-        <SearchIcon
-          fontSize="large"
-          style={{ color: "#fff", margin: "0px 16px", cursor: "pointer" }}
-        />
         <TextField
           id="standard-basic"
-          label=""
           variant="outlined"
-          placeholder="Search..."
-          fullWidth={false}
           size="small"
           value={search}
           onChange={handleSearch}
+          style={{
+            color: "#000",
+            outline: "none",
+            border: "1px solid black",
+            borderRadius: "5px",
+          }}
+        />
+        <SearchIcon
+          fontSize="large"
+          style={{ color: "#000", cursor: "pointer", marginLeft: "16px" }}
         />
       </div>
+
       {isLoading ? (
         <div
           style={{
@@ -91,7 +100,14 @@ const Purchasedcourse = () => {
           ))}
         </div>
       ) : (
-        <div id="purchasedcourse-div">
+        <div
+          style={{
+            width: "100vw",
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "space-evenly",
+          }}
+        >
           {filteredList.map((item, index) => {
             return (
               <Cards

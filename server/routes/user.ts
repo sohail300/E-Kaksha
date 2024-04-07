@@ -47,6 +47,8 @@ router.post("/signup", async (req, res) => {
     if (user) {
       return res.status(403).send("User already Exists");
     } else {
+      // this will come or not
+      // const hashedPassword = await bcrypt.hash(password, saltRounds);
       const obj = {
         email: email,
         password: password,
@@ -139,9 +141,7 @@ const reviewInput = z.object({
 router.post("/contact", authenticate, async (req, res) => {
   try {
     const id = req.headers["id"];
-
     const description = req.body.describe;
-
     const user = await User.findById(id);
 
     const obj = {
@@ -165,10 +165,8 @@ router.post("/contact", authenticate, async (req, res) => {
 router.get("/profile", authenticate, async (req, res) => {
   try {
     const id = req.headers["id"];
-    console.log(id);
 
     const user = await User.findById(id);
-    console.log("Sent!");
     return res.status(200).json({ user });
   } catch (err) {
     return res.status(500).send({ "Internal Error": err });
@@ -241,7 +239,7 @@ router.post("/hasbought", authenticate, async (req, res) => {
 
 const transporter = nodemailer.createTransport({
   host: process.env.MAIL_HOST,
-  port: process.env.MAIL_PORT,
+  port: Number(process.env.EMAIL_PORT),
   secure: false, // true for 465, false for other ports
   auth: {
     user: process.env.MAIL_ADDRESS,

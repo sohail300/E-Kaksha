@@ -2,6 +2,7 @@ import { User, Admin, Course, Contact } from "../db/model";
 import bcrypt from "bcrypt";
 import express from "express";
 import mongoose from "mongoose";
+import { signupInput } from '@sohail60/common'
 import jwt from "jsonwebtoken";
 import { z } from "zod";
 import dotenv from "dotenv";
@@ -12,15 +13,6 @@ const saltRounds = 10;
 const router = express.Router();
 
 dotenv.config();
-
-const signupInput = z.object({
-  email: z
-    .string()
-    .min(1, { message: "This field has to be filled." })
-    .max(30)
-    .email("Please enter a valid email."),
-  password: z.string().min(6, { message: "Minimum 6 characters." }).max(20),
-});
 
 // Admin routes
 router.post("/signup", async (req, res) => {
@@ -61,6 +53,8 @@ router.post("/signup", async (req, res) => {
   }
 });
 
+// type LoginParams= z.infer<typeof loginInput>
+
 router.post("/login", async (req, res) => {
   try {
     const parsedInput = signupInput.safeParse(req.body);
@@ -97,7 +91,7 @@ router.post("/login", async (req, res) => {
 
 const transporter = nodemailer.createTransport({
   host: process.env.MAIL_HOST,
-  port: process.env.MAIL_PORT,
+  port: Number(process.env.EMAIL_PORT),
   secure: false, // true for 465, false for other ports
   auth: {
     user: process.env.MAIL_ADDRESS,

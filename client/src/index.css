@@ -1,13 +1,10 @@
 :root {
   font-family: Inter, Arial, sans-serif;
-  /* font-family: Klein, Arial, sans-serif; */
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
   color: #000;
-  /* background-image: url("./assets/images/bg.jpg"); */
   background-size: cover;
-  /* background-repeat: no-repeat; */
   box-sizing: border-box;
   overflow-x: hidden;
   font-synthesis: none;
@@ -28,7 +25,7 @@ body{
 
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 0px;
 }
 
 /* Handle */
@@ -39,5 +36,5 @@ body{
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #aaa; 
+  background: #fff; 
 }

@@ -165,8 +165,7 @@ function CoursePage() {
         <div
           style={{
             background: "#161616",
-            width: "99vw",
-            height: "50vh",
+            width: "100vw",
             display: "flex",
             flexDirection: "row",
           }}
@@ -174,7 +173,7 @@ function CoursePage() {
           <img
             src={course.imagelink}
             alt=""
-            style={{ margin: "16px 80px 16px 80px" }}
+            style={{ margin: "24px 80px 24px 80px", borderRadius: '8px' }}
           />
           <div
             style={{

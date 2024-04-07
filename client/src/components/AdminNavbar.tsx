@@ -54,17 +54,50 @@ const AdminNavbar = () => {
   }
 
   return (
-    <nav className="navbar">
+    <nav
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        color: "black",
+        margin: "0px",
+        padding: "0px",
+        width: "100vw",
+        position: "sticky",
+        top: "0px",
+        zIndex: "10",
+        boxSizing: "border-box",
+        backdropFilter: "blur(2px) saturate(130%)",
+        backgroundColor: "#262726",
+      }}
+    >
       <p
         className="logo"
         onClick={() => {
           navigate("/");
         }}
-        style={{ cursor: "pointer" }}
+        style={{
+          fontFamily: "Clash Display, Helvetica, Arial, sans-serif",
+          fontWeight: "500",
+          color: "#1976d2",
+          fontSize: "28px",
+          margin: "15px",
+          marginLeft: "24px",
+          cursor: "pointer",
+        }}
       >
         E-Kaksha
       </p>
-      <div className="nav-links">
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          fontSize: "24px",
+          textAlign: "center",
+        }}
+      >
         <MenuIcon
           fontSize="large"
           onClick={handleClick}
@@ -96,7 +129,7 @@ const AdminNavbar = () => {
             Add Courses
           </MenuItem>
           <MenuItem onClick={openContactInfo}>
-          <ContactPageIcon style={{ marginRight: "8px" }} />
+            <ContactPageIcon style={{ marginRight: "8px" }} />
             Contact Info
           </MenuItem>
           <MenuItem onClick={logout}>

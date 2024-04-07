@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
-import "./Wishlist.css";
 import Cards from "./Cards.js";
 import { baseURL } from "../utils/config.js";
 import axios from "axios";
@@ -43,38 +42,48 @@ const Wishlist = () => {
 
   return (
     <>
-      <h1 id="wishlist-heading" style={{ color: "#000" }}>
+      <h1
+        style={{
+          textAlign: "center",
+          marginTop: "30px",
+          marginBottom: "0px",
+          fontSize: "48px",
+          color: "#000",
+          width: "100vw",
+          fontFamily: "Manrope, Helvetica, sans-serif, Arial",
+        }}
+      >
         Wishlist
       </h1>
+
       <div
-        className="navlink-btn student"
         style={{
-          backgroundColor: "#464647",
           position: "absolute",
           top: "108px",
           right: "20px",
-          width: "20%",
           display: "flex",
-          justifySelf: "end",
-          alignSelf: "self-end",
           alignItems: "center",
         }}
       >
-        <SearchIcon
-          fontSize="large"
-          style={{ color: "#fff", margin: "0px 16px", cursor: "pointer" }}
-        />
         <TextField
           id="standard-basic"
-          label=""
           variant="outlined"
-          placeholder="Search..."
-          fullWidth={false}
           size="small"
           value={search}
           onChange={handleSearch}
+          style={{
+            color: "#000",
+            outline: "none",
+            border: "1px solid black",
+            borderRadius: "5px",
+          }}
+        />
+        <SearchIcon
+          fontSize="large"
+          style={{ color: "#000", cursor: "pointer", marginLeft: "16px" }}
         />
       </div>
+
       {isLoading ? (
         <div
           style={{
@@ -91,19 +100,24 @@ const Wishlist = () => {
           ))}
         </div>
       ) : (
-        <div id="wishlist-div">
-          {filteredList.map((item, index) => {
-            return (
-              <Cards
-                key={index}
-                id={item._id}
-                title={item.title}
-                description={item.description}
-                price={item.price}
-                imagelink={item.imagelink}
-              />
-            );
-          })}
+        <div
+          style={{
+            width: "100vw",
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "space-evenly",
+          }}
+        >
+          {filteredList.map((item, index) => (
+            <Cards
+              key={index}
+              id={item._id}
+              title={item.title}
+              description={item.description}
+              price={item.price}
+              imagelink={item.imagelink}
+            />
+          ))}
         </div>
       )}
     </>

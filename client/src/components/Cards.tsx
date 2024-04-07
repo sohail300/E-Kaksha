@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import "./Cards.css";
 
-const Cards = ({id, title, description, price, imagelink}) => {
+const Cards = ({ id, title, description, price, imagelink }) => {
   const navigate = useNavigate();
 
   async function viewCourse() {
@@ -13,45 +12,74 @@ const Cards = ({id, title, description, price, imagelink}) => {
     <>
       <div
         className="cards"
-        style={{ display: "flex", flexDirection: "column" }}
+        style={{
+          width: "25%",
+          margin: "30px",
+          position: "relative",
+          color: "#000",
+          borderRadius: "8px",
+          backgroundColor: "white",
+          boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.3) ",
+          fontFamily: "Inter, Helvetica, sans-serif, Arial"
+        }}
       >
-        <img src={imagelink} alt="image link" />
-        <h2
+        <img
+          src={imagelink}
+          alt="image link"
+          style={{
+            borderRadius: "8px 8px 0px 0px",
+            width: "100%",
+            height: "240px",
+          }}
+        />
+        <div
           style={{
             display: "flex",
-            alignSelf: "flex-start",
-            marginLeft: "16px",
+            flexDirection: "column",
+            padding: "0 16px",
+            paddingBottom: '16px'
           }}
         >
-          {title}
-        </h2>
-        <p
-          style={{
-            display: "flex",
-            alignSelf: "flex-start",
-            marginLeft: "16px",
-            marginTop: "0px",
-          }}
-        >
-          Price: <span style={{ color: "green" }}>₹{price}</span>
-        </p>
-        <p className="description">{description}</p>
-        <button
-          className="purchase-btn"
-          onClick={viewCourse}
-          style={{
-            display: "flex",
-            alignSelf: "center",
-            justifyContent: "center",
-            textAlign: "center",
-            cursor: "pointer",
-          }}
-        >
-          {" "}
-          <span style={{ display: "flex", alignSelf: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <p style={{fontFamily: "Manrope, Helvetica, sans-serif, Arial", fontWeight: 'bold'}}>{title}</p>
+            <p>
+              Price: <span style={{ color: "green" }}>₹{price}</span>
+            </p>
+          </div>
+          <p
+            className="description"
+            style={{
+              display: "flex",
+              textAlign: "justify",
+              height: "200px",
+              overflowY: "scroll",
+              msOverflowStyle: "none",
+              scrollbarWidth: "none",
+            }}
+          >
+            {description}
+          </p>
+          <button
+            className="purchase-btn"
+            onClick={viewCourse}
+            style={{
+              background: "#1976d2",
+              borderRadius: "4px",
+              padding: "10px 12px",
+              fontFamily: "Inter, Helvetica, sans-serif, Arial",
+              border: "none",
+              cursor: "pointer",
+            }}
+          >
             View Course
-          </span>
-        </button>
+          </button>
+        </div>
       </div>
     </>
   );

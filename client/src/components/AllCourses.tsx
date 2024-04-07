@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
-import "./AllCourses.css";
 import CardSkeleton from "./CardSkeleton.js";
 import Cards from "./Cards.js";
 import { baseURL } from "../utils/config.js";
@@ -30,7 +29,7 @@ const Allcourse = () => {
 
   useEffect(() => {
     getCourses();
-  },[]);
+  }, []);
 
   function handleSearch(e) {
     const searchText = e.target.value;
@@ -43,75 +42,84 @@ const Allcourse = () => {
 
   return (
     <>
-      <main style={{ height: "100vh" }}>
-        <h1 id="allcourse-heading" style={{ color: "#000" }}>
-          All courses
-        </h1>
-        <div
-          className="navlink-btn student"
+      <h1
+        style={{
+          textAlign: "center",
+          marginTop: "30px",
+          marginBottom: "0px",
+          fontSize: "40px",
+          width: "100vw",
+          color: "#000",
+          fontFamily: "Manrope, Helvetica, sans-serif, Arial",
+        }}
+      >
+        All courses
+      </h1>
+
+      <div
+        style={{
+          position: "absolute",
+          top: "108px",
+          right: "20px",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <TextField
+          id="standard-basic"
+          variant="outlined"
+          size="small"
+          value={search}
+          onChange={handleSearch}
           style={{
-            backgroundColor: "#464647",
-            position: "absolute",
-            top: "108px",
-            right: "20px",
-            width: "20%",
+            color: "#000",
+            outline: "none",
+            border: "1px solid black",
+            borderRadius: "5px",
+          }}
+        />
+        <SearchIcon
+          fontSize="large"
+          style={{ color: "#000", cursor: "pointer", marginLeft: "16px" }}
+        />
+      </div>
+
+      {isLoading ? (
+        <div
+          style={{
             display: "flex",
-            justifySelf: "end",
-            alignSelf: "self-end",
-            alignItems: "center",
+            flexWrap: "wrap",
+            justifyContent: "space-evenly",
+            alignItems: "flex-start",
+            width: "100vw",
+            margin: "0px",
           }}
         >
-          <SearchIcon
-            fontSize="large"
-            style={{ color: "#fff", margin: "0px 16px", cursor: "pointer" }}
-          />
-          <TextField
-            id="standard-basic"
-            label=""
-            variant="outlined"
-            placeholder="Search..."
-            fullWidth={false}
-            size="small"
-            value={search}
-            onChange={handleSearch}
-          />
+          {Array.from({ length: 3 }).map((_, index) => (
+            <CardSkeleton key={index} />
+          ))}
         </div>
-
-        {/* <div style={{color:"#000"}}>Loading...</div> */}
-        {isLoading ? (
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "space-evenly",
-              alignItems: "flex-start",
-              width: "100vw",
-              margin: "0px",
-            }}
-          >
-            {Array.from({ length: 3 }).map((_, index) => (
-              <CardSkeleton key={index} />
-            ))}
-          </div>
-        ) : (
-          <div id="allcourse-div">
-            {filteredList.map((item, index) => {
-              return (
-                <>
-                  <Cards
-                    key={index}
-                    id={item._id}
-                    title={item.title}
-                    description={item.description}
-                    price={item.price}
-                    imagelink={item.imagelink}
-                  />
-                </>
-              );
-            })}
-          </div>
-        )}
-      </main>
+      ) : (
+        <div
+          style={{
+            width: "100vw",
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "space-evenly",
+          }}
+        >
+          {filteredList.map((item, index) => (
+            <Cards
+              key={index}
+              id={item._id}
+              title={item.title}
+              description={item.description}
+              price={item.price}
+              imagelink={item.imagelink}
+            />
+          ))}
+        </div>
+      )}
     </>
   );
 };

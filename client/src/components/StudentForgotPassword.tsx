@@ -13,8 +13,7 @@ const ForgotPassword = () => {
   const [sentOtp, setSentotp] = useState("");
   const [password, setPassword] = useState("");
   const [showchangepassword, setShowchangepassword] = useState(false);
-  const [showchangepasswordContainer] =
-    useState(true);
+  const [showchangepasswordContainer] = useState(true);
 
   const api = axios.create({
     baseURL,

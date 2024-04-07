@@ -6,14 +6,11 @@ const Home = () => {
     <>
       <main id="main-div">
         <div className="heading">
-          {/* <div style={{opacity: '80%'}}>
-        <iframe width="640" height="640" src="https://cybermap.kaspersky.com/en/widget/dynamic/dark" frameBorder="0"></iframe>
-    </div> */}
           <h1>Welcome to </h1>
           <h1>E-Kaksha</h1>
         </div>
         <div>
-          {/* <div className="bg"></div> */}
+          <div className="bg"></div>
 
           <div className="star-field">
             <div className="layer"></div>
@@ -31,7 +28,6 @@ const Home = () => {
               zIndex: "20",
             }}
           />
-          {/* <Book></Book> */}
         </div>
       </main>
     </>
