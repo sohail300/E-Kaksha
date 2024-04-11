@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { baseURL } from "../utils/config.js";
 import axios from "axios";
 import { currUserState } from "../store/atoms/admin.js";
-import { useSetRecoilState, useRecoilValue } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { isUserLoggedInState } from "../store/atoms/user.js";
 import bgImage from '../assets/images/bg.jpg'
 
