@@ -31,37 +31,25 @@ const CourseCompletion = () => {
 
   return (
     <>
-      <h3 style={{ textAlign: "left", margin: "4px 12px" }}>
-        Course Completion
-      </h3>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-          width: "100%",
-          height: "55%",
-        }}
-      >
+      <h3 className="text-left text-2xl font-medium mb-4">Course Completion</h3>
+      <div className="flex flex-col items-center justify-between h-72 w-full">
         <DoughnutComp completed={completed} total={total} />
-        <p style={{ textAlign: "center" }}>
+        <p className="text-center">
           You have completed <b>{completed}</b> out of <b>{total}</b> modules.
         </p>
 
-        {isComplete ? (
-          <Button variant="contained" onClick={getCert}>
-            Get Completion Certificate
-          </Button>
-        ) : (
-          <Tooltip title="Complete the course to get a certificate">
-            <span>
-              <Button variant="contained" onClick={getCert} disabled>
-                Get Completion Certificate
-              </Button>
-            </span>
-          </Tooltip>
-        )}
+        <Tooltip title="Complete the course to get a certificate">
+          <span>
+            <button
+              className={`px-4 py-2 rounded-md bg-gray-800 text-white font-medium hover:bg-gray-900 ${
+                isComplete && "disabled"
+              }`}
+              onClick={() => getCert()}
+            >
+              Get Completion Certificate
+            </button>
+          </span>
+        </Tooltip>
       </div>
     </>
   );

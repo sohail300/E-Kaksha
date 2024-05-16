@@ -1,5 +1,5 @@
 import VerifiedIcon from "@mui/icons-material/Verified";
-import imagepath from "../assets/images/notebook.png";
+import imagepath from "../../assets/images/notebook.png";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
 import axios from "axios";
@@ -9,75 +9,29 @@ import { useEffect } from "react";
 const PaymentSuccess = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-
-  const successStyle = {
-    margin: "10px auto",
-    marginBottom: "30px",
-    fontSize: "28px",
-    fontFamily: "Roboto",
-    fontWeight: "bold",
-    color: "#2ecc71",
-  };
-
-  const growAnimation = {
-    animationName: "grow",
-    animationDuration: "1s",
-    animationTimingFunction: "ease-in-out",
-  };
-
-  const styles = {
-    body: {
-      backgroundColor: "#cecece",
-    },
-    mainContainer: {
-      backgroundColor: "#fff",
-      height: "100vh",
-      maxWidth: "500px",
-      margin: "0 auto",
-      padding: "25px",
-    },
-  };
-
   const api = axios.create({
     baseURL,
   });
 
-  async function buyCourse() {
-    const response = await api.post(`/course/buy/${id}`, null, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    navigate("/student/purchased-courses");
-  }
+  async function buyCourse() {}
 
   useEffect(() => {
     // buyCourse();
   }, []);
 
   return (
-    <div style={styles.body}>
-      {/* <div style={styles.mainContainer}>
-        <img
-          src={imagepath}
-          alt="photo"
-          style={{ height: "30vh", display: "block", margin: "30px auto" }}
-        />
-        <VerifiedIcon
-          className="animated-element"
-          fontSize="large"
-          style={{
-            display: "block",
-            margin: "0px auto",
-            color: "#2ecc71",
-            ...growAnimation,
-          }}
-        />
-        <h1 style={successStyle}>Payment successful!</h1>
-        <Button variant="contained" onClick={() => buyCourse()}>
-          View Purchased Courses
-        </Button>
-      </div> */}
+    <div className="flex flex-col items-center p-6 px-24 bg-white rounded w-full pt-28 h-screen">
+      <h1 className="text-center text-5xl font-bold text-green-500 mb-4">
+        Payment Successful!
+      </h1>
+      <img src={imagepath} alt="image" className="h-80 my-8" />
+
+      <button
+        className="bg-gray-800 text-white px-4 py-2 font-medium rounded-md hover:bg-gray-900 mt-8"
+        onClick={() => navigate("/student/purchased-courses")}
+      >
+        View Purchased Courses
+      </button>
     </div>
   );
 };

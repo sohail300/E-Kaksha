@@ -20,35 +20,17 @@ const Profile = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const [photourl, setPhotourl] = useState("");
   const [toDelete, setTodelete] = useState(false);
   const [deleteText, setDeletetext] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [otp, setOtp] = useState("");
-  const [showchangepassword, setShowchangepasssword] = useState(false);
-  const [showchangepasswordContainer, setShowchangepassswordContainer] =
-    useState(false);
-  const [showchangeemail, setShowchangeemail] = useState(false);
-  const [showchangeemailContainer, setShowchangeemailContainer] =
-    useState(false);
-  const [newEmail, setNewEmail] = useState("");
 
   const navigate = useNavigate();
 
   const api = axios.create({
     baseURL,
-  });
-
-  const VisuallyHiddenInput = styled("input")({
-    clip: "rect(0 0 0 0)",
-    clipPath: "inset(50%)",
-    height: 1,
-    overflow: "hidden",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    whiteSpace: "nowrap",
-    width: 1,
   });
 
   async function getUser() {
@@ -60,6 +42,7 @@ const Profile = () => {
 
     console.log(response);
     setName(response.data.user.name);
+    setUsername(response.data.user.username);
     setEmail(response.data.user.email);
     setPassword("********");
     setPhotourl(response.data.user.photoUrl);
@@ -70,78 +53,6 @@ const Profile = () => {
   useEffect(() => {
     getUser();
   }, []);
-
-  async function updateName() {
-    const response = await api.put(
-      "/user/profile",
-      {
-        name,
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
-    getUser();
-  }
-
-  async function sendOtp() {
-    const response = await api.get("/user/sendotp", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-  }
-
-  async function verifyOtp() {
-    const response = await api.post(
-      "/user/verifyotp",
-      {
-        otp,
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
-    if (response.data.flag) {
-      setShowchangeemail(true);
-      setShowchangepasssword(true);
-    }
-  }
-
-  async function changePassword() {
-    const response = await api.put(
-      "/user/change-password",
-      {
-        password,
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
-    getUser();
-  }
-
-  async function changeEmail() {
-    const response = await api.put(
-      "/user/change-email",
-      {
-        newEmail,
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
-    setOtp("");
-    getUser();
-  }
 
   async function deleteAccount() {
     if (deleteText !== "Delete Account") {
@@ -197,355 +108,102 @@ const Profile = () => {
   }
 
   return (
-    <>
+    <div className="flex flex-col items-center p-6 px-24 bg-white rounded w-full pt-28 h-screen">
       {isLoading ? (
         <Loader />
       ) : (
         <>
-          <h1
-            style={{
-              textAlign: "center",
-              marginTop: "30px",
-              marginBottom: "10px",
-              fontSize: "40px",
-              color: "#000",
-              width: "100vw",
-              fontFamily: "Manrope, Helvetica, sans-serif, Arial",
-            }}
-          >
+          <h1 className="text-center text-5xl font-bold text-black mb-4">
             Profile
           </h1>
-          <div
-            style={{
-              width: "100vw",
-              height: "70vh",
-              display: "flex",
-              justifyContent: "space-evenly",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <img
+
+          <div className="flex flex-row justify-around w-full mt-16">
+            <div className="flex flex-col justify-between items-center ">
+              <div className="rounded-full w-32 h-32 object-cover border border-black"></div>
+              {/* <img
+                className="rounded-full w-32 h-32 object-cover"
                 src={photourl}
                 alt="photo"
-                style={{
-                  width: "300px",
-                  height: "300px",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                }}
-              />
-              <Button
-                style={{ marginTop: "40px" }}
-                component="label"
-                variant="contained"
-                startIcon={<CloudUploadIcon />}
-              >
-                Upload
-                <VisuallyHiddenInput
-                  type="file"
-                  onChange={(e) => handleUpload(e)}
-                />
-              </Button>
+              /> */}
+              <button className="bg-gray-800 text-white px-4 py-2 font-medium rounded-md hover:bg-gray-900 w-full ">
+                UPLOAD
+                <input type="file" hidden onChange={(e) => handleUpload(e)} />
+              </button>
             </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-evenly",
-                alignItems: "center",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  width: "30vw",
-                }}
-              >
+
+            <div className="flex flex-col items-center space-y-4 ">
+              <div className="flex justify-between w-full items-center ">
                 <TextField
                   label="Name"
+                  size="small"
                   variant="outlined"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   autoComplete="off"
+                  className="w-full"
                 />
-                <Button variant="contained" onClick={() => updateName()}>
+                <button className="bg-gray-800 text-white px-4 py-2 font-medium rounded-md hover:bg-gray-900 w-full ml-16">
                   UPDATE
-                </Button>
+                </button>
               </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  width: "30vw",
-                }}
-              >
+              <div className="flex justify-between w-full items-center mb-4">
+                <TextField
+                  label="Username"
+                  size="small"
+                  variant="outlined"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  autoComplete="off"
+                  className="w-full"
+                />
+                <button className="bg-gray-800 text-white px-4 py-2 font-medium rounded-md hover:bg-gray-900 w-full ml-16">
+                  UPDATE
+                </button>
+              </div>
+
+              <div className="flex justify-between items-center w-full mb-4">
                 <TextField
                   label="Email"
+                  size="small"
                   variant="outlined"
                   disabled
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   autoComplete="off"
+                  className="w-full"
                 />
-                <Button
-                  variant="contained"
-                  onClick={() => setShowchangeemailContainer(true)}
-                >
-                  CHANGE EMAIL
-                </Button>
+                <button className="bg-gray-800 text-white px-4 py-2 font-medium rounded-md hover:bg-gray-900 w-full ml-16">
+                  CHANGE
+                </button>
               </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  width: "30vw",
-                }}
-              >
+              <div className="flex justify-between w-full items-center mb-4">
                 <TextField
                   label="Password"
                   type="password"
+                  size="small"
                   variant="outlined"
                   disabled
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   autoComplete="off"
+                  className="w-full"
                 />
 
-                <Button
-                  variant="contained"
-                  onClick={() => setShowchangepassswordContainer(true)}
-                >
-                  CHANGE PASSWORD
-                </Button>
+                <button className="bg-gray-800 text-white px-4 py-2 font-medium rounded-md hover:bg-gray-900 w-full ml-16">
+                  CHANGE
+                </button>
               </div>
-              <Button
-                variant="contained"
-                style={{ backgroundColor: "#DC3545", width: "30vw" }}
-                onClick={() => setTodelete(true)}
-              >
+
+              <button className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700 w-full">
                 DELETE ACCOUNT
-              </Button>
+              </button>
             </div>
           </div>
         </>
       )}
-
-      {toDelete && (
-        <div
-          style={{
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "30%",
-            backgroundColor: "#fff",
-            borderRadius: "10px",
-            // height: "30vh",
-            padding: "24px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-around",
-            alignItems: "flex-start",
-            zIndex: "1",
-          }}
-        >
-          <span style={{ textAlign: "justify" }}>
-            All your details, reviews will be deleted. If you have purchased any
-            course, that will be deleted too and no refund will be provided.
-            Type <b>"Delete Account"</b> in the input field below to delete your
-            account.
-          </span>
-          <TextField
-            variant="outlined"
-            label="Input"
-            value={deleteText}
-            onChange={(e) => setDeletetext(e.target.value)}
-            size="small"
-            autoComplete="off"
-            style={{ margin: "32px 0px" }}
-          />
-          <Button
-            variant="contained"
-            onClick={() => deleteAccount()}
-            style={{
-              textAlign: "center",
-              alignSelf: "center",
-              backgroundColor: "#DC3545",
-            }}
-          >
-            DELETE ACCOUNT
-          </Button>
-        </div>
-      )}
-
-      {showchangepasswordContainer && (
-        <>
-          <div
-            style={{
-              backgroundColor: "white",
-              position: "fixed",
-              top: "40%",
-              right: "35%",
-              padding: "8px",
-              borderRadius: "8px",
-              zIndex: 10,
-            }}
-          >
-            <Button
-              variant="contained"
-              style={{ marginLeft: "16px" }}
-              onClick={() => sendOtp()}
-            >
-              SEND OTP
-            </Button>
-            <span
-              style={{
-                textAlign: "right",
-                paddingRight: "16px",
-                paddingLeft: "64px",
-                cursor: "pointer",
-              }}
-              onClick={() => {
-                setShowchangepassswordContainer(false);
-              }}
-            >
-              X
-            </span>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <TextField
-                label="OTP"
-                variant="outlined"
-                className="card-component"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                autoComplete="off"
-                size="small"
-                style={{ margin: "16px" }}
-              />
-              <Button
-                variant="contained"
-                style={{ marginLeft: "16px" }}
-                onClick={() => verifyOtp()}
-              >
-                VERIFY OTP
-              </Button>
-            </div>
-            {showchangepassword && (
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <TextField
-                  type="password"
-                  label="Password"
-                  variant="outlined"
-                  className="card-component"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  autoComplete="off"
-                  size="small"
-                  style={{ margin: "16px" }}
-                />
-                <Button
-                  variant="contained"
-                  style={{ marginLeft: "16px" }}
-                  onClick={() => changePassword()}
-                >
-                  CHANGE PASSWORD
-                </Button>
-              </div>
-            )}
-          </div>
-        </>
-      )}
-
-      {showchangeemailContainer && (
-        <>
-          <div
-            style={{
-              backgroundColor: "white",
-              position: "fixed",
-              top: "40%",
-              right: "35%",
-              padding: "8px",
-              borderRadius: "8px",
-              zIndex: 10,
-            }}
-          >
-            <Button
-              variant="contained"
-              style={{ marginLeft: "16px" }}
-              onClick={() => sendOtp()}
-            >
-              SEND OTP
-            </Button>
-            <span
-              style={{
-                textAlign: "right",
-                paddingRight: "16px",
-                paddingLeft: "64px",
-                cursor: "pointer",
-              }}
-              onClick={() => {
-                setShowchangeemailContainer(false);
-              }}
-            >
-              X
-            </span>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <TextField
-                label="OTP"
-                variant="outlined"
-                className="card-component"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                autoComplete="off"
-                size="small"
-                style={{ margin: "16px" }}
-              />
-              <Button
-                variant="contained"
-                style={{ marginLeft: "16px" }}
-                onClick={() => verifyOtp()}
-              >
-                VERIFY OTP
-              </Button>
-            </div>
-            {showchangeemail && (
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <TextField
-                  label="Email"
-                  variant="outlined"
-                  className="card-component"
-                  value={newEmail}
-                  onChange={(e) => setNewEmail(e.target.value)}
-                  autoComplete="off"
-                  size="small"
-                  style={{ margin: "16px" }}
-                />
-                <Button
-                  variant="contained"
-                  style={{ marginLeft: "16px" }}
-                  onClick={() => changeEmail()}
-                >
-                  CHANGE EMAIL
-                </Button>
-              </div>
-            )}
-          </div>
-        </>
-      )}
-    </>
+    </div>
   );
 };
 

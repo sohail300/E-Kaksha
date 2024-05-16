@@ -1,93 +1,34 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const OpenNavbar = () => {
   const navigate = useNavigate();
 
-  function openAdmin() {
-    navigate("/admin");
-  }
-
-  function openStudent() {
-    navigate("/student");
-  }
-
-  function openAllcourses() {
-    navigate("/all-courses");
-  }
-
   return (
-    <nav
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        color: "black",
-        margin: "0px",
-        padding: "0px",
-        width: "100vw",
-        position: "sticky",
-        top: "0px",
-        zIndex: "10",
-        boxSizing: "border-box",
-        backdropFilter: "blur(2px) saturate(130%)",
-        backgroundColor: "#262726",
-      }}
-    >
-      <div
-        className="logo"
-        onClick={() => {
-          navigate("/");
-        }}
-        style={{
-          fontFamily: "Clash Display, Helvetica, Arial, sans-serif",
-          fontWeight: "500",
-          color: "#1976d2",
-          fontSize: "28px",
-          margin: "15px",
-          marginLeft: "24px",
-          cursor: "pointer",
-        }}
-      >
-        E-Kaksha
-      </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-          fontSize: "24px",
-          height: "50px",
-          textAlign: "center",
-          width: "40%",
-        }}
-      >
-        <a
-          onClick={openStudent}
-          style={{
-            padding: "4px 20px",
-            borderRadius: "5px",
-            fontFamily: "Manrope, sans-serif",
-            backgroundColor: "#1976d2",
-            color: "white",
-            cursor: "pointer",
-          }}
+    <nav className="fixed top-0 w-full p-2 z-10 md:p-4 shadow-md bg-gray-800 text-white">
+      <div className="mx-auto flex flex-row md:flex-row justify-between items-center px-10">
+        <div
+          className="cursor-pointer text-3xl font-bold"
+          onClick={() => navigate("/")}
         >
-          Student
-        </a>
-        <a
-          onClick={openAllcourses}
-          style={{
-            padding: "4px 20px",
-            borderRadius: "5px",
-            fontFamily: "Manrope, sans-serif",
-            backgroundColor: "#1976d2",
-            color: "white",
-            cursor: "pointer",
-          }}
-        >
-          All Courses
-        </a>
+          E-Kaksha
+        </div>
+
+        <>
+          <div className="flex justify-between items-center text-xl w-1/5">
+            <Link
+              to={"/student/login"}
+              className="px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200"
+            >
+              Student
+            </Link>
+            <Link
+              to={"/all-courses"}
+              className="px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200"
+            >
+              All Courses
+            </Link>
+          </div>
+        </>
       </div>
     </nav>
   );

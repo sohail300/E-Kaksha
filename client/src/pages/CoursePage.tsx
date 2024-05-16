@@ -41,7 +41,6 @@ function CoursePage() {
   const [checked, setChecked] = useState(true);
   const [reviews, setReviews] = useState([]);
   const currGiveReview = useRecoilValue(giveReview);
-  const setGiveReview = useSetRecoilState(giveReview);
   const currIsUserLoggedIn = useRecoilValue(isUserLoggedInState);
   // const setIsUserLoggedIn = useSetRecoilState(isUserLoggedInState);
 
@@ -158,89 +157,63 @@ function CoursePage() {
   }
 
   return (
-    <>
+    <div className="  bg-white rounded w-full pt-20">
       {isLoading ? (
         <Loader />
       ) : (
-        <div
-          style={{
-            background: "#161616",
-            width: "100vw",
-            display: "flex",
-            flexDirection: "row",
-          }}
-        >
-          <img
-            src={course.imagelink}
-            alt=""
-            style={{ margin: "24px 80px 24px 80px", borderRadius: "8px" }}
-          />
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              color: "#fff",
-              width: "700px",
-            }}
-          >
-            <p style={{ fontWeight: "bold", fontSize: "24px" }}>
-              {course.title}
-            </p>
-            <div className="sharethis-sticky-share-buttons"></div>
+        <div className="flex bg-gray-800 py-8 px-8">
+          <img className=" rounded-lg" src={course.imagelink} alt="image" />
+          <div className="flex flex-col items-start justify-between w-full px-8 text-white">
+            <p className="text-2xl font-medium">{course.title}</p>
             <p>
-              Price:{" "}
-              <span style={{ color: "#00ff00", fontWeight: "bold" }}>
+              Price:
+              <span className=" font-semibold text-green-400 ml-2">
                 ₹{course.price}
               </span>
             </p>
-            <p style={{ textAlign: "justify" }}>{course.description}</p>
-            <span>
-              <span style={{ marginRight: "40px" }}>
+            <div className="flex items-center mt-4">
+              <div className="mr-4">
                 <Rating
                   value={calcRating()}
                   precision={0.5}
                   emptyIcon={
                     <StarIcon
-                      style={{ opacity: 0.2, color: "#fff" }}
+                      className="text-opacity-20 text-white"
                       fontSize="inherit"
                     />
                   }
                   readOnly
                 />
-              </span>
-              <span>Reviews</span>
+              </div>
+              <div className="mr-4">Reviews</div>
               <Switch
                 checked={checked}
                 onChange={(e) => setChecked(e.target.checked)}
+                className="mr-4"
               />
-              <span>Syllabus</span>
-            </span>
-            <div>
+              <div>Syllabus</div>
+            </div>
+            <p className="mt-4 text-justify">{course.description}</p>
+            <div className="flex mt-8">
               {bought ? (
-                <Button
-                  variant="contained"
-                  style={{ margin: "16px 24px 0px 0px" }}
-                  onClick={() => setGiveReview(true)}
-                >
+                <button className="px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200">
                   Give Review
-                </Button>
+                </button>
               ) : (
                 <>
-                  <Button
-                    variant="contained"
-                    style={{ margin: "16px 24px 0px 0px" }}
-                    onClick={checkout}
+                  <button
+                    className="px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200 mr-6"
+                    onClick={() => checkout()}
                   >
                     Buy Course
-                  </Button>
-                  <Button
-                    variant="contained"
-                    style={{ margin: "16px 24px 0px 0px" }}
-                    onClick={wishlist}
+                  </button>
+
+                  <button
+                    className="px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200"
+                    onClick={() => wishlist()}
                   >
                     Add to Wishlist
-                  </Button>
+                  </button>
                 </>
               )}
             </div>
@@ -248,12 +221,16 @@ function CoursePage() {
         </div>
       )}
 
-      <div style={{ width: "100vw", display: "flex" }}>
-        <div style={{ width: "70%" }}>
-          {checked ? <Syllabus /> : <ViewReviews reviews={reviews} />}
+      <div className="flex px-16 py-4">
+        <div className="w-full">
+          {checked ? (
+            <Syllabus />
+          ) : (
+            <ViewReviews reviews={reviews} className="flex flex-col" />
+          )}
         </div>
-        <div style={{ marginRight: "16px", width: "30%" }}>
-          <h2 style={{ textAlign: "start", marginLeft: "16px" }}>Details</h2>
+        <div className="w-fit rounded-lg bg-gray-300 p-4 px-6 sticky h-fit top-24">
+          <h2 className="text-left text-2xl font-medium ml-4">Details</h2>
           <CourseDetails
             duration={course.duration}
             resources={course.resource}
@@ -261,8 +238,7 @@ function CoursePage() {
           <CourseCompletion />
         </div>
       </div>
-      {currGiveReview && <GiveReview userid={userid} courseid={id} />}
-    </>
+    </div>
   );
 }
 

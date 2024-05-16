@@ -8,127 +8,30 @@ import { baseURL } from "../../utils/config.js";
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const [otp, setOtp] = useState("");
-  const [password, setPassword] = useState("");
-  const [showchangepassword, setShowchangepassword] = useState(false);
-  const [showchangepasswordContainer] = useState(true);
 
   const api = axios.create({
     baseURL,
   });
 
-  async function sendOTP() {
-    const response = await api.get("/user/sendotp", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    console.log(response.data);
-  }
-
-  async function verifyOTP() {
-    const response = await api.post(
-      "/user/verifyotp",
-      {
-        otp,
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
-    if (response.data.flag) {
-      setShowchangepassword(true);
-    }
-    console.log(response.data);
-  }
-
-  async function changePassword() {
-    const response = await api.post(
-      "/user/change-password",
-      {
-        password,
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
-    console.log(response.data);
-    navigate("/student");
-  }
-
   return (
-    <div className="reg-container">
-      <h1
-        style={{
-          textAlign: "center",
-          marginTop: "30px",
-          marginBottom: "10px",
-          fontSize: "40px",
-          color: "#000",
-          width: "100vw",
-          fontFamily: "Manrope, Helvetica, sans-serif, Arial",
-        }}
-      >
-        Forgot Password
-      </h1>
-      <div className="card">
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <Button
-            variant="contained"
-            style={{ marginLeft: "16px" }}
-            onClick={() => sendOTP()}
-          >
-            SEND OTP
-          </Button>
-        </div>
+    <div className=" flex flex-col items-center justify-center p-6 px-24 bg-white w-full pt-28 h-screen">
+      <div className="p-8 space-y-8 rounded-lg shadow-md border border-black flex flex-col items-center w-1/4 bg-gray-100">
+        <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl ">
+          Verify OTP
+        </h1>
 
-        {showchangepasswordContainer && (
-          <>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <TextField
-                label="OTP"
-                variant="outlined"
-                className="card-component"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                autoComplete="off"
-                size="small"
-                style={{ margin: "16px" }}
-              />
-              <Button
-                variant="contained"
-                style={{ marginLeft: "16px" }}
-                onClick={() => verifyOTP()}
-              >
-                VERIFY OTP
-              </Button>
-            </div>
-            {showchangepassword && (
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <TextField
-                  label="Password"
-                  variant="outlined"
-                  className="card-component"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  autoComplete="off"
-                  size="small"
-                  style={{ margin: "16px" }}
-                />
-                <Button
-                  variant="contained"
-                  style={{ marginLeft: "16px" }}
-                  onClick={() => changePassword()}
-                >
-                  CHANGE PASSWORD
-                </Button>
-              </div>
-            )}
-          </>
-        )}
+        <TextField
+          label="OTP"
+          variant="outlined"
+          className=" w-full"
+          value={otp}
+          onChange={(e) => setOtp(e.target.value)}
+          autoComplete="off"
+          size="small"
+        />
+        <button className="bg-gray-800 text-white px-4 py-2 font-medium rounded-md hover:bg-gray-900 w-full ">
+          VERIFY OTP
+        </button>
       </div>
     </div>
   );

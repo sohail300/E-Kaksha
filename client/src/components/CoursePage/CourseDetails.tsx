@@ -4,40 +4,29 @@ import LanguageIcon from "@mui/icons-material/Language";
 import CardMembershipIcon from "@mui/icons-material/CardMembership";
 
 const CourseDetails = (props) => {
-    return (
-        <div>
-          <h3 style={{ textAlign: "left", margin: "4px 12px" }}>
-            This course includes:
-          </h3>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              marginLeft: "12px",
-            }}
-          >
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <AccessTimeIcon style={{ marginRight: "8px", marginBottom: "8px" }} />
-              {props.duration} hour course
-            </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <DownloadIcon style={{ marginRight: "8px", marginBottom: "8px" }} />
-              {props.resources} resources for download
-            </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <LanguageIcon style={{ marginRight: "8px", marginBottom: "8px" }} />
-              Access via mobile devices and TV
-            </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <CardMembershipIcon
-                style={{ marginRight: "8px", marginBottom: "8px" }}
-              />
-              Certificate of completion
-            </div>
-          </div>
+  return (
+    <div>
+      <h3 className="text-left px-4 py-2">This course includes:</h3>
+      <div className="flex flex-col justify-start ml-4">
+        <div className="flex items-center mb-4">
+          <AccessTimeIcon className="mr-2" />
+          <span>{props.duration} hour course</span>
         </div>
-      );
-}
+        <div className="flex items-center mb-4">
+          <DownloadIcon className="mr-2" />
+          <span>{props.resources} resources for download</span>
+        </div>
+        <div className="flex items-center mb-4">
+          <LanguageIcon className="mr-2" />
+          <span>Access via mobile devices and TV</span>
+        </div>
+        <div className="flex items-center mb-4">
+          <CardMembershipIcon className="mr-2" />
+          <span>Certificate of completion</span>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-export default CourseDetails
+export default CourseDetails;

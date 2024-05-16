@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { baseURL } from "../../utils/config.js";
@@ -10,13 +10,9 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
-import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
-import { TextareaAutosize } from "@mui/base/TextareaAutosize";
-import Button from "@mui/material/Button";
 import { currUserState } from "../../store/atoms/admin.js";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { isUserLoggedInState } from "../../store/atoms/user.js";
-import { showContact } from "../../store/atoms/course.js";
 
 const StudentNavbar = () => {
   const navigate = useNavigate();
@@ -29,46 +25,6 @@ const StudentNavbar = () => {
   const api = axios.create({
     baseURL,
   });
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  function openAllcourses() {
-    navigate("/all-courses");
-    setAnchorEl(null);
-  }
-
-  function openProfile() {
-    navigate("/profile");
-    setAnchorEl(null);
-  }
-
-  function openPurchasedcourses() {
-    navigate("/student/purchased-courses");
-    setAnchorEl(null);
-  }
-
-  function openWishlist() {
-    navigate("/student/wishlist");
-    setAnchorEl(null);
-  }
-
-  function openContact() {
-    navigate("/student/contact");
-    setAnchorEl(null);
-  }
-
-  function logout() {
-    localStorage.setItem("token", null);
-    navigate("/");
-    setCurrUser(null);
-    setIsUserLoggedIn(false);
-  }
 
   async function submitContact() {
     const reponse = await api.post(
@@ -85,110 +41,95 @@ const StudentNavbar = () => {
   }
 
   return (
-    <>
-      <nav
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          color: "black",
-          margin: "0px",
-          padding: "0px",
-          width: "100vw",
-          position: "sticky",
-          top: "0px",
-          zIndex: "10",
-          boxSizing: "border-box",
-          backdropFilter: "blur(2px) saturate(130%)",
-          backgroundColor: "#262726",
-        }}
-      >
-        <p
-          className="logo"
-          onClick={() => {
-            navigate("/");
-          }}
-          style={{
-            fontFamily: "Clash Display, Helvetica, Arial, sans-serif",
-            fontWeight: "500",
-            color: "#1976d2",
-            fontSize: "28px",
-            margin: "15px",
-            marginLeft: "24px",
-            cursor: "pointer",
-          }}
+    <nav className="fixed top-0 w-full p-2 z-10 md:p-4 shadow-md bg-gray-800 text-white">
+      <div className="mx-auto flex flex-row md:flex-row justify-between items-center px-10">
+        <div
+          className="cursor-pointer text-3xl font-bold"
+          onClick={() => navigate("/")}
         >
           E-Kaksha
-        </p>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-evenly",
-            alignItems: "center",
-            fontSize: "24px",
-            textAlign: "center",
-          }}
-        >
-          <a
-            onClick={openPurchasedcourses}
-            style={{
-              padding: "4px 20px",
-              borderRadius: "5px",
-              fontFamily: "Manrope, sans-serif",
-              backgroundColor: "#1976d2",
-              color: "white",
-              cursor: "pointer",
-            }}
-          >
-            Purchased Courses
-          </a>
-
-          <MenuIcon
-            fontSize="large"
-            onClick={handleClick}
-            style={{
-              color: "#fff",
-              margin: "0px 48px 0px 16px",
-              cursor: "pointer",
-            }}
-          />
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              "aria-labelledby": "basic-button",
-            }}
-            style={{
-              fontFamily: "Manrope, Helvetica, sans-serif, Arial",
-            }}
-          >
-            <MenuItem onClick={openProfile} style={{ textAlign: "center" }}>
-              <PersonIcon style={{ marginRight: "8px" }} />
-              Profile
-            </MenuItem>
-            <MenuItem onClick={openAllcourses}>
-              <AutoStoriesIcon style={{ marginRight: "8px" }} />
-              All Courses
-            </MenuItem>
-            <MenuItem onClick={openWishlist}>
-              <FavoriteIcon style={{ marginRight: "8px" }} />
-              Wishlist
-            </MenuItem>
-            <MenuItem onClick={openContact}>
-              <ContactPageIcon style={{ marginRight: "8px" }} />
-              Contact Us
-            </MenuItem>
-            <MenuItem onClick={logout}>
-              <LogoutIcon style={{ marginRight: "8px" }} />
-              Logout
-            </MenuItem>
-          </Menu>
         </div>
-      </nav>
-    </>
+
+        <>
+          <div className="flex justify-around items-center text-xl w-1/4">
+            <Link
+              to={"/student/purchased-courses"}
+              className="px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200"
+              onClick={() => setAnchorEl(null)}
+            >
+              Purchased Courses
+            </Link>
+            <MenuIcon
+              fontSize="large"
+              onClick={(event) => {
+                setAnchorEl(event.currentTarget);
+              }}
+              className=" cursor-pointer text-white ml-4 mr-12 mb-0 mt-0"
+            />
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={() => {
+                setAnchorEl(null);
+              }}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
+            >
+              <MenuItem
+                onClick={() => {
+                  navigate("/student/profile");
+                  setAnchorEl(null);
+                }}
+                className=" text-center"
+              >
+                <PersonIcon className=" mr-2" />
+                Profile
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  navigate("/all-courses");
+                  setAnchorEl(null);
+                }}
+              >
+                <AutoStoriesIcon className=" mr-2" />
+                All Courses
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  navigate("/student/wishlist");
+                  setAnchorEl(null);
+                }}
+              >
+                <FavoriteIcon className=" mr-2" />
+                Wishlist
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  navigate("/student/contact");
+                  setAnchorEl(null);
+                }}
+              >
+                <ContactPageIcon className=" mr-2" />
+                Contact Us
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  localStorage.setItem("token", null);
+                  navigate("/");
+                  setCurrUser(null);
+                  setIsUserLoggedIn(false);
+                }}
+              >
+                <LogoutIcon className=" mr-2" />
+                Logout
+              </MenuItem>
+            </Menu>
+          </div>
+        </>
+      </div>
+    </nav>
   );
 };
 
