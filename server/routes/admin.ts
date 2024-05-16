@@ -1,180 +1,48 @@
-import { User, Admin, Course, Contact } from "../db/model";
-import bcrypt from "bcrypt";
 import express from "express";
-import mongoose from "mongoose";
-import { signupInput } from '@sohail60/common'
-import jwt from "jsonwebtoken";
-import { z } from "zod";
 import dotenv from "dotenv";
-import nodemailer from "nodemailer";
 import { authenticate, secretKey } from "../middleware/auth";
+import {
+  adminLogin,
+  adminSignup,
+  changeEmail,
+  changePassword,
+  deleteUser,
+  getContacts,
+  getProfile,
+  postCourse,
+  profile,
+  profilePhoto,
+  sendOTP,
+  verifyOTP,
+} from "../controller/admin";
 
-const saltRounds = 10;
 const router = express.Router();
 
 dotenv.config();
 
-// Admin routes
-router.post("/signup", async (req, res) => {
-  try {
-    const parsedInput = signupInput.safeParse(req.body);
-
-    if (parsedInput.success === false) {
-      return res.status(411).json({
-        msg: parsedInput.error,
-      });
-    }
-
-    const email = parsedInput.data.email;
-    const password = parsedInput.data.password;
-
-    const user = await Admin.findOne({ email });
-
-    if (user) {
-      return res.status(403).send("User already Exists");
-    } else {
-      const hashedPassword = await bcrypt.hash(password, saltRounds);
-      const obj = {
-        email: email,
-        password: hashedPassword,
-      };
-      const newAdmin = new Admin(obj);
-      await newAdmin.save();
-      console.log("Admin saved");
-
-      const token = jwt.sign({ id: newAdmin._id, role: "admin" }, secretKey, {
-        expiresIn: "1h",
-      });
-
-      return res.status(201).json(token);
-    }
-  } catch (err) {
-    return res.status(500).send({ "Internal Error": err });
-  }
-});
+router.post("/signup", adminSignup);
 
 // type LoginParams= z.infer<typeof loginInput>
+router.post("/login", adminLogin);
 
-router.post("/login", async (req, res) => {
-  try {
-    const parsedInput = signupInput.safeParse(req.body);
+router.post("/course", authenticate, postCourse);
 
-    if (parsedInput.success === false) {
-      return res.status(411).json({
-        msg: parsedInput.error,
-      });
-    }
+router.get("/contact", authenticate, getContacts);
 
-    const email = parsedInput.data.email;
-    const password = parsedInput.data.password;
+router.get("/profile", authenticate, getProfile);
 
-    const admin = await Admin.findOne({ email: email });
+router.put("/profile", authenticate, profile);
 
-    if (!admin) {
-      return res.status(403).send("User doesnt exist");
-    } else {
-      const match = await bcrypt.compare(password, admin.password);
+router.put("/profile/photo", authenticate, profilePhoto);
 
-      if (match) {
-        const token = jwt.sign({ id: admin._id, role: "admin" }, secretKey, {
-          expiresIn: "1h",
-        });
-        return res.status(200).json(token);
-      } else {
-        return res.status(403).send("Invalid Credentials");
-      }
-    }
-  } catch (err) {
-    return res.status(500).send({ "Internal Error": err });
-  }
-});
+router.delete("/delete", authenticate, deleteUser);
 
-const transporter = nodemailer.createTransport({
-  host: process.env.MAIL_HOST,
-  port: Number(process.env.EMAIL_PORT),
-  secure: false, // true for 465, false for other ports
-  auth: {
-    user: process.env.MAIL_ADDRESS,
-    pass: process.env.MAIL_PASSWORD,
-  },
-});
+router.get("/sendotp", authenticate, sendOTP);
 
-function generateOtp() {
-  const min = 100000;
-  const max = 999999;
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+router.post("/verifyotp", authenticate, verifyOTP);
 
-router.post("/sendotp", async (req, res) => {
-  const email = req.body.email;
-  const admin = Admin.findOne({ email: email });
+router.put("/change-password", authenticate, changePassword);
 
-  if (!admin) {
-    return res.status(403).send("User doesnt exist");
-  } else {
-    const otp = generateOtp();
-    const info = await transporter.sendMail({
-      from: `"E-Kaksha" <ekaksha2001@gmail.com>`,
-      to: `${email}`,
-      subject: "OTP Verification",
-      html: `Your <b>E-Kaksha</b> verification code is: <b>${otp}</b>`,
-    });
-    console.log("Message sent:", info.messageId);
-    console.log("1");
-    res.status(200).json({ email: email, otp: otp });
-  }
-});
-
-const passwordInput = z.object({
-  password: z.string().min(6, { message: "Minimum 6 characters." }).max(20),
-});
-
-router.post("/changepassword", async (req, res) => {
-  const parsedInput = passwordInput.safeParse(req.body);
-
-  if (parsedInput.success === false) {
-    return res.status(411).json({
-      msg: parsedInput.error,
-    });
-  }
-
-  const email = req.body.sentemail;
-  const password = parsedInput.data.password;
-
-  const admin = await Admin.findOne({ email: email });
-
-  if (!admin) {
-    return res.status(403).send("User doesnt exist");
-  } else {
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-    admin.password = hashedPassword;
-    await admin.save();
-    return res.status(200).send("Password Changed!");
-  }
-});
-
-router.post("/course", authenticate, async (req, res) => {
-  try {
-    const newCourse = new Course(req.body);
-    console.log(req.body);
-    await newCourse.save();
-
-    return res
-      .status(201)
-      .send({ message: "Course created successfully", courseId: newCourse.id });
-  } catch (err) {
-    return res.status(500).send({ "Internal Error": err });
-  }
-});
-
-router.get("/contact", authenticate, async (req, res) => {
-  try {
-    const contacts = await Contact.find();
-    console.log("Done!");
-    return res.status(200).json({ contact: contacts });
-  } catch (err) {
-    return res.status(500).send({ "Internal Error": err });
-  }
-});
+router.put("/change-email", authenticate, changeEmail);
 
 export default router;

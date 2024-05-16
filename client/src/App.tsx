@@ -1,49 +1,54 @@
-import './App.css'
-import Appbar from './components/Appbar'
-import Home from './components/Home'
-import Admin from './components/Admin'
-import Student from './components/Student'
-import AddCourse from './components/AddCourses'
-import AllCourses from './components/AllCourses'
-import Purchasedcourse from './components/PurchasedCourses'
-import Wishlist from './components/Wishlist'
-import Contact from './components/Contact'
-import CoursePage from './components/CoursePage'
-import PaymentSuccess from './components/PaymentSuccess'
-import PaymentCanceled from './components/PaymentCanceled'
-import AdminForgotPassword from './components/AdminForgotPassword'
-import StudentForgotPassword from './components/StudentForgotPassword'
-import { BrowserRouter as Router, Routes,Route } from 'react-router-dom'
-import {RecoilRoot} from 'recoil'
-import Profile from './components/Profile'
+import "./App.css";
+import Appbar from "./components/Navbar/Navbar";
+import Home from "./pages/Home";
+import Student from "./pages/student/Student";
+import AllCourses from "./pages/AllCourses";
+import Purchasedcourse from "./pages/student/PurchasedCourses";
+import Wishlist from "./pages/student/Wishlist";
+import CoursePage from "./pages/CoursePage";
+import PaymentSuccess from "./pages/student/PaymentSuccess";
+import PaymentCanceled from "./pages/student/PaymentCanceled";
+import StudentForgotPassword from "./pages/student/StudentForgotPassword";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { RecoilRoot } from "recoil";
+import StudentProfile from "./pages/student/Profile";
+import Contact from "./pages/student/SubmitContact";
 
 function App() {
-
   return (
     <>
-    <RecoilRoot>
-    <Router>
-    <Appbar/>
-    <Routes>
-    <Route path='/' element={<Home />} />
-    <Route path='/profile' element={<Profile />} />
-    <Route path='/admin' element={<Admin />} />
-    <Route path='/student' element={<Student />} />
-    <Route path='/addcourse' element={<AddCourse />} />
-    <Route path='/allcourse' element={<AllCourses />} />
-    <Route path='/course/:id' element={<CoursePage />} />
-    <Route path='/purchasedcourse' element={<Purchasedcourse />} />
-    <Route path='/wishlist' element={<Wishlist />} />
-    <Route path='/contact' element={<Contact />} />
-    <Route path='/payment/success/:id' element={<PaymentSuccess />} />
-    <Route path='/payment/canceled' element={<PaymentCanceled />} />
-    <Route path='/adminforgotpassword' element={<AdminForgotPassword />} />
-    <Route path='/studentforgotpassword' element={<StudentForgotPassword />} />
-    </Routes>
-    </Router>
-    </RecoilRoot>
+      <RecoilRoot>
+        <Router>
+          <Appbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/student/profile" element={<StudentProfile />} />
+            <Route path="/student" element={<Student />} />
+            <Route path="/all-courses" element={<AllCourses />} />
+            <Route path="/course/:id" element={<CoursePage />} />
+            <Route
+              path="/student/purchased-courses"
+              element={<Purchasedcourse />}
+            />
+            <Route path="/student/wishlist" element={<Wishlist />} />
+            <Route path="/student/contact" element={<Contact />} />
+            <Route
+              path="/student/payment/success/:id"
+              element={<PaymentSuccess />}
+            />
+            <Route
+              path="/student/payment/canceled"
+              element={<PaymentCanceled />}
+            />
+            <Route
+              path="/student/forgot-password"
+              element={<StudentForgotPassword />}
+            />
+          </Routes>
+        </Router>
+      </RecoilRoot>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

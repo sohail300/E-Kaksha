@@ -1,11 +1,10 @@
 import mongoose, { mongo } from "mongoose";
 
-// MongoDB Schema
 const adminSchema = new mongoose.Schema({
   name: String,
   password: String,
   email: String,
-  // mobile: Number,
+  otp: String,
   photoUrl: String,
   publishedCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
 });
@@ -14,7 +13,7 @@ const userSchema = new mongoose.Schema({
   name: String,
   password: String,
   email: String,
-  // mobile: Number,
+  otp: String,
   photoUrl: String,
   purchasedCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
   wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
@@ -41,7 +40,6 @@ const contactSchema = new mongoose.Schema({
   userid: String,
   username: String,
   email: String,
-  // mobile: Number,
   description: String,
   photoUrl: String,
 });

@@ -97,7 +97,6 @@ router.post("/checkout", authenticate, async (req, res) => {
     cancel_url: `${process.env.FRONTEND_URL}payment/canceled/`,
   });
 
-  // console.log("3");
   // console.log(session.url);
   return res.json({ url: session.url });
   // res.redirect(303, session.url);

@@ -10,3 +10,4 @@ export const signupInput = z.object({
   });
   
 export type SignupParams = z.infer<typeof signupInput>
+
