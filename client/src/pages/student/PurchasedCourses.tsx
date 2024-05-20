@@ -17,7 +17,7 @@ const Purchasedcourse = () => {
   });
 
   async function getPurchased() {
-    const response = await api.get("/user/purchasedcourses", {
+    const response = await api.get("/student/purchased-courses", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },

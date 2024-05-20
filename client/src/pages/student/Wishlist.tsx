@@ -17,7 +17,7 @@ const Wishlist = () => {
   });
 
   async function getWishlist() {
-    const response = await api.get("/user/wishlist", {
+    const response = await api.get("/student/wishlist", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
@@ -63,7 +63,7 @@ const Wishlist = () => {
       </div>
 
       {isLoading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 border mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 mt-8">
           {Array.from({ length: 3 }).map((_, index) => (
             <CardSkeleton key={index} />
           ))}

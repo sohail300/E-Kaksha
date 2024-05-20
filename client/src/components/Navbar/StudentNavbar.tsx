@@ -28,7 +28,7 @@ const StudentNavbar = () => {
 
   async function submitContact() {
     const reponse = await api.post(
-      "/user/contact",
+      "/student/contact",
       { describe },
       {
         headers: {

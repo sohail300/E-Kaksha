@@ -1,23 +1,7 @@
-import VerifiedIcon from "@mui/icons-material/Verified";
 import imagepath from "../../assets/images/notebook.png";
-import { useNavigate, useParams } from "react-router-dom";
-import Button from "@mui/material/Button";
-import axios from "axios";
-import { baseURL } from "../../utils/config.js";
-import { useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 const PaymentSuccess = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
-  const api = axios.create({
-    baseURL,
-  });
-
-  async function buyCourse() {}
-
-  useEffect(() => {
-    // buyCourse();
-  }, []);
 
   return (
     <div className="flex flex-col items-center p-6 px-24 bg-white rounded w-full pt-28 h-screen">

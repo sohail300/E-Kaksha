@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import { authenticate, secretKey } from "../middleware/auth";
+import { authenticate, secretKey } from "../server/middleware/auth";
 import {
   adminLogin,
   adminSignup,
@@ -14,7 +14,7 @@ import {
   profilePhoto,
   sendOTP,
   verifyOTP,
-} from "../controller/admin";
+} from "./admin-controller";
 
 const router = express.Router();
 

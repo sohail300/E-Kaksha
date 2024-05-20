@@ -1,7 +1,5 @@
-import CancelIcon from "@mui/icons-material/Cancel";
 import imagepath from "../../assets/images/notebook.png";
 import { useNavigate } from "react-router-dom";
-import Button from "@mui/material/Button";
 
 const PaymentCanceled = () => {
   const navigate = useNavigate();

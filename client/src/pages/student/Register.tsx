@@ -10,7 +10,6 @@ import bgImage from "../../assets/images/bg.jpg";
 const Signup = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -22,7 +21,7 @@ const Signup = () => {
   });
 
   async function handleLogin() {
-    const response = await api.post("/user/register", {
+    const response = await api.post("/student/register", {
       email: email,
       password: password,
     });
@@ -47,14 +46,6 @@ const Signup = () => {
             autoComplete="off"
             value={name}
             onChange={(e) => setName(e.target.value)}
-          />
-          <input
-            type="text"
-            className="w-full mb-4 focus:outline-none focus:ring-1 focus:ring-blue-500 rounded-md bg-white border border-gray-500 px-3 py-2"
-            placeholder="Username"
-            autoComplete="off"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
           />
           <input
             type="text"

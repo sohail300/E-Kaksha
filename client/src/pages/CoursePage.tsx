@@ -88,7 +88,7 @@ function CoursePage() {
 
   async function hasBought() {
     const response = await api.post(
-      "/user/has-bought",
+      "/student/has-bought",
       {
         id,
       },
@@ -162,7 +162,11 @@ function CoursePage() {
         <Loader />
       ) : (
         <div className="flex bg-gray-800 py-8 px-8">
-          <img className=" rounded-lg" src={course.imagelink} alt="image" />
+          <img
+            className="w-2/5 rounded-lg object-contain"
+            src={course.imagelink}
+            alt="image"
+          />
           <div className="flex flex-col items-start justify-between w-full px-8 text-white">
             <p className="text-2xl font-medium">{course.title}</p>
             <p>
@@ -171,20 +175,18 @@ function CoursePage() {
                 ₹{course.price}
               </span>
             </p>
-            <div className="flex items-center mt-4">
-              <div className="mr-4">
-                <Rating
-                  value={calcRating()}
-                  precision={0.5}
-                  emptyIcon={
-                    <StarIcon
-                      className="text-opacity-20 text-white"
-                      fontSize="inherit"
-                    />
-                  }
-                  readOnly
+            <Rating
+              value={calcRating()}
+              precision={0.5}
+              emptyIcon={
+                <StarIcon
+                  className="text-opacity-20 text-white"
+                  fontSize="inherit"
                 />
-              </div>
+              }
+              readOnly
+            />
+            <div className="flex items-center mt-4">
               <div className="mr-4">Reviews</div>
               <Switch
                 checked={checked}

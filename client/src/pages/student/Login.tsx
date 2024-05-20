@@ -20,7 +20,7 @@ const Signup = () => {
   });
 
   async function handleLogin() {
-    const response = await api.post("/user/login", {
+    const response = await api.post("/student/login", {
       email: email,
       password: password,
     });

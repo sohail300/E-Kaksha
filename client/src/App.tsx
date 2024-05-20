@@ -13,7 +13,6 @@ import StudentForgotPassword from "./pages/student/StudentForgotPassword";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import StudentProfile from "./pages/student/Profile";
-import Contact from "./pages/student/SubmitContact";
 
 function App() {
   return (
@@ -33,15 +32,8 @@ function App() {
               element={<Purchasedcourse />}
             />
             <Route path="/student/wishlist" element={<Wishlist />} />
-            <Route path="/student/contact" element={<Contact />} />
-            <Route
-              path="/student/payment/success/"
-              element={<PaymentSuccess />}
-            />
-            <Route
-              path="/student/payment/cancelled"
-              element={<PaymentCancelled />}
-            />
+            <Route path="/payment/success" element={<PaymentSuccess />} />
+            <Route path="/payment/canceled" element={<PaymentCancelled />} />
             <Route
               path="/student/forgot-password"
               element={<StudentForgotPassword />}

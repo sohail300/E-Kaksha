@@ -4,7 +4,8 @@ const adminSchema = new mongoose.Schema({
   name: String,
   password: String,
   email: String,
-  otp: String,
+  forgotPasswordToken: String,
+  forgotPasswordTokenExpiryDate: Date,
   photoUrl: String,
   publishedCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
 });
@@ -13,7 +14,8 @@ const userSchema = new mongoose.Schema({
   name: String,
   password: String,
   email: String,
-  otp: String,
+  forgotPasswordToken: String,
+  forgotPasswordTokenExpiryDate: Date,
   photoUrl: String,
   purchasedCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
   wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
@@ -30,18 +32,15 @@ const courseSchema = new mongoose.Schema({
 });
 
 const reviewSchema = new mongoose.Schema({
-  userid: String,
-  courseid: String,
+  userid: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  courseid: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
   rating: Number,
   comment: String,
 });
 
 const contactSchema = new mongoose.Schema({
-  userid: String,
-  username: String,
-  email: String,
-  description: String,
-  photoUrl: String,
+  userid: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  comment: String,
 });
 
 // MongoDB Models

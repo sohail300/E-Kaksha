@@ -1,10 +1,10 @@
 import { signupInput } from "@sohail60/common";
-import { secretKey } from "../middleware/auth";
+import { secretKey } from "../server/middleware/auth";
 import { z } from "zod";
-import { Admin, Course, Contact, Review } from "../db/model";
+import { Admin, Course, Contact, Review } from "../server/db/model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { transporter } from "../utils/transporter";
+import { transporter } from "../server/utils/transporter";
 import otpGenerator from "otp-generator";
 
 const saltRounds = 10;
@@ -205,7 +205,7 @@ export const changePassword = async (req, res) => {
 export const getProfile = async (req, res) => {
   try {
     const id = req.headers["id"];
-    console.log(id)
+    console.log(id);
     const admin = await Admin.findById(id);
     return res.status(200).json({ admin: admin });
   } catch (err) {
