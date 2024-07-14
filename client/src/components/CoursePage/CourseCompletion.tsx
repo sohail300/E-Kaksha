@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { baseURL } from "../../utils/config.js";
+import { api } from "../../utils/config.js";
 import DoughnutComp from "../DoughnutComp.js";
 import Tooltip from "@mui/material/Tooltip";
 
@@ -8,10 +7,6 @@ const CourseCompletion = () => {
   const [completed] = useState(0);
   const [total] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
-
-  const api = axios.create({
-    baseURL,
-  });
 
   useEffect(() => {
     if (completed === total && total !== 0) {

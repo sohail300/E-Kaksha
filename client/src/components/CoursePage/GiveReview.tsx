@@ -1,19 +1,14 @@
 import { useState } from "react";
-import axios from "axios";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import Button from "@mui/material/Button";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 import CloseIcon from "@mui/icons-material/Close";
-import { baseURL } from "../../utils/config.js";
+import { api } from "../../utils/config";
 
 const GiveReview = ({ courseid, onClose, getReviews }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
-
-  const api = axios.create({
-    baseURL,
-  });
 
   async function submitReview() {
     try {

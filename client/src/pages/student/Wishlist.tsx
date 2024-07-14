@@ -1,18 +1,14 @@
 import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import Cards from "../../components/Cards.js";
-import { baseURL } from "../../utils/config.js";
-import axios from "axios";
 import CardSkeleton from "../../components/Shimmer/CardSkeleton.js";
+import { api } from "../../utils/config.js";
 
 const Wishlist = () => {
   const [wishlistArray, setWishlistarray] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const api = axios.create({
-    baseURL,
-  });
 
   async function getWishlist() {
     setIsLoading(true);
