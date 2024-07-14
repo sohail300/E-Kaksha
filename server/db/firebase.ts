@@ -8,7 +8,7 @@ const firebaseConfig = {
   storageBucket: "e-kaksha-2001.appspot.com",
   messagingSenderId: "196457869363",
   appId: "1:196457869363:web:4257266483cca5208cb346",
-  measurementId: "G-VL1YZQ0X6Q"
+  measurementId: "G-VL1YZQ0X6Q",
 };
 
 // Initialize Firebase

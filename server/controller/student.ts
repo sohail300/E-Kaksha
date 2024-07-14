@@ -190,6 +190,7 @@ export const profilePhoto = async (req: Request, res: Response) => {
     const file = req.file;
 
     const storageRef = ref(storage, "images/" + id);
+    console.log(storageRef);
 
     const contentType = "image/png";
     const uploadTask: UploadTask = uploadBytesResumable(
@@ -197,6 +198,7 @@ export const profilePhoto = async (req: Request, res: Response) => {
       file.buffer,
       { contentType }
     );
+    console.log(uploadTask);
 
     uploadTask.on(
       "state_changed",
@@ -279,7 +281,6 @@ export const changeName = async (req: Request, res: Response) => {
   }
 };
 
-//TODO Will this require the auth middleware or not
 export const hasBought = async (req: Request, res: Response) => {
   try {
     const id = req.headers["id"];
@@ -294,6 +295,29 @@ export const hasBought = async (req: Request, res: Response) => {
       const success = purchasedCourses.includes(courseid);
 
       return res.status(200).json({ msg: "Course bought", success });
+    }
+  } catch (err) {
+    console.log("Error occured:", err);
+    return res
+      .status(500)
+      .json({ msg: "Internal server error", success: false });
+  }
+};
+
+export const hasWishlisted = async (req: Request, res: Response) => {
+  try {
+    const id = req.headers["id"];
+    const { courseid } = req.body;
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(403).json({ msg: "User doesnt exist", success: false });
+    } else {
+      const wishlist = user.wishlist;
+      const success = wishlist.includes(courseid);
+
+      return res.status(200).json({ msg: "Course wishlisted", success });
     }
   } catch (err) {
     console.log("Error occured:", err);

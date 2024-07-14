@@ -2,19 +2,16 @@ import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import CardSkeleton from "../components/Shimmer/CardSkeleton.js";
 import Cards from "../components/Cards.js";
-import { baseURL } from "../utils/config.js";
-import axios from "axios";
+import { api } from "../utils/config.js";
 
 const Allcourse = () => {
   const [courseArray, setCoursearray] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
   const [search, setSearch] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const api = axios.create({
-    baseURL,
-  });
+  const [isLoading, setIsLoading] = useState(false);
 
   async function getCourses() {
+    setIsLoading(true);
     const response = await api.get("/course/all", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),

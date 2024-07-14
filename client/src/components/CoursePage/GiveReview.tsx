@@ -1,104 +1,91 @@
+import { useState } from "react";
 import axios from "axios";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import Button from "@mui/material/Button";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
-import { useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
 import { baseURL } from "../../utils/config.js";
-import { giveReview } from "../../store/atoms/course.js";
-import { useSetRecoilState } from "recoil";
-import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 
-const GiveReview = ({ userid, courseid }) => {
-  const [ratingValue, setRatingvalue] = useState(0);
+const GiveReview = ({ courseid, onClose, getReviews }) => {
+  const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
-  const setGetReview = useSetRecoilState(giveReview);
 
   const api = axios.create({
     baseURL,
   });
 
   async function submitReview() {
-    // const courseid=course.id;
-    const response = await api.post(
-      "/course/review",
-      {
-        userid,
-        courseid,
-        ratingValue,
-        comment,
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
+    try {
+      const response = await api.post(
+        "/course/review",
+        {
+          comment,
+          courseid,
+          rating,
         },
-      }
-    );
-    console.log(response.data);
-    setGetReview(false);
-    alert("Review Submitted!");
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+      console.log(response.data);
+      alert("Review Submitted!");
+      onClose();
+      getReviews();
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      alert("Failed to submit review. Please try again.");
+    }
   }
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        width: "50%",
-        backgroundColor: "#fff",
-        borderRadius: "10px",
-        height: "30vh",
-        padding: "8px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-around",
-        alignItems: "flex-start",
-      }}
-    >
-      <div>
-        <DisabledByDefaultIcon
-          style={{
-            position: "absolute",
-            right: "12px",
-            cursor: "pointer",
-            color: "#DC3545",
-          }}
-          onClick={() => setGetReview(false)}
-        />
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-gray-800">Give Review</h2>
+          <CloseIcon
+            className="text-gray-500 hover:text-gray-700 cursor-pointer"
+            onClick={onClose}
+          />
+        </div>
+        <div className="mb-6">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Rating:
+          </label>
+          <Rating
+            name="rating"
+            value={rating}
+            precision={0.5}
+            onChange={(_event, newValue) => {
+              setRating(newValue);
+            }}
+            emptyIcon={
+              <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+            }
+          />
+        </div>
+        <div className="mb-6">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Comment:
+          </label>
+          <TextareaAutosize
+            minRows={5}
+            placeholder="Share your thoughts about this course..."
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            className="w-full px-3 py-2 bg-gray-200 text-gray-700 border rounded-lg focus:outline-none focus:border-blue-500"
+          />
+        </div>
+        <Button
+          variant="contained"
+          onClick={submitReview}
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Submit Review
+        </Button>
       </div>
-      <span style={{ display: "flex", alignItems: "center" }}>
-        <span style={{ marginRight: "8px" }}>Rating:</span>{" "}
-        <Rating
-          name="simple-controlled"
-          value={ratingValue}
-          precision={0.5}
-          emptyIcon={
-            <StarIcon
-              style={{ opacity: 0.2, color: "#161616" }}
-              fontSize="inherit"
-            />
-          }
-          onChange={(_event, newValue) => {
-            setRatingvalue(newValue);
-          }}
-        />
-      </span>
-      <TextareaAutosize
-        minRows={5}
-        placeholder="Comments Here..."
-        value={comment}
-        onChange={(e) => setComment(e.target.value)}
-        style={{ backgroundColor: "#fff", width: "99%", color: "#000" }}
-      />
-      <Button
-        variant="contained"
-        onClick={submitReview}
-        style={{ textAlign: "center", alignSelf: "center" }}
-      >
-        Submit
-      </Button>
     </div>
   );
 };

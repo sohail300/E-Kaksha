@@ -1,30 +1,24 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { baseURL } from "../../utils/config.js";
-import axios from "axios";
-import { currUserState } from "../../store/atoms/admin.js";
 import { useSetRecoilState } from "recoil";
 import { isUserLoggedInState } from "../../store/atoms/user.js";
 import bgImage from "../../assets/images/bg.jpg";
+import { api } from "../../utils/config.js";
 
 const Signup = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const setCurrUser = useSetRecoilState(currUserState);
   const setIsUserLoggedIn = useSetRecoilState(isUserLoggedInState);
-  const api = axios.create({
-    baseURL,
-  });
 
   async function handleLogin() {
-    const response = await api.post("/student/register", {
-      email: email,
-      password: password,
+    const response = await api.post("/student/signup", {
+      name,
+      email,
+      password,
     });
     localStorage.setItem("token", response.data.token);
-    setCurrUser("user");
     setIsUserLoggedIn(true);
     navigate("/all-courses");
   }

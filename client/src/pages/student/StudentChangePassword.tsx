@@ -1,26 +1,13 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
-import axios from "axios";
-import { baseURL } from "../../utils/config.js";
 
 const StudentChangePassword = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [newPassword, setNewPassword] = useState("");
-  const [error, setError] = useState("");
-
-  const api = axios.create({
-    baseURL,
-  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-
-    if (newPassword !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
 
     // Add your logic here to handle the password reset
     // For example:
@@ -56,8 +43,6 @@ const StudentChangePassword = () => {
           size="small"
           required
         />
-
-        {error && <p className="text-red-500 text-sm">{error}</p>}
 
         <button
           type="submit"

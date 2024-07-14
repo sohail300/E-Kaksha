@@ -9,12 +9,13 @@ const Wishlist = () => {
   const [wishlistArray, setWishlistarray] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
   const [search, setSearch] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const api = axios.create({
     baseURL,
   });
 
   async function getWishlist() {
+    setIsLoading(true);
     const response = await api.get("/student/wishlist", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),

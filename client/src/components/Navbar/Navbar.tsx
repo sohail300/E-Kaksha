@@ -1,34 +1,14 @@
-import { useEffect } from "react";
-import axios from "axios";
-import { baseURL } from "../../utils/config.js";
-import { currUserState } from "../../store/atoms/admin.js";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import StudentNavbar from "./StudentNavbar.js";
 import OpenNavbar from "./OpenNavbar.js";
+import { isUserLoggedInState } from "../../store/atoms/user.js";
 
 const Appbar = () => {
-  const setCurrUser = useSetRecoilState(currUserState);
-  const currUser = useRecoilValue(currUserState);
+  const isUserLoggedIn = useRecoilValue(isUserLoggedInState);
 
-  const api = axios.create({
-    baseURL,
-  });
+  console.log(isUserLoggedIn);
 
-  async function call() {
-    const response = await api.get("/me", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    setCurrUser(response.data.role);
-  }
-
-  useEffect(() => {
-    call();
-    console.log(currUser);
-  }, [currUser]);
-
-  if (currUser == "user") {
+  if (isUserLoggedIn) {
     return <StudentNavbar />;
   } else {
     return <OpenNavbar />;

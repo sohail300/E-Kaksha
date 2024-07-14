@@ -17,10 +17,6 @@ router.get("/all", getAllCourses);
 
 router.get("/id/:id", getCourse);
 
-router.post("/buy/:courseId", authenticate, buyCourse);
-
-router.post("/webhook", webhookStripe);
-
 router.post("/wishlist/:courseId", authenticate, addToWishlist);
 
 router.get("/completion/certificate", authenticate, getCertificate);
@@ -28,5 +24,9 @@ router.get("/completion/certificate", authenticate, getCertificate);
 router.post("/review", authenticate, giveReview);
 
 router.get("/review/:id", getReviews);
+
+router.get("/buy/:courseId", authenticate, buyCourse);
+
+router.post("/webhook", webhookStripe);
 
 export default router;

@@ -1,7 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
-import { baseURL } from "../../utils/config.js";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -9,37 +7,15 @@ import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ContactPageIcon from "@mui/icons-material/ContactPage";
-import { currUserState } from "../../store/atoms/admin.js";
-import { useSetRecoilState, useRecoilValue } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { isUserLoggedInState } from "../../store/atoms/user.js";
 
 const StudentNavbar = () => {
   const navigate = useNavigate();
-  const [describe, setDescribe] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const open = Boolean(anchorEl);
-  const setCurrUser = useSetRecoilState(currUserState);
   const setIsUserLoggedIn = useSetRecoilState(isUserLoggedInState);
-
-  const api = axios.create({
-    baseURL,
-  });
-
-  async function submitContact() {
-    const response = await api.post(
-      "/student/contact",
-      { describe },
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
-    console.log(response);
-    alert("Submitted!");
-  }
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -130,7 +106,6 @@ const StudentNavbar = () => {
                 onClick={() => {
                   localStorage.setItem("token", null);
                   navigate("/");
-                  setCurrUser(null);
                   setIsUserLoggedIn(false);
                   setIsMenuOpen(false);
                 }}

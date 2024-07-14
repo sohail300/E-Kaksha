@@ -55,8 +55,11 @@ export const buyCourse = async (req: Request, res: Response) => {
     const user = await User.findById(id);
 
     const { courseId } = req.params;
+    console.log(courseId);
+
     const course = await Course.findById(courseId);
     const priceid = course.priceid;
+    console.log(priceid);
 
     const courseIdObject = new Types.ObjectId(courseId);
     if (user.purchasedCourses.includes(courseIdObject)) {
@@ -89,7 +92,9 @@ export const buyCourse = async (req: Request, res: Response) => {
 
         console.log(session.url);
 
-        res.redirect(303, session.url);
+        // res.redirect(303, session.url);
+
+        return res.status(200).json({ url: session.url, success: true });
       } else {
         return res
           .status(403)
@@ -162,6 +167,7 @@ export const webhookStripe = async (req: Request, res: Response) => {
             .status(403)
             .json({ msg: "Course doesnt exist", success: false });
         }
+        console.log("customerUpdated2");
         break;
 
       case "checkout.session.completed":
@@ -202,7 +208,7 @@ export const addToWishlist = async (req: Request, res: Response) => {
           user.wishlist.push(courseIdObject);
           await user.save();
           return res
-            .status(403)
+            .status(200)
             .json({ msg: "Course added to wishlist", success: true });
         }
       } else {
@@ -310,7 +316,7 @@ export const giveReview = async (req: Request, res: Response) => {
         const newReview = new Review(obj);
         await newReview.save();
 
-        return res.status(403).json({ msg: "Review saved", success: true });
+        return res.status(201).json({ msg: "Review saved", success: true });
       } else {
         return res
           .status(403)

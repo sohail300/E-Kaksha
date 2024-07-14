@@ -2,19 +2,16 @@ import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import Cards from "../../components/Cards.tsx";
 import CardSkeleton from "../../components/Shimmer/CardSkeleton.tsx";
-import { baseURL } from "../../utils/config.js";
-import axios from "axios";
+import { api } from "../../utils/config.js";
 
 const Purchasedcourse = () => {
   const [purchasedcourseArray, setPurchasedcoursearray] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
   const [search, setSearch] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const api = axios.create({
-    baseURL,
-  });
+  const [isLoading, setIsLoading] = useState(false);
 
   async function getPurchased() {
+    setIsLoading(true);
     const response = await api.get("/student/purchased-courses", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),

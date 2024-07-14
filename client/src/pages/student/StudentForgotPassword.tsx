@@ -1,16 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
-import axios from "axios";
-import { baseURL } from "../../utils/config.js";
 
 const ForgotPassword = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [email, setEmail] = useState("");
-
-  const api = axios.create({
-    baseURL,
-  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();

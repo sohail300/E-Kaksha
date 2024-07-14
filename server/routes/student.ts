@@ -7,6 +7,7 @@ import {
   getPurchasedCourses,
   getWishlistCourses,
   hasBought,
+  hasWishlisted,
   profilePhoto,
   sendToken,
   studentLogin,
@@ -41,6 +42,8 @@ router.delete("/delete", authenticate, deleteUser);
 router.put("/change-name", authenticate, changeName);
 
 router.post("/has-bought", authenticate, hasBought);
+
+router.post("/has-wishlisted", authenticate, hasWishlisted);
 
 // Forgot Password
 router.post("/send-token", sendToken);
