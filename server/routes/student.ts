@@ -38,12 +38,13 @@ router.post(
 
 router.delete("/delete", authenticate, deleteUser);
 
+router.put("/change-name", authenticate, changeName);
+
 router.post("/has-bought", authenticate, hasBought);
 
+// Forgot Password
 router.post("/send-token", sendToken);
 
 router.post("/verify-token", verifyToken);
-
-router.put("/change-name", authenticate, changeName);
 
 export default router;

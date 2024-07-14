@@ -1,22 +1,22 @@
-import { atom } from 'recoil'
+import { atom } from "recoil";
 
 export const currUserState = atom({
-    key: 'currUserState',
-    default: ''
-})
+  key: "currUserState",
+  default: "",
+});
 
 export const signupDetailsState = atom({
-    key: 'signupDetailsState',
-    default: {
-        signupEmailState: '',
-        signupPasswordState: ''
-    }
-})
+  key: "signupDetailsState",
+  default: {
+    signupEmailState: "",
+    signupPasswordState: "",
+  },
+});
 
 export const loginDetailsState = atom({
-    key: 'loginEmailState',
-    default: {
-        loginEmailState: '',
-        loginPasswordState: ''
-    }
-})
+  key: "loginEmailState",
+  default: {
+    loginEmailState: "",
+    loginPasswordState: "",
+  },
+});

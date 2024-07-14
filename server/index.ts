@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 import userRoute from "./routes/student";
 import courseRoute from "./routes/course";
 import { connectDB } from "./db/conn";
-import { authenticate, secretKey } from "./middleware/auth";
+import { authenticate } from "./middleware/auth";
 
 const app = express();
 
@@ -18,14 +18,13 @@ app.use("/student", userRoute);
 app.use("/course", courseRoute);
 
 app.get("/", (req, res) => {
-  console.log("Root Page");
-  res.send("Root Page");
+  console.log("Healthy Server");
+  res.send("Healthy Server");
 });
 
 app.get("/me", authenticate, (req, res) => {
   const id = req.headers["id"];
-  const role = req.headers["role"];
-  return res.status(200).json({ msg: "Profile", success: true, id, role });
+  return res.status(200).json({ success: true, id });
 });
 
 app.listen(3000, () => {

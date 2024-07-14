@@ -8,20 +8,25 @@ import Typography from "@mui/material/Typography";
 const Syllabus = () => {
   return (
     <>
-      <h2 className="text-left text-2xl font-medium ml-4">Syllabus</h2>
+      <h2 className="text-left text-2xl font-medium ml-4 md:text-3xl md:ml-8">
+        Syllabus
+      </h2>
 
-      <div className="overflow-y-scroll ">
-        {syllabus.map((obj) => (
-          <Accordion sx={{ margin: "16px" }}>
+      <div className="overflow-y-scroll max-h-screen md:max-h-[75vh] p-4 md:p-8">
+        {syllabus.map((obj, index) => (
+          <Accordion key={index} sx={{ margin: "16px 0", width: "100%" }}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>{obj.title}</Typography>
+              <Typography className="text-base md:text-lg">
+                {obj.title}
+              </Typography>
             </AccordionSummary>
-            <AccordionDetails className=" text-blue-500 flex flex-col items-start">
-              {obj.content.map((item) => {
+            <AccordionDetails className="text-blue-500 flex flex-col items-start">
+              {obj.content.map((item, idx) => {
                 return (
                   <Typography
+                    key={idx}
                     sx={{ marginBottom: "8px" }}
-                    className="cursor-pointer"
+                    className="cursor-pointer text-sm md:text-base"
                   >
                     {item}
                   </Typography>

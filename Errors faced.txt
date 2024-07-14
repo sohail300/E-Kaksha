@@ -1,4 +1,0 @@
-Errors faced:
-convert (!parsedInput.success) to => parsedInput.success === false
-
-Router in main.jsx to surround App

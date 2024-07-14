@@ -18,6 +18,7 @@ const StudentNavbar = () => {
   const navigate = useNavigate();
   const [describe, setDescribe] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const open = Boolean(anchorEl);
   const setCurrUser = useSetRecoilState(currUserState);
   const setIsUserLoggedIn = useSetRecoilState(isUserLoggedInState);
@@ -27,7 +28,7 @@ const StudentNavbar = () => {
   });
 
   async function submitContact() {
-    const reponse = await api.post(
+    const response = await api.post(
       "/student/contact",
       { describe },
       {
@@ -36,35 +37,43 @@ const StudentNavbar = () => {
         },
       }
     );
-    console.log(reponse);
+    console.log(response);
     alert("Submitted!");
   }
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <nav className="fixed top-0 w-full p-2 z-10 md:p-4 shadow-md bg-gray-800 text-white">
-      <div className="mx-auto flex flex-row md:flex-row justify-between items-center px-10">
+      <div className="mx-auto flex flex-wrap justify-between items-center px-4 md:px-10">
         <div
-          className="cursor-pointer text-3xl font-bold"
+          className="cursor-pointer text-2xl md:text-3xl font-bold"
           onClick={() => navigate("/")}
         >
           E-Kaksha
         </div>
 
-        <>
-          <div className="flex justify-around items-center text-xl w-1/4">
-            <Link
-              to={"/student/purchased-courses"}
-              className="px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200"
-              onClick={() => setAnchorEl(null)}
-            >
-              Purchased Courses
-            </Link>
+        <button
+          className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+          onClick={toggleMenu}
+        >
+          <MenuIcon fontSize="large" />
+        </button>
+
+        <div
+          className={`${
+            isMenuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+          } md:max-h-screen md:opacity-100 overflow-hidden transition-all duration-300 ease-in-out w-full md:flex md:w-auto md:items-center`}
+        >
+          <div className="flex flex-col md:flex-row justify-end items-end md:items-center text-base md:text-xl">
             <MenuIcon
               fontSize="large"
               onClick={(event) => {
                 setAnchorEl(event.currentTarget);
               }}
-              className=" cursor-pointer text-white ml-4 mr-12 mb-0 mt-0"
+              className="cursor-pointer text-white my-2 md:my-0 md:ml-4"
             />
             <Menu
               id="basic-menu"
@@ -81,38 +90,41 @@ const StudentNavbar = () => {
                 onClick={() => {
                   navigate("/student/profile");
                   setAnchorEl(null);
+                  setIsMenuOpen(false);
                 }}
-                className=" text-center"
               >
-                <PersonIcon className=" mr-2" />
+                <PersonIcon className="mr-2" />
                 Profile
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  navigate("/student/purchased-courses");
+                  setAnchorEl(null);
+                  setIsMenuOpen(false);
+                }}
+              >
+                <AutoStoriesIcon className="mr-2" />
+                Purchased Courses
               </MenuItem>
               <MenuItem
                 onClick={() => {
                   navigate("/all-courses");
                   setAnchorEl(null);
+                  setIsMenuOpen(false);
                 }}
               >
-                <AutoStoriesIcon className=" mr-2" />
+                <AutoStoriesIcon className="mr-2" />
                 All Courses
               </MenuItem>
               <MenuItem
                 onClick={() => {
                   navigate("/student/wishlist");
                   setAnchorEl(null);
+                  setIsMenuOpen(false);
                 }}
               >
-                <FavoriteIcon className=" mr-2" />
+                <FavoriteIcon className="mr-2" />
                 Wishlist
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  navigate("/student/contact");
-                  setAnchorEl(null);
-                }}
-              >
-                <ContactPageIcon className=" mr-2" />
-                Contact Us
               </MenuItem>
               <MenuItem
                 onClick={() => {
@@ -120,14 +132,15 @@ const StudentNavbar = () => {
                   navigate("/");
                   setCurrUser(null);
                   setIsUserLoggedIn(false);
+                  setIsMenuOpen(false);
                 }}
               >
-                <LogoutIcon className=" mr-2" />
+                <LogoutIcon className="mr-2" />
                 Logout
               </MenuItem>
             </Menu>
           </div>
-        </>
+        </div>
       </div>
     </nav>
   );

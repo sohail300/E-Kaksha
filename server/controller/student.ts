@@ -1,11 +1,7 @@
-import { User, Contact, Review, Course } from "../db/model";
+import { User, Review, Course } from "../db/model";
 import bcrypt from "bcrypt";
-import otpGenerator from "otp-generator";
-import { transporter } from "../utils/transporter";
 import { secretKey } from "../middleware/auth";
 import jwt from "jsonwebtoken";
-import z from "zod";
-import { apiResponse } from "../types/apiResponse";
 import { Request, Response } from "express";
 import { signupInput } from "../zodTypes/signupInput";
 import { forgotPasswordMailer } from "../utils/forgotPasswordMailer";
@@ -55,7 +51,7 @@ export const studentSignup = async (req: Request, res: Response) => {
       const newUser = new User(obj);
       await newUser.save();
 
-      const token = jwt.sign({ id: newUser._id, role: "user" }, secretKey, {
+      const token = jwt.sign({ id: newUser._id }, secretKey, {
         expiresIn: "2h",
       });
 
@@ -90,7 +86,7 @@ export const studentLogin = async (req: Request, res: Response) => {
       const match = await bcrypt.compare(password, user.password);
 
       if (match) {
-        const token = jwt.sign({ id: user._id, role: "user" }, secretKey, {
+        const token = jwt.sign({ id: user._id }, secretKey, {
           expiresIn: "1h",
         });
         return res
@@ -117,7 +113,10 @@ export const studentLogin = async (req: Request, res: Response) => {
 export const getPurchasedCourses = async (req: Request, res: Response) => {
   try {
     const id = req.headers["id"];
-    const user = await User.findById(id).populate("purchasedCourses");
+    const user = await User.findById(id).populate({
+      path: "purchasedCourses",
+      select: "title description price imagelink",
+    });
 
     if (!user) {
       return res.status(403).json({ msg: "User doesnt exist", success: false });
@@ -139,7 +138,10 @@ export const getPurchasedCourses = async (req: Request, res: Response) => {
 export const getWishlistCourses = async (req: Request, res: Response) => {
   try {
     const id = req.headers["id"];
-    const user = await User.findById(id).populate("wishlist");
+    const user = await User.findById(id).populate({
+      path: "wishlist",
+      select: "title description price imagelink",
+    });
 
     if (!user) {
       return res.status(403).json({ msg: "User doesnt exist", success: false });
@@ -183,11 +185,9 @@ export const getProfile = async (req: Request, res: Response) => {
 export const profilePhoto = async (req: Request, res: Response) => {
   try {
     const id = req.headers["id"];
-    console.log(id);
     const user = await User.findById(id);
 
     const file = req.file;
-    console.log(file);
 
     const storageRef = ref(storage, "images/" + id);
 
@@ -248,6 +248,37 @@ export const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
+export const changeName = async (req: Request, res: Response) => {
+  try {
+    const id = req.headers["id"];
+    const user = await User.findById(id);
+
+    const parsedInput = nameInput.safeParse(req.body);
+
+    if (parsedInput.success === false) {
+      return res.status(411).json({
+        msg: parsedInput.error.issues[0].message,
+        success: false,
+      });
+    }
+
+    const { name } = parsedInput.data;
+
+    if (!user) {
+      return res.status(403).json({ msg: "User doesnt exist", success: false });
+    } else {
+      user.name = name;
+      await user.save();
+      return res.status(200).json({ msg: "Name changed", success: true });
+    }
+  } catch (err) {
+    console.log("Error occured:", err);
+    return res
+      .status(500)
+      .json({ msg: "Internal server error", success: false });
+  }
+};
+
 //TODO Will this require the auth middleware or not
 export const hasBought = async (req: Request, res: Response) => {
   try {
@@ -262,7 +293,7 @@ export const hasBought = async (req: Request, res: Response) => {
       const purchasedCourses = user.purchasedCourses;
       const success = purchasedCourses.includes(courseid);
 
-      return res.status(200).json({ msg: "Email sent", success });
+      return res.status(200).json({ msg: "Course bought", success });
     }
   } catch (err) {
     console.log("Error occured:", err);
@@ -291,9 +322,7 @@ export const sendToken = async (req: Request, res: Response) => {
     if (!user) {
       return res.status(403).json({ msg: "User doesnt exist", success: false });
     } else {
-      await forgotPasswordMailer(email);
-
-      return res.status(500).json({ msg: "Email sent", success: true });
+      await forgotPasswordMailer(res, email);
     }
   } catch (err) {
     console.log("Error occured:", err);
@@ -339,37 +368,6 @@ export const verifyToken = async (req: Request, res: Response) => {
       } else {
         return res.status(200).json({ msg: "Invalid Token", success: false });
       }
-    }
-  } catch (err) {
-    console.log("Error occured:", err);
-    return res
-      .status(500)
-      .json({ msg: "Internal server error", success: false });
-  }
-};
-
-export const changeName = async (req: Request, res: Response) => {
-  try {
-    const id = req.headers["id"];
-    const user = await User.findById(id);
-
-    const parsedInput = nameInput.safeParse(req.body);
-
-    if (parsedInput.success === false) {
-      return res.status(411).json({
-        msg: parsedInput.error.issues[0].message,
-        success: false,
-      });
-    }
-
-    const { name } = parsedInput.data;
-
-    if (!user) {
-      return res.status(403).json({ msg: "User doesnt exist", success: false });
-    } else {
-      user.name = name;
-      await user.save();
-      return res.status(200).json({ msg: "Name changed", success: true });
     }
   } catch (err) {
     console.log("Error occured:", err);

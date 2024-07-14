@@ -1,13 +1,11 @@
 import { useParams } from "react-router-dom";
 import CourseDetails from "../components/CoursePage/CourseDetails.js";
-import Button from "@mui/material/Button";
 import Switch from "@mui/material/Switch";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 import axios from "axios";
 import { baseURL } from "../utils/config.js";
 import { useEffect, useState } from "react";
-import GiveReview from "../components/CoursePage/GiveReview.js";
 import ViewReviews from "../components/CoursePage/ViewReviews.js";
 import CourseCompletion from "../components/CoursePage/CourseCompletion.js";
 import Syllabus from "../components/CoursePage/Syllabus.js";
@@ -161,81 +159,88 @@ function CoursePage() {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="flex bg-gray-800 py-8 px-8">
-          <img
-            className="w-2/5 rounded-lg object-contain"
-            src={course.imagelink}
-            alt="image"
-          />
-          <div className="flex flex-col items-start justify-between w-full px-8 text-white">
-            <p className="text-2xl font-medium">{course.title}</p>
-            <p>
-              Price:
-              <span className=" font-semibold text-green-400 ml-2">
-                ₹{course.price}
-              </span>
-            </p>
-            <Rating
-              value={calcRating()}
-              precision={0.5}
-              emptyIcon={
-                <StarIcon
-                  className="text-opacity-20 text-white"
-                  fontSize="inherit"
-                />
-              }
-              readOnly
+        <div className="bg-gray-800 py-8 px-4 sm:px-8">
+          <div className="flex flex-col sm:flex-row">
+            <img
+              className="w-full sm:w-2/5 rounded-lg object-contain mb-6 sm:mb-0"
+              src={course.imagelink}
+              alt="image"
             />
-            <div className="flex items-center mt-4">
-              <div className="mr-4">Reviews</div>
-              <Switch
-                checked={checked}
-                onChange={(e) => setChecked(e.target.checked)}
-                className="mr-4"
-              />
-              <div>Syllabus</div>
-            </div>
-            <p className="mt-4 text-justify">{course.description}</p>
-            <div className="flex mt-8">
-              {bought ? (
-                <button className="px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200">
-                  Give Review
-                </button>
-              ) : (
-                <>
-                  <button
-                    className="px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200 mr-6"
-                    onClick={() => checkout()}
-                  >
-                    Buy Course
+            <div className="flex flex-col items-start justify-between w-full sm:px-8 text-white">
+              <p className="text-2xl font-medium mb-4 sm:mb-0">
+                {course.title}
+              </p>
+              <p className="mb-4 sm:mb-0">
+                Price:
+                <span className="font-semibold text-green-400 ml-2">
+                  ₹{course.price}
+                </span>
+              </p>
+              <div className="mb-4 sm:mb-0">
+                <Rating
+                  value={calcRating()}
+                  precision={0.5}
+                  emptyIcon={
+                    <StarIcon
+                      className="text-opacity-20 text-white"
+                      fontSize="inherit"
+                    />
+                  }
+                  readOnly
+                />
+              </div>
+              <div className="flex items-center mb-4 sm:mb-0">
+                <div className="mr-4">Reviews</div>
+                <Switch
+                  checked={checked}
+                  onChange={(e) => setChecked(e.target.checked)}
+                  className="mr-4"
+                />
+                <div>Syllabus</div>
+              </div>
+              <p className="mt-4 text-justify mb-6 sm:mb-0">
+                {course.description}
+              </p>
+              <div className="flex mt-4 sm:mt-8">
+                {bought ? (
+                  <button className="w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200">
+                    Give Review
                   </button>
-
-                  <button
-                    className="px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200"
-                    onClick={() => wishlist()}
-                  >
-                    Add to Wishlist
-                  </button>
-                </>
-              )}
+                ) : (
+                  <>
+                    <button
+                      className="w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200 mr-4 sm:mr-6"
+                      onClick={() => checkout()}
+                    >
+                      Buy Course
+                    </button>
+                    <button
+                      className="w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200"
+                      onClick={() => wishlist()}
+                    >
+                      Add to Wishlist
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>
       )}
 
-      <div className="flex px-16 py-4">
-        <div className="w-full">
+      <div className="flex flex-col lg:flex-row px-4 md:px-8 py-4">
+        <div className="w-full lg:w-3/4">
           {checked ? (
             <Syllabus />
           ) : (
             <ViewReviews reviews={reviews} className="flex flex-col" />
           )}
         </div>
-        <div className="w-fit rounded-lg bg-gray-300 p-4 px-6 sticky h-fit top-24">
+        <div className="w-full lg:w-1/4 lg:ml-4 mt-4 lg:mt-0 rounded-lg bg-gray-300 p-4 px-6 sticky h-fit top-24">
           <h2 className="text-left text-2xl font-medium ml-4">Details</h2>
           <CourseDetails
             duration={course.duration}
-            resources={course.resource}
+            resources={course.resources}
           />
           <CourseCompletion />
         </div>

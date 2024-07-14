@@ -1,18 +1,22 @@
 import { z } from "zod";
 import { emailInput } from "../zodTypes/emailInput";
-import { transporter } from "./transporter";
 import { emailInputType } from "../zodTypes/signupInput";
-import { uuid } from "uuidv4";
+import { v4 as uuidv4 } from "uuid";
 import { User } from "../db/model";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function forgotPasswordMailer(
+  res,
   email: z.infer<typeof emailInputType>
 ) {
   try {
-    const token = uuid();
+    const token = uuidv4();
+    console.log(email);
 
-    const mailOptions = {
-      from: `"E-Kaksha" <ekaksha2001@gmail.com>`,
+    const { data, error } = await resend.emails.send({
+      from: `"E-Kaksha" <contact@heysohail.me>`,
       to: `${email}`,
       subject: "OTP Verification",
       html: `<body style="font-family: Helvetica, Arial, sans-serif; margin: 0px; padding: 0px; background-color: #ffffff;">
@@ -31,7 +35,7 @@ export async function forgotPasswordMailer(
                                 <h1 style="margin: 1rem 0">Reset Password</h1>
                                 <p style="padding-bottom: 16px">Please use the button below to reset your password.</p>
                                 <p style="padding-bottom: 16px">
-                                  <a href="${process.env.FRONTEND_URL}+"/reset-password/"+${token}+"?email="+${email}" target="_blank"
+                                  <a href="${process.env.FRONTEND_URL}/reset-password/${token}?email=${email}" target="_blank"
                                   style="padding: 12px 24px; border-radius: 4px; color: #FFF; background: #2B52F5;display: inline-block;margin: 0.5rem 0; text-decoration:none;">Reset Password
                                   </a>
                                 </p>
@@ -52,20 +56,19 @@ export async function forgotPasswordMailer(
             </table>
           </body>
           `,
-    };
+    });
 
-    transporter
-      .sendMail(mailOptions)
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err));
+    if (error) {
+      return res.status(500).json({ msg: error, success: false });
+    }
 
     const user = await User.findOne({ email });
-
     user.forgotPasswordToken = token;
     user.forgotPasswordTokenExpiryDate = new Date(Date.now() + 3600000);
     await user.save();
 
-    console.log("Email sent:");
+    console.log("Email sent and Data saved");
+    return res.status(500).json({ msg: "Email sent!", success: true });
   } catch (error) {
     console.log("Error occured:", error);
   }

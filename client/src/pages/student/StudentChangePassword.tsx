@@ -4,9 +4,10 @@ import TextField from "@mui/material/TextField";
 import axios from "axios";
 import { baseURL } from "../../utils/config.js";
 
-const ForgotPassword = () => {
+const StudentChangePassword = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [error, setError] = useState("");
 
   const api = axios.create({
     baseURL,
@@ -14,13 +15,23 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your logic here to handle the forgot password request
+    setError("");
+
+    if (newPassword !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    // Add your logic here to handle the password reset
     // For example:
     // try {
-    //   await api.post('/forgot-password', { email });
-    //   // Handle success (e.g., show a message, navigate to a confirmation page)
+    //   // Assume you have a reset token in the URL or stored somewhere
+    //   const resetToken = new URLSearchParams(window.location.search).get('token');
+    //   await api.post('/reset-password', { resetToken, newPassword });
+    //   // Handle success (e.g., show a message, navigate to login page)
+    //   navigate('/login');
     // } catch (error) {
-    //   // Handle error
+    //   setError("Failed to reset password. Please try again.");
     // }
   };
 
@@ -31,29 +42,32 @@ const ForgotPassword = () => {
         className="p-6 sm:p-8 space-y-6 sm:space-y-8 rounded-lg shadow-md border border-black flex flex-col items-center w-full max-w-sm sm:max-w-md md:max-w-lg bg-gray-100"
       >
         <h1 className="text-3xl sm:text-4xl font-bold tracking-tight lg:text-5xl text-center">
-          Forgot Password
+          Reset Password
         </h1>
 
         <TextField
-          label="Email"
-          type="email"
+          label="New Password"
+          type="password"
           variant="outlined"
           className="w-full"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          autoComplete="email"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+          autoComplete="new-password"
           size="small"
           required
         />
+
+        {error && <p className="text-red-500 text-sm">{error}</p>}
+
         <button
           type="submit"
           className="bg-gray-800 text-white px-4 py-2 font-medium rounded-md hover:bg-gray-900 w-full transition duration-300"
         >
-          Send Mail
+          Set New Password
         </button>
       </form>
     </div>
   );
 };
 
-export default ForgotPassword;
+export default StudentChangePassword;

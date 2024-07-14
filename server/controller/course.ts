@@ -9,7 +9,9 @@ import { Request, Response } from "express";
 
 export const getAllCourses = async (req: Request, res: Response) => {
   try {
-    const courses = await Course.find();
+    const courses = await Course.find().select(
+      "title description price imagelink"
+    );
 
     if (courses) {
       return res

@@ -19,15 +19,3 @@ Upload Course Syllabus
 Modify course btn in course cards
 Contact us Page
 Forgot Password ✅
-
-✅ Modify Appbar
-
-Course Selling App
-Alerts on WhatsApp about latest video upload
-Internationalization as a Service
-Adding Open API to Backends
-GMeet
-
-
-Wishlist badge(mui) and icon in cards
-I can extract user id from the header, so the routes in which I need to authenticate, I dont have to pass the user id in them. (Modify this in ur project)
