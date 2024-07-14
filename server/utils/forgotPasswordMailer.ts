@@ -1,11 +1,8 @@
 import { z } from "zod";
-import { emailInput } from "../zodTypes/emailInput";
 import { emailInputType } from "../zodTypes/signupInput";
 import { v4 as uuidv4 } from "uuid";
 import { User } from "../db/model";
 import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function forgotPasswordMailer(
   res,
@@ -13,7 +10,7 @@ export async function forgotPasswordMailer(
 ) {
   try {
     const token = uuidv4();
-    console.log(email);
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
     const { data, error } = await resend.emails.send({
       from: `"E-Kaksha" <contact@heysohail.me>`,
