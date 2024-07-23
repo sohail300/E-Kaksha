@@ -7,6 +7,7 @@ import AllCourses from "./pages/AllCourses";
 import Purchasedcourse from "./pages/student/PurchasedCourses";
 import Wishlist from "./pages/student/Wishlist";
 import CoursePage from "./pages/CoursePage";
+import Courselearn from "./pages/Courselearn";
 import PaymentSuccess from "./pages/student/PaymentSuccess";
 import PaymentCancelled from "./pages/student/PaymentCancelled";
 import StudentForgotPassword from "./pages/student/StudentForgotPassword";
@@ -26,6 +27,7 @@ function App() {
           <Route path="/student/profile" element={<StudentProfile />} />
           <Route path="/all-courses" element={<AllCourses />} />
           <Route path="/course/:id" element={<CoursePage />} />
+          <Route path="/courselearn/:id" element={<Courselearn />} />
           <Route
             path="/student/purchased-courses"
             element={<Purchasedcourse />}

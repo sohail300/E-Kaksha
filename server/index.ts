@@ -3,8 +3,10 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import userRoute from "./routes/student";
 import courseRoute from "./routes/course";
+import adminRoute from "./routes/admin";
 import { connectDB } from "./db/conn";
 import { authenticate } from "./middleware/auth";
+import { Course } from "./db/model";
 
 const app = express();
 
@@ -16,10 +18,25 @@ app.use(express.json());
 connectDB();
 app.use("/student", userRoute);
 app.use("/course", courseRoute);
+app.use("/admin", adminRoute);
 
 app.get("/", (req, res) => {
   console.log("Healthy Server");
   res.send("Healthy Server");
+});
+
+app.post("/post", async (req, res) => {
+  try {
+    const newCourse = new Course(req.body);
+    console.log(req.body);
+    await newCourse.save();
+
+    return res
+      .status(201)
+      .json({ msg: "Course created successfully", courseId: newCourse.id });
+  } catch (err) {
+    return res.status(500).json({ "Internal Error": err });
+  }
 });
 
 app.get("/me", authenticate, (req, res) => {

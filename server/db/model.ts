@@ -11,6 +11,14 @@ const userSchema = new mongoose.Schema({
   wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
 });
 
+const adminSchema = new mongoose.Schema({
+  email: String,
+  password: String,
+  forgotPasswordToken: String,
+  forgotPasswordTokenExpiryDate: Date,
+  piublishedCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
+});
+
 const courseSchema = new mongoose.Schema({
   title: String,
   description: String,
@@ -19,6 +27,19 @@ const courseSchema = new mongoose.Schema({
   duration: Number,
   resource: Number,
   priceid: String,
+  sections: [
+    {
+      title: String,
+      resources: String,
+      videos: [
+        {
+          name: String,
+          link: String,
+          completed: Boolean,
+        },
+      ],
+    },
+  ],
 });
 
 const reviewSchema = new mongoose.Schema({
@@ -30,5 +51,6 @@ const reviewSchema = new mongoose.Schema({
 
 // MongoDB Models
 export const User = mongoose.model("User", userSchema);
+export const Admin = mongoose.model("Admin", adminSchema);
 export const Course = mongoose.model("Course", courseSchema);
 export const Review = mongoose.model("Review", reviewSchema);

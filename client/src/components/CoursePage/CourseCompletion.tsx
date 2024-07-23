@@ -25,7 +25,7 @@ const CourseCompletion = () => {
 
   return (
     <>
-      <h3 className="text-left text-2xl font-medium mb-4">Course Completion</h3>
+      {/* <h3 className="text-left text-2xl font-medium mb-4">Course Completion</h3>
       <div className="flex flex-col items-center justify-between h-72 w-full">
         <DoughnutComp completed={completed} total={total} />
         <p className="text-center">
@@ -44,7 +44,14 @@ const CourseCompletion = () => {
             </button>
           </span>
         </Tooltip>
-      </div>
+      </div> */}
+
+      <button
+        className={`px-4 py-2 my-4 rounded-md bg-gray-800 text-white font-medium hover:bg-gray-900`}
+        onClick={() => getCert()}
+      >
+        Get Completion Certificate
+      </button>
     </>
   );
 };

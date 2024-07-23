@@ -1,30 +1,27 @@
 import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
+import { api } from "../../utils/config";
 
 const ForgotPassword = () => {
-  // const navigate = useNavigate();
   const [email, setEmail] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // Add your logic here to handle the forgot password request
-    // For example:
-    // try {
-    //   await api.post('/forgot-password', { email });
-    //   // Handle success (e.g., show a message, navigate to a confirmation page)
-    // } catch (error) {
-    //   // Handle error
-    // }
-  };
+  async function handleSubmit() {
+    try {
+      const response = await api.post("/student/send-token", { email });
+      console.log(response);
+
+      if (response) {
+        alert("Email sent!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className="flex flex-col items-center justify-center p-4 sm:p-6 md:px-8 lg:px-24 bg-white w-full min-h-screen">
-      <form
-        onSubmit={handleSubmit}
-        className="p-6 sm:p-8 space-y-6 sm:space-y-8 rounded-lg shadow-md border border-black flex flex-col items-center w-full max-w-sm sm:max-w-md md:max-w-lg bg-gray-100"
-      >
-        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight lg:text-5xl text-center">
+      <div className="p-6 sm:p-8 space-y-6 sm:space-y-8 rounded-lg shadow-md border border-black flex flex-col items-center w-full max-w-sm sm:max-w-md md:max-w-lg bg-gray-100">
+        <h1 className="text-3xl sm:text-3xl font-bold tracking-tight lg:text-4xl text-center">
           Forgot Password
         </h1>
 
@@ -40,12 +37,12 @@ const ForgotPassword = () => {
           required
         />
         <button
-          type="submit"
           className="bg-gray-800 text-white px-4 py-2 font-medium rounded-md hover:bg-gray-900 w-full transition duration-300"
+          onClick={() => handleSubmit()}
         >
           Send Mail
         </button>
-      </form>
+      </div>
     </div>
   );
 };

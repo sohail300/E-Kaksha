@@ -339,6 +339,7 @@ export const sendToken = async (req: Request, res: Response) => {
     }
 
     const { email } = parsedInput.data;
+    console.log(email);
 
     const user = await User.findOne({ email });
     console.log(user);

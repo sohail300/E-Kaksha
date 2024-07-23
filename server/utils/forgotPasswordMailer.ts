@@ -65,7 +65,7 @@ export async function forgotPasswordMailer(
     await user.save();
 
     console.log("Email sent and Data saved");
-    return res.status(500).json({ msg: "Email sent!", success: true });
+    return res.status(200).json({ msg: "Email sent!", success: true });
   } catch (error) {
     console.log("Error occured:", error);
   }
