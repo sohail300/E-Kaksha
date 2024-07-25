@@ -1,18 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import MenuIcon from "@mui/icons-material/Menu";
-import PersonIcon from "@mui/icons-material/Person";
-import LogoutIcon from "@mui/icons-material/Logout";
-import AutoStoriesIcon from "@mui/icons-material/AutoStories";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = useState<SVGSVGElement | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const open = Boolean(anchorEl);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -32,7 +23,23 @@ const Navbar = () => {
           className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
           onClick={toggleMenu}
         >
-          <MenuIcon fontSize="large" />
+          <span className="sr-only">Open main menu</span>
+          <svg
+            className="h-6 w-6"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d={
+                isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"
+              }
+            />
+          </svg>
         </button>
 
         <div
@@ -41,74 +48,18 @@ const Navbar = () => {
           } md:max-h-screen md:opacity-100 overflow-hidden transition-all duration-300 ease-in-out w-full md:flex md:w-auto md:items-center`}
         >
           <div className="flex flex-col md:flex-row justify-end items-end md:items-center text-base md:text-xl">
-            <MenuIcon
-              fontSize="large"
-              onClick={(event) => {
-                setAnchorEl(event.currentTarget);
-              }}
-              className="cursor-pointer text-white my-2 md:my-0 md:ml-4"
-            />
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={open}
-              onClose={() => {
-                setAnchorEl(null);
-              }}
-              MenuListProps={{
-                "aria-labelledby": "basic-button",
-              }}
+            <Link
+              to={"/course/post"}
+              className="px-4 py-2 text-white font-medium hover:text-gray-300 my-2 md:border-white md:border rounded-md md:my-0 md:mx-2 transition duration-300"
             >
-              <MenuItem
-                onClick={() => {
-                  navigate("/student/profile");
-                  setAnchorEl(null);
-                  setIsMenuOpen(false);
-                }}
-              >
-                <PersonIcon className="mr-2" />
-                Profile
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  navigate("/student/purchased-courses");
-                  setAnchorEl(null);
-                  setIsMenuOpen(false);
-                }}
-              >
-                <AutoStoriesIcon className="mr-2" />
-                Purchased Courses
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  navigate("/all-courses");
-                  setAnchorEl(null);
-                  setIsMenuOpen(false);
-                }}
-              >
-                <AutoStoriesIcon className="mr-2" />
-                All Courses
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  navigate("/student/wishlist");
-                  setAnchorEl(null);
-                  setIsMenuOpen(false);
-                }}
-              >
-                <FavoriteIcon className="mr-2" />
-                Wishlist
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  navigate("/");
-                  setIsMenuOpen(false);
-                }}
-              >
-                <LogoutIcon className="mr-2" />
-                Logout
-              </MenuItem>
-            </Menu>
+              Post Course
+            </Link>
+            <Link
+              to={"/cms"}
+              className="px-4 py-2 text-white font-medium hover:text-gray-300 my-2 md:border-white md:border rounded-md md:my-0 md:mx-2 transition duration-300"
+            >
+              All Courses
+            </Link>
           </div>
         </div>
       </div>

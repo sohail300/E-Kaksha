@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { api } from "../utils/config";
-import { useParams } from "react-router-dom";
-import YouTube, { YouTubeProps } from "react-youtube";
+import { useNavigate, useParams } from "react-router-dom";
+import { BookOpen, Video, ChevronDown, ChevronUp } from "lucide-react";
 import {
-  BookOpen,
-  Video,
-  ChevronDown,
-  ChevronUp,
-  CheckCircle,
-} from "lucide-react";
+  BigPlayButton,
+  ControlBar,
+  LoadingSpinner,
+  PlaybackRateMenuButton,
+  Player,
+} from "video-react";
 
 const Courselearn = () => {
   interface Course {
@@ -24,7 +24,6 @@ const Courselearn = () => {
       videos: {
         name: string;
         link: string;
-        completed: boolean;
       }[];
     }[];
   }
@@ -44,7 +43,6 @@ const Courselearn = () => {
           {
             name: "",
             link: "",
-            completed: true,
           },
         ],
       },
@@ -52,21 +50,57 @@ const Courselearn = () => {
   });
   const [activeSection, setActiveSection] = useState(0);
   const [activeVideo, setActiveVideo] = useState("");
+  const [bought, setBought] = useState(false);
+  const navigate = useNavigate();
 
   const { id } = useParams();
 
-  const onPlayerReady: YouTubeProps["onReady"] = (event) => {
-    // access to player in all event handlers via event.target
-    event.target.pauseVideo();
-  };
+  // UseEffect Functions
+  async function callFunc() {
+    try {
+      const response = await api.get(`/course/id/${id}`, {
+        headers: {
+          Authorization: "bearer " + localStorage.getItem("token"),
+        },
+      });
+      console.log(response.data.course.sections);
+      setCourse(response.data.course);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-  const opts: YouTubeProps["opts"] = {
-    height: "400",
-    width: "1200",
-    playerVars: {
-      autoplay: 1,
-    },
-  };
+  async function hasBought() {
+    const response = await api.post(
+      "/student/has-bought",
+      { courseid: id },
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    setBought(response.data.success);
+  }
+
+  async function getProfile() {
+    try {
+      await api.get("/student/me", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+    } catch (error) {
+      navigate("/student/login");
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getProfile();
+    callFunc();
+    hasBought();
+  }, []);
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -85,6 +119,10 @@ const Courselearn = () => {
     fetchCourse();
   }, []);
 
+  if (!bought) {
+    navigate("/student/login");
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 pt-16">
       <div className="flex flex-grow flex-col lg:flex-row p-6 gap-8 max-w-7xl mx-auto w-full">
@@ -92,27 +130,19 @@ const Courselearn = () => {
         <div className="lg:w-2/3 p-6 space-y-6 lg:overflow-y-auto lg:h-screen lg:sticky lg:top-0">
           <div className="max-w-3xl mx-auto space-y-6">
             <div className="aspect-w-16 aspect-h-9 bg-black rounded-xl shadow-2xl overflow-hidden">
-              {activeVideo ? (
-                <YouTube
-                  videoId={activeVideo}
-                  opts={opts}
-                  onReady={onPlayerReady}
-                  className="w-full h-full"
-                />
-              ) : (
-                <div className="flex items-center justify-center h-full bg-gray-800 text-white">
-                  <Video size={64} />
-                  <p className="ml-4 text-xl">
-                    Select a video to start learning
-                  </p>
-                </div>
-              )}
+              <Player src={activeVideo}>
+                <BigPlayButton position="center" />
+                <ControlBar>
+                  <PlaybackRateMenuButton rates={[5, 2, 1, 0.5, 0.1]} />
+                </ControlBar>
+                <LoadingSpinner />
+              </Player>
             </div>
             <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-3xl font-bold text-gray-800 mb-4">
+              <h2 className="text-3xl font-bold text-gray-800 mb-4 text-left">
                 {course.title}
               </h2>
-              <p className="text-gray-600 text-lg leading-relaxed">
+              <p className="text-gray-600 text-lg leading-relaxed text-left">
                 {course.description}
               </p>
               <div className="mt-6 flex items-center text-gray-500 space-x-4">

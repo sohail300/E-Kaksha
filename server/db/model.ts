@@ -1,41 +1,103 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-  name: String,
-  password: String,
-  email: String,
-  forgotPasswordToken: String,
-  forgotPasswordTokenExpiryDate: Date,
-  photoUrl: String,
+  name: {
+    type: String,
+    require: true,
+  },
+  password: {
+    type: String,
+    require: true,
+  },
+  email: {
+    type: String,
+    require: true,
+  },
+  forgotPasswordToken: {
+    type: String,
+    require: false,
+  },
+  forgotPasswordTokenExpiryDate: {
+    type: Date,
+    require: false,
+  },
+  photoUrl: {
+    type: String,
+    require: false,
+  },
   purchasedCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
   wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
 });
 
 const adminSchema = new mongoose.Schema({
-  email: String,
-  password: String,
-  forgotPasswordToken: String,
-  forgotPasswordTokenExpiryDate: Date,
-  piublishedCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
+  email: {
+    type: String,
+    require: true,
+  },
+  password: {
+    type: String,
+    require: true,
+  },
+  forgotPasswordToken: {
+    type: String,
+    require: false,
+  },
+  forgotPasswordTokenExpiryDate: {
+    type: Date,
+    require: false,
+  },
+  publishedCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
 });
 
 const courseSchema = new mongoose.Schema({
-  title: String,
-  description: String,
-  price: Number,
-  imagelink: String,
-  duration: Number,
-  resource: Number,
-  priceid: String,
+  title: {
+    type: String,
+    require: true,
+  },
+  description: {
+    type: String,
+    require: true,
+  },
+  price: {
+    type: Number,
+    require: true,
+  },
+  imagelink: {
+    type: String,
+    require: true,
+  },
+  duration: {
+    type: Number,
+    require: true,
+  },
+  resource: {
+    type: Number,
+    require: true,
+  },
+  priceid: {
+    type: String,
+    require: true,
+  },
   sections: [
     {
-      title: String,
-      resources: String,
+      title: {
+        type: String,
+        require: true,
+      },
+      resources: {
+        type: String,
+        require: true,
+      },
       videos: [
         {
-          name: String,
-          link: String,
-          completed: Boolean,
+          name: {
+            type: String,
+            require: true,
+          },
+          link: {
+            type: String,
+            require: true,
+          },
         },
       ],
     },
@@ -45,8 +107,14 @@ const courseSchema = new mongoose.Schema({
 const reviewSchema = new mongoose.Schema({
   userid: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   courseid: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
-  rating: Number,
-  comment: String,
+  rating: {
+    type: Number,
+    require: true,
+  },
+  comment: {
+    type: String,
+    require: true,
+  },
 });
 
 // MongoDB Models

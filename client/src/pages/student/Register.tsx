@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
 import { motion } from "framer-motion";
-import { isUserLoggedInState } from "../../store/atoms/user.js";
 import { api } from "../../utils/config.js";
 
 const Signup = () => {
@@ -10,7 +8,6 @@ const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const setIsUserLoggedIn = useSetRecoilState(isUserLoggedInState);
 
   async function handleSignup() {
     try {
@@ -20,7 +17,6 @@ const Signup = () => {
         password,
       });
       localStorage.setItem("token", response.data.token);
-      setIsUserLoggedIn(true);
       navigate("/all-courses");
     } catch (error) {
       console.error("Signup failed:", error);

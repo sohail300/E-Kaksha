@@ -8,6 +8,7 @@ import {
   getCourse,
   getReviews,
   giveReview,
+  removeFromWishlist,
   webhookStripe,
 } from "../controller/course";
 
@@ -18,6 +19,8 @@ router.get("/all", getAllCourses);
 router.get("/id/:id", getCourse);
 
 router.post("/wishlist/:courseId", authenticate, addToWishlist);
+
+router.post("/remove-wishlist/:courseId", authenticate, removeFromWishlist);
 
 router.get("/completion/certificate", authenticate, getCertificate);
 

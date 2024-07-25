@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { emailInputType } from "../zodTypes/signupInput";
 import { v4 as uuidv4 } from "uuid";
-import { Admin, User } from "../db/model";
+import { Admin } from "../db/model";
 import { Resend } from "resend";
 
 export async function adminForgotPasswordMailer(

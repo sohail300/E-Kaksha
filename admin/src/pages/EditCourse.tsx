@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { PlusIcon, XIcon } from "lucide-react";
 import { api } from "../utils/config";
+import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import { useNavigate } from "react-router-dom";
 import { Course } from "../types/interfaces";
 
-const AddCourseForm = () => {
+const EditCourseForm = () => {
   const [course, setCourse] = useState<Course>({
     title: "",
     description: "",
@@ -28,8 +28,42 @@ const AddCourseForm = () => {
     ],
   });
 
+  const { id } = useParams();
+
   const [previewUrl, setPreviewUrl] = useState<string | null>();
   const navigate = useNavigate();
+
+  async function callFunc() {
+    try {
+      const response = await api.get(`/course/id/${id}`, {
+        headers: {
+          Authorization: "bearer " + localStorage.getItem("token"),
+        },
+      });
+      console.log(response.data.course);
+      setCourse(response.data.course);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function getProfile() {
+    try {
+      await api.get("/admin/me", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+    } catch (error) {
+      navigate("/");
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    callFunc();
+    getProfile();
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -139,7 +173,7 @@ const AddCourseForm = () => {
       formData.append("priceid", course.priceid);
       formData.append("sections", sectionsJSON);
 
-      const response = await api.post("/admin/postCourse", formData, {
+      const response = await api.put(`/admin/editCourse/${id}`, formData, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
           "Content-Type": "multipart/form-data",
@@ -151,23 +185,6 @@ const AddCourseForm = () => {
     }
   };
 
-  async function getProfile() {
-    try {
-      await api.get("/admin/me", {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      });
-    } catch (error) {
-      navigate("/");
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    getProfile();
-  });
-
   return (
     <>
       <Navbar />
@@ -176,7 +193,7 @@ const AddCourseForm = () => {
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
             <div className="p-8">
               <h1 className="text-4xl font-extrabold text-gray-900 mb-8">
-                Create New Course
+                Edit Course
               </h1>
               <div className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -212,7 +229,7 @@ const AddCourseForm = () => {
                       required
                       className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                       value={course.description}
-                      onChange={(e) => handleChange(e)}
+                      onChange={handleChange}
                     ></textarea>
                   </div>
                 </div>
@@ -436,4 +453,4 @@ const AddCourseForm = () => {
   );
 };
 
-export default AddCourseForm;
+export default EditCourseForm;

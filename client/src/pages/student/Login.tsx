@@ -1,15 +1,13 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { isUserLoggedInState } from "../../store/atoms/user.js";
 import { api } from "../../utils/config.js";
+import { useProfile } from "../../hooks/useProfile.js";
 
 const Login = () => {
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const setIsUserLoggedIn = useSetRecoilState(isUserLoggedInState);
+  const { getProfile } = useProfile();
 
   async function handleLogin() {
     try {
@@ -18,8 +16,15 @@ const Login = () => {
         password,
       });
       localStorage.setItem("token", response.data.token);
-      setIsUserLoggedIn(true);
-      navigate("/all-courses");
+      await getProfile();
+
+      window.location.href =
+        window.location.protocol +
+        "//" +
+        window.location.hostname +
+        ":" +
+        window.location.port +
+        "/all-courses";
     } catch (error) {
       console.error("Signup failed:", error);
     }

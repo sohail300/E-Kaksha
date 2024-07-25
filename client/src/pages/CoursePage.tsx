@@ -3,7 +3,6 @@
 // Payment requires authentication -> 4000 0025 0000 3155
 // Payment is declined -> 4000 0000 0000 9995
 
-import { useNavigate, useParams } from "react-router-dom";
 import CourseDetails from "../components/CoursePage/CourseDetails.js";
 import Switch from "@mui/material/Switch";
 import Rating from "@mui/material/Rating";
@@ -14,11 +13,21 @@ import ViewReviews from "../components/CoursePage/ViewReviews.js";
 import CourseCompletion from "../components/CoursePage/CourseCompletion.js";
 import Syllabus from "../components/CoursePage/Syllabus.js";
 import Loader from "../components/Shimmer/Loader.js";
-import { isUserLoggedInState } from "../store/atoms/user.js";
-import { useRecoilValue } from "recoil";
 import GiveReview from "../components/CoursePage/GiveReview.js";
+import { useNavigate, useParams } from "react-router-dom";
 
 function CoursePage() {
+  interface Sections {
+    title: string;
+    resources: string;
+    videos: [
+      {
+        name: string;
+        link: string;
+      }
+    ];
+  }
+
   interface Course {
     title: string;
     description: string;
@@ -26,6 +35,7 @@ function CoursePage() {
     imagelink: string;
     duration: number;
     resource: number;
+    sections: [Sections];
   }
 
   const [course, setCourse] = useState<Course>({
@@ -35,17 +45,28 @@ function CoursePage() {
     imagelink: "",
     duration: 0,
     resource: 0,
+    sections: [
+      {
+        title: "",
+        resources: "",
+        videos: [
+          {
+            name: "",
+            link: "",
+          },
+        ],
+      },
+    ],
   });
 
   const [checked, setChecked] = useState(true);
   const [reviews, setReviews] = useState([]);
-  const currIsUserLoggedIn = useRecoilValue(isUserLoggedInState);
+  const navigate = useNavigate();
 
   const [bought, setBought] = useState(false);
   const [wishlisted, setWishlisted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
-  const navigate = useNavigate();
 
   const { id } = useParams();
 
@@ -57,6 +78,7 @@ function CoursePage() {
           Authorization: "bearer " + localStorage.getItem("token"),
         },
       });
+      console.log(response.data.course.sections);
       setCourse(response.data.course);
     } catch (error) {
       console.log(error);
@@ -119,35 +141,59 @@ function CoursePage() {
 
   // Other Functions
   async function checkout() {
-    console.log(currIsUserLoggedIn);
-    // if (!currIsUserLoggedIn) {
-    // navigate("/student/login");
-    // } else {
-    const courseId = id;
-    const response = await api.get(`/course/buy/${courseId}`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    console.log("inside checkout");
-    console.log(response.data);
-    window.location.href = response.data.url;
-    // }
-  }
-
-  async function wishlist() {
-    console.log(currIsUserLoggedIn);
-    if (!currIsUserLoggedIn) {
-      navigate("/student/login");
-    } else {
-      const response = await api.post(`/course/wishlist/${id}`, null, {
+    try {
+      const response = await api.get("/student/me", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       });
       if (response) {
-        hasWishlisted();
+        const courseId = id;
+        const response = await api.get(`/course/buy/${courseId}`, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+        console.log("inside checkout");
+        console.log(response.data);
+        window.location.href = response.data.url;
       }
+    } catch (error) {
+      navigate("/student/login");
+    }
+  }
+
+  async function wishlist() {
+    try {
+      const response = await api.get("/student/me", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+
+      if (response) {
+        const response = await api.post(`/course/wishlist/${id}`, null, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+        if (response) {
+          hasWishlisted();
+        }
+      }
+    } catch (error) {
+      navigate("/student/login");
+    }
+  }
+
+  async function removeWishlist() {
+    const response = await api.post(`/course/remove-wishlist/${id}`, null, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    if (response) {
+      hasWishlisted();
     }
   }
 
@@ -223,7 +269,14 @@ function CoursePage() {
                   >
                     Buy Course
                   </button>
-                  {!wishlisted && (
+                  {wishlisted ? (
+                    <button
+                      className="w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200"
+                      onClick={() => removeWishlist()}
+                    >
+                      Remove from Wishlist
+                    </button>
+                  ) : (
                     <button
                       className="w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200"
                       onClick={() => wishlist()}
@@ -241,7 +294,7 @@ function CoursePage() {
       <div className="flex flex-col lg:flex-row px-4 md:px-8 py-4">
         <div className="w-full lg:w-3/4">
           {checked ? (
-            <Syllabus />
+            <Syllabus syllabus={course.sections} />
           ) : (
             <ViewReviews reviews={reviews} className="flex flex-col" />
           )}

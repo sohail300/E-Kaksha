@@ -4,12 +4,14 @@ import { Search as SearchIcon } from "@mui/icons-material";
 import Cards from "../../components/Cards.js";
 import CardSkeleton from "../../components/Shimmer/CardSkeleton.js";
 import { api } from "../../utils/config.js";
+import { useNavigate } from "react-router-dom";
 
 const Wishlist = () => {
   const [wishlistArray, setWishlistarray] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   async function getWishlist() {
     setIsLoading(true);
@@ -28,7 +30,21 @@ const Wishlist = () => {
     }
   }
 
+  async function getProfile() {
+    try {
+      await api.get("/student/me", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+    } catch (error) {
+      navigate("/student/login");
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
+    getProfile();
     getWishlist();
   }, []);
 
@@ -104,8 +120,7 @@ const Wishlist = () => {
             transition={{ delay: 0.4, duration: 0.5 }}
             className="text-center text-2xl text-teal-700 mt-12"
           >
-            No courses in your wishlist. Add some courses or try a different
-            search term.
+            No courses in your wishlist. Add some courses first.
           </motion.p>
         )}
       </div>

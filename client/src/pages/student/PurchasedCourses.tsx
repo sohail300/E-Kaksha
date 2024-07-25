@@ -4,12 +4,14 @@ import { Search as SearchIcon } from "@mui/icons-material";
 import Cards from "../../components/Cards.tsx";
 import CardSkeleton from "../../components/Shimmer/CardSkeleton.tsx";
 import { api } from "../../utils/config.js";
+import { useNavigate } from "react-router-dom";
 
 const Purchasedcourse = () => {
   const [purchasedcourseArray, setPurchasedcoursearray] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   async function getPurchased() {
     setIsLoading(true);
@@ -28,7 +30,21 @@ const Purchasedcourse = () => {
     }
   }
 
+  async function getProfile() {
+    try {
+      await api.get("/student/me", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+    } catch (error) {
+      navigate("/student/login");
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
+    getProfile();
     getPurchased();
   }, []);
 
@@ -104,7 +120,7 @@ const Purchasedcourse = () => {
             transition={{ delay: 0.4, duration: 0.5 }}
             className="text-center text-2xl text-teal-700 mt-12"
           >
-            No purchased courses found. Try a different search term.
+            No purchased courses found.
           </motion.p>
         )}
       </div>

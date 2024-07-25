@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { api } from "../../utils/config.js";
-import DoughnutComp from "../DoughnutComp.js";
-import Tooltip from "@mui/material/Tooltip";
+// import DoughnutComp from "../DoughnutComp.js";
+// import Tooltip from "@mui/material/Tooltip";
 
 const CourseCompletion = () => {
-  const [completed] = useState(0);
-  const [total] = useState(0);
-  const [isComplete, setIsComplete] = useState(false);
+  // const [completed] = useState(0);
+  // const [total] = useState(0);
+  // const [isComplete, setIsComplete] = useState(false);
 
-  useEffect(() => {
-    if (completed === total && total !== 0) {
-      setIsComplete(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (completed === total && total !== 0) {
+  //     setIsComplete(true);
+  //   }
+  // }, []);
 
   async function getCert() {
     const response = await api.get("/course/completion/certificate", {

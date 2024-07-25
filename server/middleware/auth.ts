@@ -29,6 +29,7 @@ export async function authenticate(
       }
 
       req.headers["id"] = user.id;
+      req.headers["role"] = user.role;
       next();
     });
   } else {

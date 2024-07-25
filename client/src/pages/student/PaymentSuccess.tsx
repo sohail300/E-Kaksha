@@ -1,8 +1,27 @@
 import imagepath from "../../assets/images/notebook.png";
 import { useNavigate } from "react-router-dom";
+import { api } from "../../utils/config";
+import { useEffect } from "react";
 
 const PaymentSuccess = () => {
   const navigate = useNavigate();
+
+  async function getProfile() {
+    try {
+      await api.get("/student/me", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+    } catch (error) {
+      navigate("/student/login");
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getProfile();
+  });
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center w-full px-4 py-10 bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 relative overflow-hidden">

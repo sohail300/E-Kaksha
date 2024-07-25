@@ -1,25 +1,31 @@
-import { User, Review, Course } from "../db/model";
+import { User, Review } from "../db/model";
 import bcrypt from "bcrypt";
 import { secretKey } from "../middleware/auth";
 import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 import { signupInput } from "../zodTypes/signupInput";
 import { forgotPasswordMailer } from "../utils/forgotPasswordMailer";
-import { passwordInput } from "../zodTypes/passwordInput";
 import { nameInput } from "../zodTypes/nameInput";
-import { reviewInput } from "../zodTypes/reviewInput";
 import { loginInput } from "../zodTypes/loginInput";
-import mongoose from "mongoose";
-import axios from "axios";
-import {
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-  UploadTask,
-} from "firebase/storage";
-import storage from "../db/firebase";
 import { emailInput } from "../zodTypes/emailInput";
 import { verifyOtpInput } from "../zodTypes/verifyOtpInput";
+import { uploadPhoto } from "../utils/uploadPhoto";
+
+export async function studentMe(req: Request, res: Response) {
+  try {
+    const id = req.headers["id"];
+    const role = req.headers["role"];
+    console.log(role);
+
+    if (role === "student") {
+      return res.status(200).json({ id, role });
+    } else {
+      return res.status(400).json({ msg: "Unauthorized" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 export const studentSignup = async (req: Request, res: Response) => {
   try {
@@ -51,7 +57,7 @@ export const studentSignup = async (req: Request, res: Response) => {
       const newUser = new User(obj);
       await newUser.save();
 
-      const token = jwt.sign({ id: newUser._id }, secretKey, {
+      const token = jwt.sign({ id: newUser._id, role: "student" }, secretKey, {
         expiresIn: "2h",
       });
 
@@ -86,7 +92,7 @@ export const studentLogin = async (req: Request, res: Response) => {
       const match = await bcrypt.compare(password, user.password);
 
       if (match) {
-        const token = jwt.sign({ id: user._id }, secretKey, {
+        const token = jwt.sign({ id: user._id, role: "student" }, secretKey, {
           expiresIn: "1h",
         });
         return res
@@ -160,6 +166,31 @@ export const getWishlistCourses = async (req: Request, res: Response) => {
   }
 };
 
+export const removeWishlistCourses = async (req: Request, res: Response) => {
+  try {
+    const id = req.headers["id"];
+    const user = await User.findById(id).populate({
+      path: "wishlist",
+      select: "title description price imagelink",
+    });
+
+    if (!user) {
+      return res.status(403).json({ msg: "User doesnt exist", success: false });
+    } else {
+      return res.status(200).json({
+        msg: "Wishlist courses",
+        success: true,
+        wishlist: user.wishlist || [],
+      });
+    }
+  } catch (err) {
+    console.log("Error occured:", err);
+    return res
+      .status(500)
+      .json({ msg: "Internal server error", success: false });
+  }
+};
+
 export const getProfile = async (req: Request, res: Response) => {
   try {
     const id = req.headers["id"];
@@ -184,43 +215,17 @@ export const getProfile = async (req: Request, res: Response) => {
 
 export const profilePhoto = async (req: Request, res: Response) => {
   try {
-    const id = req.headers["id"];
+    const id = req.headers["id"] as string;
     const user = await User.findById(id);
-
     const file = req.file;
 
-    const storageRef = ref(storage, "images/" + id);
-    console.log(storageRef);
+    const downloadURL = await uploadPhoto(id, file, "images/");
 
-    const contentType = "image/png";
-    const uploadTask: UploadTask = uploadBytesResumable(
-      storageRef,
-      file.buffer,
-      { contentType }
-    );
-    console.log(uploadTask);
-
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is " + progress + "% done");
-      },
-      (error) => {
-        console.error("Error uploading file:", error);
-      },
-      async () => {
-        console.log("File uploaded successfully");
-        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-        console.log("File available at", downloadURL);
-        user.photoUrl = downloadURL;
-        await user.save();
-        return res
-          .status(201)
-          .json({ msg: "Profile photo updated", success: true });
-      }
-    );
+    user.photoUrl = downloadURL;
+    await user.save();
+    return res
+      .status(201)
+      .json({ msg: "Profile photo updated", success: true });
   } catch (err) {
     console.log("Error occured:", err);
     return res

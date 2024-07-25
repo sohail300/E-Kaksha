@@ -7,15 +7,12 @@ import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { useSetRecoilState } from "recoil";
-import { isUserLoggedInState } from "../../store/atoms/user.js";
 
-const StudentNavbar = () => {
+const StudentNavbar = ({ getProfile }) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const open = Boolean(anchorEl);
-  const setIsUserLoggedIn = useSetRecoilState(isUserLoggedInState);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -105,9 +102,10 @@ const StudentNavbar = () => {
               <MenuItem
                 onClick={() => {
                   localStorage.setItem("token", null);
-                  navigate("/");
-                  setIsUserLoggedIn(false);
+                  setAnchorEl(null);
                   setIsMenuOpen(false);
+                  navigate("/");
+                  getProfile();
                 }}
               >
                 <LogoutIcon className="mr-2" />

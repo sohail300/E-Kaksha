@@ -1,15 +1,17 @@
-import { useRecoilValue } from "recoil";
-import StudentNavbar from "./StudentNavbar.js";
-import OpenNavbar from "./OpenNavbar.js";
-import { isUserLoggedInState } from "../../store/atoms/user.js";
+import StudentNavbar from "./StudentNavbar";
+import OpenNavbar from "./OpenNavbar";
+import { useEffect } from "react";
+import { useProfile } from "../../hooks/useProfile";
 
 const Appbar = () => {
-  const isUserLoggedIn = useRecoilValue(isUserLoggedInState);
+  const { isLoggedIn, getProfile } = useProfile();
 
-  console.log(isUserLoggedIn);
+  useEffect(() => {
+    getProfile();
+  }, []);
 
-  if (isUserLoggedIn) {
-    return <StudentNavbar />;
+  if (isLoggedIn) {
+    return <StudentNavbar getProfile={getProfile} />;
   } else {
     return <OpenNavbar />;
   }

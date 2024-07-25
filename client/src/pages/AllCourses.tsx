@@ -104,7 +104,7 @@ const Allcourse = () => {
             transition={{ delay: 0.4, duration: 0.5 }}
             className="text-center text-2xl text-teal-700 mt-12"
           >
-            No courses found. Try a different search term.
+            No courses found.
           </motion.p>
         )}
       </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Camera, UserX } from "lucide-react";
@@ -13,7 +13,7 @@ const Profile = () => {
   const [email, setEmail] = useState("");
   const [photourl, setPhotourl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [alert, setAlert] = useState(null);
+  const [alert] = useState(null);
 
   const navigate = useNavigate();
 
@@ -109,8 +109,22 @@ const Profile = () => {
     }
   }
 
+  async function getProfile() {
+    try {
+      await api.get("/student/me", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+    } catch (error) {
+      navigate("/student/login");
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     getUser();
+    getProfile();
   }, []);
 
   if (isLoading) {

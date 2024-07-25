@@ -3,9 +3,10 @@ import { emailInputType } from "../zodTypes/signupInput";
 import { v4 as uuidv4 } from "uuid";
 import { User } from "../db/model";
 import { Resend } from "resend";
+import { Response } from "express";
 
 export async function forgotPasswordMailer(
-  res,
+  res: Response,
   email: z.infer<typeof emailInputType>
 ) {
   try {

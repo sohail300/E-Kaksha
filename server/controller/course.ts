@@ -160,6 +160,13 @@ export const webhookStripe = async (req: Request, res: Response) => {
           if (!user.purchasedCourses.includes(course._id)) {
             user.purchasedCourses.push(course._id);
           }
+
+          if (user.wishlist.includes(course._id)) {
+            const result = await User.findByIdAndUpdate(userid, {
+              $pull: { wishlist: course._id },
+            });
+          }
+
           await user.save();
           console.log(user.purchasedCourses);
         } else {
@@ -210,6 +217,49 @@ export const addToWishlist = async (req: Request, res: Response) => {
           return res
             .status(200)
             .json({ msg: "Course added to wishlist", success: true });
+        }
+      } else {
+        return res
+          .status(403)
+          .json({ msg: "User doesnt exist", success: false });
+      }
+    } else {
+      return res
+        .status(403)
+        .json({ msg: "Course doesnt exist", success: false });
+    }
+  } catch (err) {
+    console.log("Error occured:", err);
+    return res
+      .status(500)
+      .json({ msg: "Internal server error", success: false });
+  }
+};
+
+export const removeFromWishlist = async (req: Request, res: Response) => {
+  try {
+    const { courseId } = req.params;
+    const course = await Course.findById(courseId);
+
+    const id = req.headers["id"];
+
+    if (course) {
+      const user = await User.findById(id);
+
+      if (user) {
+        const courseIdObject = new Types.ObjectId(courseId);
+
+        if (!user.wishlist.includes(courseIdObject)) {
+          return res
+            .status(401)
+            .json({ msg: "Course not present in wishlist", success: false });
+        } else {
+          const result = await User.findByIdAndUpdate(id, {
+            $pull: { wishlist: courseIdObject },
+          });
+          return res
+            .status(200)
+            .json({ msg: "Course removed from wishlist", success: true });
         }
       } else {
         return res

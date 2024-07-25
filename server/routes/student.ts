@@ -11,6 +11,7 @@ import {
   profilePhoto,
   sendToken,
   studentLogin,
+  studentMe,
   studentSignup,
   verifyToken,
 } from "../controller/student";
@@ -19,6 +20,8 @@ import multer from "multer";
 const upload = multer({ storage: multer.memoryStorage() });
 
 const router = express.Router();
+
+router.get("/me", authenticate, studentMe);
 
 router.post("/signup", studentSignup);
 
