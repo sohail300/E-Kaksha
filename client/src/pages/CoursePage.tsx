@@ -255,12 +255,21 @@ function CoursePage() {
 
             <div className="flex mt-4 sm:mt-8">
               {bought ? (
-                <button
-                  className="w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200"
-                  onClick={() => setShowReviewModal(true)}
-                >
-                  Give Review
-                </button>
+                <>
+                  <button
+                    className="w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200 mr-4"
+                    onClick={() => navigate(`/courselearn/${id}`)}
+                  >
+                    Watch Videos
+                  </button>
+
+                  <button
+                    className="w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200"
+                    onClick={() => setShowReviewModal(true)}
+                  >
+                    Give Review
+                  </button>
+                </>
               ) : (
                 <>
                   <button
