@@ -60,6 +60,15 @@ const Navbar = () => {
             >
               All Courses
             </Link>
+            <button
+              onClick={() => {
+                localStorage.removeItem("token");
+                navigate("/");
+              }}
+              className="px-4 py-2 text-white font-medium hover:text-gray-300 my-2 md:border-white md:border rounded-md md:my-0 md:mx-2 transition duration-300"
+            >
+              Logout
+            </button>
           </div>
         </div>
       </div>

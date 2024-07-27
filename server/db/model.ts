@@ -77,6 +77,10 @@ const courseSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
+  boughtCount: {
+    type: Number,
+    default: 0,
+  },
   sections: [
     {
       title: {

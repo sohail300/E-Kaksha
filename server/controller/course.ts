@@ -10,7 +10,7 @@ import { Request, Response } from "express";
 export const getAllCourses = async (req: Request, res: Response) => {
   try {
     const courses = await Course.find().select(
-      "title description price imagelink"
+      "title description price imagelink boughtCount"
     );
 
     if (courses) {
@@ -167,6 +167,8 @@ export const webhookStripe = async (req: Request, res: Response) => {
             });
           }
 
+          course.boughtCount++;
+          await course.save();
           await user.save();
           console.log(user.purchasedCourses);
         } else {

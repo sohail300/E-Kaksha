@@ -34,6 +34,7 @@ export interface CourseCMS {
   description: string;
   price: string;
   imagelink: string;
+  boughtCount: number;
 }
 
 export interface Review {

@@ -115,12 +115,20 @@ const CourseListingCMS = () => {
                             <p className="text-gray-600 mb-2">
                               {course.description}
                             </p>
-                            <p className="text-gray-600">
-                              Price:{" "}
-                              <span className="font-semibold text-indigo-600">
-                                ₹{course.price}
-                              </span>
-                            </p>
+                            <div className=" flex flex-row">
+                              <p className="text-gray-600 mr-4">
+                                Price:{" "}
+                                <span className="font-semibold text-indigo-600">
+                                  ₹{course.price}
+                                </span>
+                              </p>
+                              <p className="text-gray-600">
+                                Bought by:{" "}
+                                <span className="font-semibold text-indigo-600">
+                                  {course.boughtCount}
+                                </span>
+                              </p>
+                            </div>
                           </div>
                         </div>
                         <div className="flex items-center space-x-4">
