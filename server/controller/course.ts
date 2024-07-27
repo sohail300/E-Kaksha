@@ -167,7 +167,8 @@ export const webhookStripe = async (req: Request, res: Response) => {
             });
           }
 
-          course.boughtCount++;
+          const count = course.boughtCount;
+          course.boughtCount = count + 1;
           await course.save();
           await user.save();
           console.log(user.purchasedCourses);
