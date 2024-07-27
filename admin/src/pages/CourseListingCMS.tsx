@@ -118,7 +118,7 @@ const CourseListingCMS = () => {
                             <p className="text-gray-600">
                               Price:{" "}
                               <span className="font-semibold text-indigo-600">
-                                ${course.price}
+                                ₹{course.price}
                               </span>
                             </p>
                           </div>

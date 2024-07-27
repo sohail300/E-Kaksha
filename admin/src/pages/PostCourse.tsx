@@ -145,7 +145,11 @@ const AddCourseForm = () => {
           "Content-Type": "multipart/form-data",
         },
       });
+
       console.log(response);
+      if (response) {
+        navigate("/cms");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -223,7 +227,7 @@ const AddCourseForm = () => {
                       htmlFor="price"
                       className="block text-sm font-medium text-gray-700 mb-1"
                     >
-                      Price ($)
+                      Price (₹)
                     </label>
                     <input
                       type="number"
