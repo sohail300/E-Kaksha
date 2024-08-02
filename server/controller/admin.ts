@@ -248,7 +248,6 @@ export const editCourse = async (req: Request, res: Response) => {
   try {
     const courseId = req.params.courseId;
     console.log(courseId);
-    console.log(req.body);
     const file = req.file;
     console.log(file);
 
@@ -293,6 +292,7 @@ export const editCourse = async (req: Request, res: Response) => {
     };
 
     const course = await Course.findByIdAndUpdate(courseId, obj);
+    console.log(course)
 
     if (!course) {
       return res
