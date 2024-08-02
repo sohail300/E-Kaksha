@@ -278,30 +278,27 @@ export const editCourse = async (req: Request, res: Response) => {
       sections,
     } = parsedInput.data;
 
-    const course = await Course.findById(courseId);
+    const downloadURL = await uploadPhoto(title, image, "courseThumbnails/");
+    console.log(downloadURL);
+
+    const obj = {
+      title,
+      description,
+      price,
+      imagelink: downloadURL,
+      duration,
+      resource,
+      priceid,
+      sections,
+    };
+
+    const course = await Course.findByIdAndUpdate(courseId, obj);
 
     if (!course) {
       return res
         .status(400)
-        .json({ msg: "Course doesn't exist", success: false });
+        .json({ msg: "Failed to update the course", success: false });
     } else {
-      const downloadURL = await uploadPhoto(title, image, "courseThumbnails/");
-      console.log(downloadURL);
-
-      const obj = {
-        title,
-        description,
-        price,
-        imagelink: downloadURL,
-        duration,
-        resource,
-        priceid,
-        sections,
-      };
-
-      const newCourse = new Course(obj);
-      await newCourse.save();
-
       return res
         .status(201)
         .json({ msg: "Course updated successfully", success: true });
