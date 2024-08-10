@@ -5,8 +5,6 @@ import userRoute from "./routes/student";
 import courseRoute from "./routes/course";
 import adminRoute from "./routes/admin";
 import { connectDB } from "./db/conn";
-import { authenticate } from "./middleware/auth";
-import { Course } from "./db/model";
 
 const app = express();
 

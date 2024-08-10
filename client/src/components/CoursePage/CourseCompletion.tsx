@@ -1,9 +1,12 @@
 // import { useEffect, useState } from "react";
+import { useState } from "react";
 import { api } from "../../utils/config.js";
+import { Loader2 } from "lucide-react";
 // import DoughnutComp from "../DoughnutComp.js";
 // import Tooltip from "@mui/material/Tooltip";
 
-const CourseCompletion = () => {
+const CourseCompletion = ({ courseId }: { courseId: string }) => {
+  const [isSubmiting, setIsSubmiting] = useState(false);
   // const [completed] = useState(0);
   // const [total] = useState(0);
   // const [isComplete, setIsComplete] = useState(false);
@@ -15,12 +18,34 @@ const CourseCompletion = () => {
   // }, []);
 
   async function getCert() {
-    const response = await api.get("/course/completion/certificate", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    console.log(response.data);
+    try {
+      setIsSubmiting(true);
+
+      const response = await api.post(
+        "/student/has-bought",
+        { courseid: courseId },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+
+      if (response.data.success) {
+        const _response = await api.get("/course/completion/certificate", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+        console.log(_response);
+      } else {
+        alert("You haven't bought the course");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSubmiting(false);
+    }
   }
 
   return (
@@ -47,10 +72,13 @@ const CourseCompletion = () => {
       </div> */}
 
       <button
-        className={`px-4 py-2 my-4 rounded-md bg-gray-800 text-white font-medium hover:bg-gray-900`}
+        className={`flex flex-row justify-center items-center w-full px-4 py-2 my-4 rounded-md bg-gray-800 text-white font-medium hover:bg-gray-900`}
         onClick={() => getCert()}
       >
-        Get Completion Certificate
+        {isSubmiting && (
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" color="#fff" />
+        )}
+        <span>Get Completion Certificate</span>
       </button>
     </>
   );

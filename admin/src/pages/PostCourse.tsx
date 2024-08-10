@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PlusIcon, XIcon } from "lucide-react";
+import { Loader2, PlusIcon, XIcon } from "lucide-react";
 import { api } from "../utils/config";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
@@ -29,6 +29,7 @@ const AddCourseForm = () => {
   });
 
   const [previewUrl, setPreviewUrl] = useState<string | null>();
+  const [isSubmiting, setIsSubmiting] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (
@@ -124,6 +125,7 @@ const AddCourseForm = () => {
 
   const submitCourse = async () => {
     try {
+      setIsSubmiting(true);
       // Here you would typically send the course data to your backend
       console.log("Submitting course:", course);
 
@@ -152,6 +154,8 @@ const AddCourseForm = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsSubmiting(false);
     }
   };
 
@@ -426,10 +430,16 @@ const AddCourseForm = () => {
                 </div>
 
                 <button
-                  className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150"
+                  className="w-full flex flex-row items-center justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150"
                   onClick={() => submitCourse()}
                 >
-                  Create Course
+                  {isSubmiting && (
+                    <Loader2
+                      className="mr-2 h-4 w-4 animate-spin"
+                      color="#fff"
+                    />
+                  )}
+                  <span>Create Course</span>
                 </button>
               </div>
             </div>

@@ -15,6 +15,7 @@ import Syllabus from "../components/CoursePage/Syllabus.js";
 import Loader from "../components/Shimmer/Loader.js";
 import GiveReview from "../components/CoursePage/GiveReview.js";
 import { useNavigate, useParams } from "react-router-dom";
+import { Loader2 } from "lucide-react";
 
 function CoursePage() {
   interface Sections {
@@ -61,6 +62,8 @@ function CoursePage() {
 
   const [checked, setChecked] = useState(true);
   const [reviews, setReviews] = useState([]);
+  const [isSubmiting, setIsSubmiting] = useState(false);
+
   const navigate = useNavigate();
 
   const [bought, setBought] = useState(false);
@@ -86,38 +89,50 @@ function CoursePage() {
   }
 
   async function hasBought() {
-    const response = await api.post(
-      "/student/has-bought",
-      { courseid: id },
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
-    setBought(response.data.success);
+    try {
+      const response = await api.post(
+        "/student/has-bought",
+        { courseid: id },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+      setBought(response.data.success);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async function hasWishlisted() {
-    const response = await api.post(
-      "/student/has-wishlisted",
-      { courseid: id },
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
-    setWishlisted(response.data.success);
+    try {
+      const response = await api.post(
+        "/student/has-wishlisted",
+        { courseid: id },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+      setWishlisted(response.data.success);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async function getReviews() {
-    const response = await api.get(`/course/review/${id}`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    setReviews(response.data.reviews);
+    try {
+      const response = await api.get(`/course/review/${id}`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      setReviews(response.data.reviews);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
@@ -165,6 +180,8 @@ function CoursePage() {
 
   async function wishlist() {
     try {
+      setIsSubmiting(true);
+
       const response = await api.get("/student/me", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
@@ -183,17 +200,27 @@ function CoursePage() {
       }
     } catch (error) {
       navigate("/student/login");
+    } finally {
+      setIsSubmiting(false);
     }
   }
 
   async function removeWishlist() {
-    const response = await api.post(`/course/remove-wishlist/${id}`, null, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    if (response) {
-      hasWishlisted();
+    try {
+      setIsSubmiting(true);
+
+      const response = await api.post(`/course/remove-wishlist/${id}`, null, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      if (response) {
+        hasWishlisted();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSubmiting(false);
     }
   }
 
@@ -280,17 +307,24 @@ function CoursePage() {
                   </button>
                   {wishlisted ? (
                     <button
-                      className="w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200"
+                      className="flex flex-row justify-center items-center w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200"
                       onClick={() => removeWishlist()}
                     >
-                      Remove from Wishlist
+                      {isSubmiting && (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      )}
+                      <span>Remove from Wishlist</span>
                     </button>
                   ) : (
                     <button
-                      className="w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200"
+                      className="flex flex-row justify-center items-center w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200"
+                      disabled={isSubmiting}
                       onClick={() => wishlist()}
                     >
-                      Add to Wishlist
+                      {isSubmiting && (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      )}
+                      <span>Add to Wishlist</span>
                     </button>
                   )}
                 </>
@@ -314,7 +348,7 @@ function CoursePage() {
             duration={course.duration}
             resources={course.resource}
           />
-          <CourseCompletion />
+          <CourseCompletion courseId={id} />
         </div>
       </div>
       {showReviewModal && (

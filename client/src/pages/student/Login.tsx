@@ -3,14 +3,18 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { api } from "../../utils/config.js";
 import { useProfile } from "../../hooks/useProfile.js";
+import { Loader2 } from "lucide-react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { getProfile } = useProfile();
+  const [isSubmiting, setIsSubmiting] = useState(false);
 
   async function handleLogin() {
     try {
+      setIsSubmiting(true);
+
       const response = await api.post("/student/login", {
         email,
         password,
@@ -27,6 +31,8 @@ const Login = () => {
         "/all-courses";
     } catch (error) {
       console.error("Signup failed:", error);
+    } finally {
+      setIsSubmiting(false);
     }
   }
 
@@ -79,10 +85,14 @@ const Login = () => {
             transition={{ delay: 0.5, duration: 0.5 }}
           >
             <button
-              className="w-full bg-[#1f2937] hover:bg-[#374151]  text-white rounded-lg px-4 py-3 transition-all duration-300 ease-in-out  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transform hover:scale-105"
+              className="flex flex-row items-center justify-center w-full bg-[#1f2937] hover:bg-[#374151]  text-white rounded-lg px-4 py-3 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transform hover:scale-105"
               onClick={handleLogin}
+              disabled={isSubmiting}
             >
-              Log In
+              {isSubmiting && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" color="#fff" />
+              )}
+              <span>Log In</span>
             </button>
           </motion.div>
         </div>
@@ -101,10 +111,10 @@ const Login = () => {
         >
           Forgot Password
         </Link>
+
         <div
           className="cursor-pointer mt-6 text-center text-xs text-gray-500"
           onClick={() => {
-            console.log("running");
             setEmail("stud1@gmail.com");
             setPassword("stud123");
           }}
