@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { api } from "../../utils/config";
+import { Loader2 } from "lucide-react";
 
 const StudentChangePassword = () => {
   const navigate = useNavigate();
@@ -9,9 +10,11 @@ const StudentChangePassword = () => {
   const { token } = useParams();
   const [searchParams] = useSearchParams();
   const email = searchParams.get("email");
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit() {
     try {
+      setLoading(true);
       console.log(email);
       const response = await api.post("/student/verify-token", {
         token,
@@ -23,6 +26,8 @@ const StudentChangePassword = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -68,6 +73,7 @@ const StudentChangePassword = () => {
               className="w-full bg-[#1f2937] hover:bg-[#374151] text-white rounded-lg px-4 py-3 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transform hover:scale-105"
               onClick={handleSubmit}
             >
+              {loading && <Loader2 className="w-6 h-6 animate-spin mr-4" />}
               Set New Password
             </button>
           </motion.div>

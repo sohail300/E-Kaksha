@@ -70,6 +70,7 @@ function CoursePage() {
   const [wishlisted, setWishlisted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
+  const [buyLoading, setBuyLoading] = useState(false);
 
   const { id } = useParams();
 
@@ -157,6 +158,7 @@ function CoursePage() {
   // Other Functions
   async function checkout() {
     try {
+      setBuyLoading(true);
       const response = await api.get("/student/me", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
@@ -175,6 +177,8 @@ function CoursePage() {
       }
     } catch (error) {
       navigate("/student/login");
+    } finally {
+      setBuyLoading(false);
     }
   }
 
@@ -300,9 +304,12 @@ function CoursePage() {
               ) : (
                 <>
                   <button
-                    className="w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200 mr-4 sm:mr-6"
+                    className="flex flex-row justify-center items-center w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200 mr-4 sm:mr-6"
                     onClick={() => checkout()}
                   >
+                    {buyLoading === true ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : null}
                     Buy Course
                   </button>
                   {wishlisted ? (

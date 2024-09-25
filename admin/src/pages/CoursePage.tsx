@@ -13,7 +13,6 @@ import { useEffect, useState } from "react";
 import ViewReviews from "../components/CoursePage/ViewReviews";
 import Syllabus from "../components/CoursePage/Syllabus.js";
 import Loader from "../components/Shimmer/Loader";
-import GiveReview from "../components/CoursePage/GiveReview";
 import Navbar from "../components/Navbar.js";
 import { CoursePageInterface, Review } from "../types/interfaces.js";
 
@@ -43,7 +42,6 @@ function CoursePage() {
   const [reviews, setReviews] = useState<Review[]>();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [showReviewModal, setShowReviewModal] = useState(false);
   const navigate = useNavigate();
 
   const { id } = useParams();
@@ -149,6 +147,14 @@ function CoursePage() {
                   readOnly
                 />
               </div>
+              <div className="flex mt-4 sm:mt-4">
+                <button
+                  className="w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200 mr-4"
+                  onClick={() => navigate(`/courselearn/${id}`)}
+                >
+                  Watch Videos
+                </button>
+              </div>
               <div className="flex items-center mb-4 sm:mb-0">
                 <div className="mr-4">Reviews</div>
                 <Switch
@@ -178,13 +184,6 @@ function CoursePage() {
             />
           </div>
         </div>
-        {showReviewModal && (
-          <GiveReview
-            courseid={id as string}
-            onClose={() => setShowReviewModal(false)}
-            getReviews={getReviews}
-          />
-        )}
       </div>
     </>
   );

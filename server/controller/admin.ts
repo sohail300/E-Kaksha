@@ -292,7 +292,7 @@ export const editCourse = async (req: Request, res: Response) => {
     };
 
     const course = await Course.findByIdAndUpdate(courseId, obj);
-    console.log(course)
+    console.log(course);
 
     if (!course) {
       return res

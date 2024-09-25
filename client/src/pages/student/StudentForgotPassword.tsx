@@ -1,20 +1,26 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { api } from "../../utils/config";
+import { toast } from "react-toastify";
+import { Loader2 } from "lucide-react";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit() {
     try {
+      setLoading(true);
       const response = await api.post("/student/send-token", { email });
       console.log(response);
 
       if (response) {
-        alert("Email sent!");
+        toast.success("Email sent!");
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -57,9 +63,11 @@ const ForgotPassword = () => {
             transition={{ delay: 0.5, duration: 0.5 }}
           >
             <button
-              className="w-full bg-[#1f2937] hover:bg-[#374151] text-white rounded-lg px-4 py-3 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transform hover:scale-105"
+              className="w-full bg-[#1f2937] hover:bg-[#374151] text-white rounded-lg px-4 py-3 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transform hover:scale-105 flex justify-center items-center space-x-2"
               onClick={handleSubmit}
+              disabled={loading}
             >
+              {loading && <Loader2 className="w-6 h-6 animate-spin mr-4" />}
               Send Reset Link
             </button>
           </motion.div>

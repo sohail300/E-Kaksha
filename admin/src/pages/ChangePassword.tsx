@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { api } from "../utils/config";
+import { Loader2 } from "lucide-react";
 
 const AdminChangePassword = () => {
   const navigate = useNavigate();
@@ -9,9 +10,11 @@ const AdminChangePassword = () => {
   const { token } = useParams();
   const [searchParams] = useSearchParams();
   const email = searchParams.get("email");
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit() {
     try {
+      setLoading(true);
       console.log(email);
       const response = await api.post("/admin/verify-token", {
         token,
@@ -23,6 +26,8 @@ const AdminChangePassword = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -65,9 +70,11 @@ const AdminChangePassword = () => {
             transition={{ delay: 0.5, duration: 0.5 }}
           >
             <button
-              className="w-full bg-[#1f2937] hover:bg-[#374151] text-white rounded-lg px-4 py-3 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transform hover:scale-105"
+              className="flex flex-row justify-center items-center w-full bg-[#1f2937] hover:bg-[#374151] text-white rounded-lg px-4 py-3 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transform hover:scale-105"
               onClick={handleSubmit}
+              disabled={loading}
             >
+              {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Set New Password
             </button>
           </motion.div>

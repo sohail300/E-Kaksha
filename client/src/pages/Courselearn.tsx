@@ -9,6 +9,7 @@ import {
   PlaybackRateMenuButton,
   Player,
 } from "video-react";
+import { toast } from "react-toastify";
 
 const Courselearn = () => {
   interface Course {
@@ -64,7 +65,8 @@ const Courselearn = () => {
           Authorization: "bearer " + localStorage.getItem("token"),
         },
       });
-      console.log(response.data.course.sections);
+      console.log(response.data.course.sections[0].videos[0].link);
+      setActiveVideo(response.data.course.sections[0].videos[0].link);
       setCourse(response.data.course);
     } catch (error) {
       console.log(error);
@@ -112,22 +114,22 @@ const Courselearn = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const fetchCourse = async () => {
-      try {
-        const response = await api.get(`/course/id/${id}`, {
-          headers: {
-            Authorization: "bearer " + localStorage.getItem("token"),
-          },
-        });
-        setCourse(response.data.course);
-      } catch (error) {
-        console.error("Error fetching course:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchCourse = async () => {
+  //     try {
+  //       const response = await api.get(`/course/id/${id}`, {
+  //         headers: {
+  //           Authorization: "bearer " + localStorage.getItem("token"),
+  //         },
+  //       });
+  //       setCourse(response.data.course);
+  //     } catch (error) {
+  //       console.error("Error fetching course:", error);
+  //     }
+  //   };
 
-    fetchCourse();
-  }, []);
+  //   fetchCourse();
+  // }, []);
 
   if (isLoading) {
     return <Loader />;
@@ -141,8 +143,13 @@ const Courselearn = () => {
             {/* Fixed left section (Video player and course info) */}
             <div className="lg:w-2/3 p-6 space-y-6 lg:overflow-y-auto lg:h-screen lg:sticky lg:top-0">
               <div className="max-w-3xl mx-auto space-y-6">
-                <div className="aspect-w-16 aspect-h-9 bg-black rounded-xl shadow-2xl overflow-hidden">
-                  <Player src={activeVideo}>
+                <div className=" bg-black rounded-xl shadow-2xl overflow-hidden">
+                  <Player
+                    src={activeVideo}
+                    fluid={false}
+                    width={760}
+                    height={420}
+                  >
                     <BigPlayButton position="center" />
                     <ControlBar>
                       <PlaybackRateMenuButton rates={[5, 2, 1, 0.5, 0.1]} />
@@ -234,7 +241,10 @@ const Courselearn = () => {
           </div>
         </div>
       ) : (
-        navigate("/student/login")
+        <>
+          {toast.error("You have not bought this course!")}
+          {navigate(`/`)}
+        </>
       )}
     </>
   );

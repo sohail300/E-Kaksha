@@ -7,6 +7,7 @@ import AlertTitle from "@mui/material/AlertTitle";
 import TextField from "@mui/material/TextField";
 import { api } from "../../utils/config.js";
 import Loader from "../../components/Shimmer/Loader.js";
+import { toast } from "react-toastify";
 
 const Profile = () => {
   const [name, setName] = useState("");
@@ -46,6 +47,11 @@ const Profile = () => {
   async function handleDeleteUser() {
     try {
       setIsLoading(true);
+
+      if (email === "stud1@gmail.com") {
+        toast.error("You can't delete this account");
+        return;
+      }
 
       const response = await api.delete("/student/delete", {
         headers: {

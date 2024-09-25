@@ -7,6 +7,7 @@ import AdminChangePassword from "./pages/ChangePassword";
 import AdminForgotPassword from "./pages/ForgotPassword";
 import CoursePage from "./pages/CoursePage";
 import EditCourseForm from "./pages/EditCourse";
+import CourseLearn from "./pages/CourseLearn";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route element={<CoursePage />} path="/course/:id" />
         <Route element={<AddCourseForm />} path="/course/post" />
         <Route element={<EditCourseForm />} path="/course/edit/:id" />
+        <Route element={<CourseLearn />} path="/courselearn/:id" />
       </Routes>
     </>
   );

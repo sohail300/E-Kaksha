@@ -5,10 +5,13 @@ import Loader from "../components/Shimmer/Loader";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { CourseCMS } from "../types/interfaces";
+import { toast } from "react-toastify";
 
 const CourseListingCMS = () => {
   const [courseArray, setCoursearray] = useState<CourseCMS[]>();
+  const [adminId, setAdminId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
   async function getCourses() {
@@ -28,9 +31,24 @@ const CourseListingCMS = () => {
     }
   }
 
-  async function handleDelete(id: string) {
+  const handleDelete = (id: string) => {
+    onDelete(id);
+    setIsOpen(false);
+  };
+
+  async function onDelete(id: string) {
     try {
+      console.log(adminId);
+
       setIsLoading(true);
+
+      if (adminId !== "66f36c0e9126145e73fdbc75") {
+        toast.error(
+          "You cannot delete a course from this account as this account is for showcase purpose. Make a different account of you own to delete courses."
+        );
+        return;
+      }
+
       const response = await api.delete(`/admin/deleteCourse?courseId=${id}`, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
@@ -39,24 +57,26 @@ const CourseListingCMS = () => {
 
       console.log(response);
       if (response) {
-        alert("Course has been deleted!");
+        toast.success("Course has been deleted!");
       } else {
-        alert("Course has not been deleted!");
+        toast.error("Course has not been deleted!");
       }
     } catch (error) {
       console.error("Error fetching courses:", error);
     } finally {
       getCourses();
+      setIsLoading(false);
     }
   }
 
   async function getProfile() {
     try {
-      await api.get("/admin/me", {
+      const response = await api.get("/admin/me", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       });
+      setAdminId(response.data.id);
     } catch (error) {
       navigate("/");
       console.log(error);
@@ -140,12 +160,46 @@ const CourseListingCMS = () => {
                           >
                             <PencilIcon className="w-6 h-6" />
                           </button>
-                          <button
-                            className="text-red-600 hover:text-red-800 transition duration-150 ease-in-out"
-                            onClick={() => handleDelete(course._id)}
-                          >
-                            <TrashIcon className="w-6 h-6" />
-                          </button>
+
+                          <div>
+                            <button
+                              onClick={() => setIsOpen(true)}
+                              className="p-2 rounded-full hover:bg-gray-200 transition-colors"
+                            >
+                              <TrashIcon className="w-6 h-6 text-red-600" />
+                            </button>
+
+                            {isOpen && (
+                              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                                <div className="bg-white p-6 rounded-lg max-w-md">
+                                  <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4">
+                                    <h2 className="text-lg font-semibold mb-2">
+                                      Are you absolutely sure?
+                                    </h2>
+                                    <p>
+                                      This action cannot be undone. This will
+                                      permanently delete the course and remove
+                                      the data from our servers.
+                                    </p>
+                                  </div>
+                                  <div className="flex justify-end space-x-2">
+                                    <button
+                                      onClick={() => setIsOpen(false)}
+                                      className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 transition-colors"
+                                    >
+                                      Cancel
+                                    </button>
+                                    <button
+                                      onClick={() => handleDelete(course._id)}
+                                      className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+                                    >
+                                      Delete
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { api } from "../../utils/config.js";
 import { Loader2 } from "lucide-react";
+import { toast } from "react-toastify";
 // import DoughnutComp from "../DoughnutComp.js";
 // import Tooltip from "@mui/material/Tooltip";
 
@@ -39,7 +40,7 @@ const CourseCompletion = ({ courseId }: { courseId: string }) => {
         });
         console.log(_response);
       } else {
-        alert("You haven't bought the course");
+        toast.error("You haven't bought the course");
       }
     } catch (error) {
       console.log(error);

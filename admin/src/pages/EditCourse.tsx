@@ -204,22 +204,45 @@ const EditCourseForm = () => {
               </h1>
               <div className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label
-                      htmlFor="title"
-                      className="block text-sm font-medium text-gray-700 mb-1"
-                    >
-                      Course Title
-                    </label>
-                    <input
-                      type="text"
-                      name="title"
-                      id="title"
-                      required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                      value={course.title}
-                      onChange={handleChange}
-                    />
+                  <div className=" space-y-4">
+                    <div>
+                      <label
+                        htmlFor="title"
+                        className="block text-sm font-medium text-gray-700 mb-1"
+                      >
+                        Course Title
+                      </label>
+                      <input
+                        type="text"
+                        name="title"
+                        id="title"
+                        required
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white"
+                        value={course.title}
+                        onChange={handleChange}
+                      />
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor="imageUpload"
+                        className="block text-sm font-medium text-gray-700 mb-1"
+                      >
+                        Course Image
+                      </label>
+                      <input
+                        type="file"
+                        id="imageUpload"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="w-full text-sm text-gray-500
+                  file:mr-4 file:py-2 file:px-4
+                  file:rounded-full file:border-0
+                  file:text-sm file:font-semibold
+                  file:bg-indigo-50 file:text-indigo-700
+                  hover:file:bg-indigo-100"
+                      />
+                    </div>
                   </div>
 
                   <div>
@@ -234,7 +257,7 @@ const EditCourseForm = () => {
                       id="description"
                       rows={3}
                       required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white"
                       value={course.description}
                       onChange={handleChange}
                     ></textarea>
@@ -254,7 +277,7 @@ const EditCourseForm = () => {
                       name="price"
                       id="price"
                       required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white"
                       value={course.price}
                       onChange={handleChange}
                     />
@@ -272,7 +295,7 @@ const EditCourseForm = () => {
                       name="duration"
                       id="duration"
                       required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white"
                       value={course.duration}
                       onChange={handleChange}
                     />
@@ -290,7 +313,7 @@ const EditCourseForm = () => {
                       name="resource"
                       id="resource"
                       required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white"
                       value={course.resource}
                       onChange={handleChange}
                     />
@@ -308,42 +331,11 @@ const EditCourseForm = () => {
                       name="priceid"
                       id="priceid"
                       required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white"
                       value={course.priceid}
                       onChange={handleChange}
                     />
                   </div>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="imageUpload"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Course Image
-                  </label>
-                  <input
-                    type="file"
-                    id="imageUpload"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="w-full text-sm text-gray-500
-                  file:mr-4 file:py-2 file:px-4
-                  file:rounded-full file:border-0
-                  file:text-sm file:font-semibold
-                  file:bg-indigo-50 file:text-indigo-700
-                  hover:file:bg-indigo-100"
-                  />
-
-                  {previewUrl && (
-                    <div className="mt-4">
-                      <img
-                        src={previewUrl}
-                        alt="Course preview"
-                        className="max-w-full h-auto rounded-lg shadow-md"
-                      />
-                    </div>
-                  )}
                 </div>
 
                 <div className="bg-gray-50 rounded-xl p-6">
@@ -373,7 +365,7 @@ const EditCourseForm = () => {
                           name="title"
                           placeholder="Section Title"
                           required
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white"
                           value={section.title}
                           onChange={(e) => handleSectionChange(sectionIndex, e)}
                         />
@@ -381,7 +373,7 @@ const EditCourseForm = () => {
                           type="text"
                           name="resources"
                           placeholder="Resources"
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white"
                           value={section.resources}
                           onChange={(e) => handleSectionChange(sectionIndex, e)}
                         />
@@ -399,7 +391,7 @@ const EditCourseForm = () => {
                             name="name"
                             placeholder="Video Name"
                             required
-                            className="flex-grow px-3 py-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                            className="flex-grow px-3 py-1 border border-gray-300 rounded-md shadow-sm bg-white"
                             value={video.name}
                             onChange={(e) =>
                               handleVideoChange(sectionIndex, videoIndex, e)
@@ -410,7 +402,7 @@ const EditCourseForm = () => {
                             name="link"
                             placeholder="Video Link"
                             required
-                            className="flex-grow px-3 py-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                            className="flex-grow px-3 py-1 border border-gray-300 rounded-md shadow-sm bg-white"
                             value={video.link}
                             onChange={(e) =>
                               handleVideoChange(sectionIndex, videoIndex, e)

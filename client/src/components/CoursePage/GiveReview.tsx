@@ -5,6 +5,7 @@ import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 import CloseIcon from "@mui/icons-material/Close";
 import { api } from "../../utils/config";
+import { toast } from "react-toastify";
 
 const GiveReview = ({ courseid, onClose, getReviews }) => {
   const [rating, setRating] = useState(0);
@@ -26,12 +27,12 @@ const GiveReview = ({ courseid, onClose, getReviews }) => {
         }
       );
       console.log(response.data);
-      alert("Review Submitted!");
+      toast.success("Review Submitted!");
       onClose();
       getReviews();
     } catch (error) {
       console.error("Error submitting review:", error);
-      alert("Failed to submit review. Please try again.");
+      toast.error("Failed to submit review. Please try again.");
     }
   }
 
