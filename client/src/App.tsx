@@ -7,7 +7,7 @@ import AllCourses from "./pages/AllCourses";
 import Purchasedcourse from "./pages/student/PurchasedCourses";
 import Wishlist from "./pages/student/Wishlist";
 import CoursePage from "./pages/CoursePage";
-import CourseLearn from "./pages/CourseLearn";
+import CourseLearn from "./pages/CourseLearnPage";
 import PaymentSuccess from "./pages/student/PaymentSuccess";
 import PaymentCancelled from "./pages/student/PaymentCancelled";
 import StudentForgotPassword from "./pages/student/StudentForgotPassword";
