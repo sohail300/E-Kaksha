@@ -98,8 +98,8 @@ const Courselearn = () => {
                 <Player
                   src={activeVideo}
                   fluid={false}
-                  width="100%"
-                  height="100%"
+                  width={"100%" as unknown as number}
+                  height={"100%" as unknown as number}
                 >
                   <BigPlayButton position="center" />
                   <ControlBar>
