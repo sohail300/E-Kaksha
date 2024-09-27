@@ -131,9 +131,6 @@ function CoursePage() {
                   ₹{course.price}
                 </span>
               </p>
-              <p className="mt-4 text-justify mb-6 sm:mb-0">
-                {course.description}
-              </p>
               <div className="mb-4 sm:mb-0">
                 <Rating
                   value={calcRating()}
@@ -147,14 +144,6 @@ function CoursePage() {
                   readOnly
                 />
               </div>
-              <div className="flex mt-4 sm:mt-4">
-                <button
-                  className="w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200 mr-4"
-                  onClick={() => navigate(`/courselearn/${id}`)}
-                >
-                  Watch Videos
-                </button>
-              </div>
               <div className="flex items-center mb-4 sm:mb-0">
                 <div className="mr-4">Reviews</div>
                 <Switch
@@ -163,6 +152,17 @@ function CoursePage() {
                   className="mr-4"
                 />
                 <div>Syllabus</div>
+              </div>
+              <p className="mt-4 text-justify mb-6 sm:mb-0">
+                {course.description}
+              </p>
+              <div className="flex mt-4 sm:mt-4">
+                <button
+                  className="w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200 mr-4"
+                  onClick={() => navigate(`/courselearn/${id}`)}
+                >
+                  Watch Videos
+                </button>
               </div>
             </div>
           </div>

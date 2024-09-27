@@ -179,7 +179,7 @@ const Profile = () => {
 
       {/* Main content */}
       <motion.div
-        className="z-10 max-w-4xl w-full bg-white bg-opacity-90 rounded-xl shadow-lg overflow-hidden"
+        className="z-10 max-w-4xl w-full bg-white bg-opacity-90 rounded-xl shadow-lg overflow-hidden mt-16 lg:mt-0"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}

@@ -198,7 +198,7 @@ const EditCourseForm = () => {
       <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-100 py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-            <div className="p-8">
+            <div className="p-4 md:p-8">
               <h1 className="text-4xl font-extrabold text-gray-900 mb-8">
                 Edit Course
               </h1>
@@ -288,7 +288,7 @@ const EditCourseForm = () => {
                       htmlFor="duration"
                       className="block text-sm font-medium text-gray-700 mb-1"
                     >
-                      Duration (hours)
+                      Duration (hrs)
                     </label>
                     <input
                       type="number"
@@ -306,7 +306,7 @@ const EditCourseForm = () => {
                       htmlFor="resource"
                       className="block text-sm font-medium text-gray-700 mb-1"
                     >
-                      Resources
+                      Resource
                     </label>
                     <input
                       type="number"
@@ -338,7 +338,7 @@ const EditCourseForm = () => {
                   </div>
                 </div>
 
-                <div className="bg-gray-50 rounded-xl p-6">
+                <div className="bg-gray-50 rounded-xl py-6">
                   <h3 className="text-xl font-semibold text-gray-900 mb-4">
                     Course Sections
                   </h3>
@@ -372,7 +372,7 @@ const EditCourseForm = () => {
                         <input
                           type="text"
                           name="resources"
-                          placeholder="Resources"
+                          placeholder="Resource"
                           className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white"
                           value={section.resources}
                           onChange={(e) => handleSectionChange(sectionIndex, e)}
@@ -384,36 +384,38 @@ const EditCourseForm = () => {
                       {section.videos.map((video, videoIndex) => (
                         <div
                           key={videoIndex}
-                          className="flex items-center space-x-2 mb-2"
+                          className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 mb-4 sm:mb-2 relative"
                         >
-                          <input
-                            type="text"
-                            name="name"
-                            placeholder="Video Name"
-                            required
-                            className="flex-grow px-3 py-1 border border-gray-300 rounded-md shadow-sm bg-white"
-                            value={video.name}
-                            onChange={(e) =>
-                              handleVideoChange(sectionIndex, videoIndex, e)
-                            }
-                          />
-                          <input
-                            type="text"
-                            name="link"
-                            placeholder="Video Link"
-                            required
-                            className="flex-grow px-3 py-1 border border-gray-300 rounded-md shadow-sm bg-white"
-                            value={video.link}
-                            onChange={(e) =>
-                              handleVideoChange(sectionIndex, videoIndex, e)
-                            }
-                          />
+                          <div className="w-full sm:w-auto flex-grow flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+                            <input
+                              type="text"
+                              name="name"
+                              placeholder="Video Name"
+                              required
+                              className="w-full sm:w-auto flex-grow px-3 py-1 border border-gray-300 rounded-md shadow-sm bg-white"
+                              value={video.name}
+                              onChange={(e) =>
+                                handleVideoChange(sectionIndex, videoIndex, e)
+                              }
+                            />
+                            <input
+                              type="text"
+                              name="link"
+                              placeholder="Video Link"
+                              required
+                              className="w-full sm:w-auto flex-grow px-3 py-1 border border-gray-300 rounded-md shadow-sm bg-white"
+                              value={video.link}
+                              onChange={(e) =>
+                                handleVideoChange(sectionIndex, videoIndex, e)
+                              }
+                            />
+                          </div>
                           <button
                             type="button"
                             onClick={() =>
                               removeVideo(sectionIndex, videoIndex)
                             }
-                            className="text-red-600 hover:text-red-800 transition-colors duration-150"
+                            className="absolute top-0 right-0 sm:relative sm:top-auto sm:right-auto text-red-600 hover:text-red-800 transition-colors duration-150"
                           >
                             <XIcon className="h-4 w-4" />
                           </button>

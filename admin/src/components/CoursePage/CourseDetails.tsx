@@ -23,10 +23,6 @@ const CourseDetails = ({
           <span>{resources} resources for download</span>
         </div>
         <div className="flex items-center mb-4">
-          <LanguageIcon className="mr-2" />
-          <span>Access via mobile devices and TV</span>
-        </div>
-        <div className="flex items-center mb-4">
           <CardMembershipIcon className="mr-2" />
           <span>Certificate of completion</span>
         </div>

@@ -139,14 +139,14 @@ const Courselearn = () => {
     <>
       {bought ? (
         <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 pt-16">
-          <div className="flex flex-grow flex-col lg:flex-row p-6 gap-8 max-w-7xl mx-auto w-full">
-            {/* Fixed left section (Video player and course info) */}
-            <div className="lg:w-2/3 p-6 space-y-6 lg:overflow-y-auto lg:h-screen lg:sticky lg:top-0">
+          <div className="flex flex-grow flex-col lg:flex-row p-4 sm:p-6 gap-6 max-w-7xl mx-auto w-full">
+            {/* Video player and course info section */}
+            <div className="w-full lg:w-2/3 space-y-6">
               <div className="max-w-3xl mx-auto space-y-6">
-                <div className=" bg-black rounded-xl shadow-2xl overflow-hidden">
+                <div className="bg-black rounded-xl shadow-2xl overflow-hidden">
                   <Player
                     src={activeVideo}
-                    fluid={false}
+                    fluid={true}
                     width={760}
                     height={420}
                   >
@@ -157,15 +157,15 @@ const Courselearn = () => {
                     <LoadingSpinner />
                   </Player>
                 </div>
-                <div className="bg-white rounded-xl shadow-lg p-6">
-                  <h2 className="text-3xl font-bold text-gray-800 mb-4 text-left">
+                <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
+                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 text-left">
                     {course.title}
                   </h2>
-                  <p className="text-gray-600 text-lg leading-relaxed text-left">
+                  <p className="text-gray-600 text-base sm:text-lg leading-relaxed text-left">
                     {course.description}
                   </p>
-                  <div className="mt-6 flex items-center text-gray-500 space-x-4">
-                    <div className="flex items-center">
+                  <div className="mt-6 flex flex-wrap items-center text-gray-500 space-x-4">
+                    <div className="flex items-center mb-2 sm:mb-0">
                       <Video size={20} className="mr-2" />
                       <span>{course.duration} hours</span>
                     </div>
@@ -178,23 +178,23 @@ const Courselearn = () => {
               </div>
             </div>
 
-            {/* Scrollable right section (Course content) */}
-            <div className="lg:w-1/3 p-6 lg:overflow-y-auto lg:h-screen">
-              <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
-                <h3 className="text-2xl font-semibold mb-6 text-gray-800">
+            {/* Course content section */}
+            <div className="w-full lg:w-1/3">
+              <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-6">
+                <h3 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-800">
                   Course Content
                 </h3>
                 {course.sections.map((section, sectionIndex) => (
                   <div key={sectionIndex} className="mb-4">
                     <button
-                      className="flex justify-between items-center w-full p-4 bg-gray-100 rounded-lg focus:outline-none transition-colors duration-200 hover:bg-gray-200"
+                      className="flex justify-between items-center w-full p-3 sm:p-4 bg-gray-100 rounded-lg focus:outline-none transition-colors duration-200 hover:bg-gray-200"
                       onClick={() =>
                         setActiveSection(
                           activeSection === sectionIndex ? -1 : sectionIndex
                         )
                       }
                     >
-                      <span className="font-medium text-gray-800">
+                      <span className="font-medium text-gray-800 text-left">
                         {section.title}
                       </span>
                       {activeSection === sectionIndex ? (

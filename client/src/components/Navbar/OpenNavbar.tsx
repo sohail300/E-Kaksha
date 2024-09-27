@@ -10,7 +10,7 @@ const OpenNavbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 w-full p-2 z-10 md:p-4 shadow-md bg-gray-800 text-white">
+    <nav className="fixed top-0 w-full p-2 md:p-4 shadow-md bg-gray-800 text-white z-50">
       <div className="mx-auto flex flex-wrap justify-between items-center px-4 md:px-10">
         <div
           className="cursor-pointer text-2xl md:text-3xl font-bold"

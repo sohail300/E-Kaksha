@@ -286,9 +286,9 @@ function CoursePage() {
 
             <div className="flex mt-4 sm:mt-8">
               {bought ? (
-                <>
+                <div className="flex flex-row justify-center items-center">
                   <button
-                    className="w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200 mr-4"
+                    className="w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200 mr-4 whitespace-nowrap"
                     onClick={() => navigate(`/courselearn/${id}`)}
                   >
                     Watch Videos
@@ -300,9 +300,9 @@ function CoursePage() {
                   >
                     Give Review
                   </button>
-                </>
+                </div>
               ) : (
-                <>
+                <div className=" flex flex-row justify-center items-center">
                   <button
                     className="flex flex-row justify-center items-center w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200 mr-4 sm:mr-6"
                     onClick={() => checkout()}
@@ -314,17 +314,17 @@ function CoursePage() {
                   </button>
                   {wishlisted ? (
                     <button
-                      className="flex flex-row justify-center items-center w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200"
+                      className="flex flex-row justify-center items-center w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200 whitespace-nowrap"
                       onClick={() => removeWishlist()}
                     >
                       {isSubmiting && (
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       )}
-                      <span>Remove from Wishlist</span>
+                      <span className="">Remove from Wishlist</span>
                     </button>
                   ) : (
                     <button
-                      className="flex flex-row justify-center items-center w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200"
+                      className="flex flex-row justify-center items-center w-full sm:w-auto px-4 py-2 rounded-md bg-white text-gray-800 font-medium hover:bg-gray-200 whitespace-nowrap"
                       disabled={isSubmiting}
                       onClick={() => wishlist()}
                     >
@@ -334,7 +334,7 @@ function CoursePage() {
                       <span>Add to Wishlist</span>
                     </button>
                   )}
-                </>
+                </div>
               )}
             </div>
           </div>

@@ -1,6 +1,5 @@
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DownloadIcon from "@mui/icons-material/Download";
-import LanguageIcon from "@mui/icons-material/Language";
 import CardMembershipIcon from "@mui/icons-material/CardMembership";
 
 const CourseDetails = (props) => {
@@ -15,10 +14,6 @@ const CourseDetails = (props) => {
         <div className="flex items-center mb-4">
           <DownloadIcon className="mr-2" />
           <span>{props.resources} resources for download</span>
-        </div>
-        <div className="flex items-center mb-4">
-          <LanguageIcon className="mr-2" />
-          <span>Access via mobile devices and TV</span>
         </div>
         <div className="flex items-center mb-4">
           <CardMembershipIcon className="mr-2" />
