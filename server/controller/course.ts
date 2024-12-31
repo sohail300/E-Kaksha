@@ -329,7 +329,8 @@ export const getCertificate = async (req: Request, res: Response) => {
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader("Content-Length", savedPdf.length);
 
-    return res.write(savedPdf, "binary");
+    res.write(savedPdf, "binary");
+    res.end();
   } catch (err) {
     console.log("Error occured:", err);
     return res
