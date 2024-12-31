@@ -19,6 +19,7 @@ const CourseCompletion = ({ courseId }: { courseId: string }) => {
   // }, []);
 
   async function getCert() {
+    console.log("running");
     try {
       setIsSubmiting(true);
 
@@ -32,13 +33,31 @@ const CourseCompletion = ({ courseId }: { courseId: string }) => {
         }
       );
 
+      console.log("response1", response);
+
       if (response.data.success) {
         const _response = await api.get("/course/completion/certificate", {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
+          responseType: "blob", // Ensure binary data is returned
         });
-        console.log(_response);
+        console.log("response2", _response);
+
+        // Create a blob from the binary data
+        const blob = new Blob([_response.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(blob);
+
+        // Create a link and trigger the download
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "Certificate.pdf"); // Set the download filename
+        document.body.appendChild(link);
+        link.click();
+
+        // Clean up
+        link.parentNode.removeChild(link);
+        window.URL.revokeObjectURL(url);
       } else {
         toast.error("You haven't bought the course");
       }
