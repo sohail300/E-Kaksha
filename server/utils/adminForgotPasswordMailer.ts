@@ -13,7 +13,7 @@ export async function adminForgotPasswordMailer(
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     const { data, error } = await resend.emails.send({
-      from: `"E-Kaksha" <contact@heysohail.me>`,
+      from: `"E-Kaksha" <sohailatwork10@gmail.com>`,
       to: `${email}`,
       subject: "OTP Verification",
       html: `<body style="font-family: Helvetica, Arial, sans-serif; margin: 0px; padding: 0px; background-color: #ffffff;">

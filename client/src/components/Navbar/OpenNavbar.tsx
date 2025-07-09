@@ -51,7 +51,7 @@ const OpenNavbar = () => {
             <Link
               to={""}
               onClick={() => {
-                window.location.href = "http://admin.e-kaksha.heysohail.me/";
+                window.location.href = "http://admin.e-kaksha.heysohail.xyz/";
               }}
               className="px-4 py-2 text-white font-medium hover:text-gray-300 my-2 md:border-white md:border rounded-md md:my-0 md:mx-2 transition duration-300"
             >
